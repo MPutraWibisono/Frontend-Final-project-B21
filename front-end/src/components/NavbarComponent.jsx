@@ -1,6 +1,5 @@
-import { Disclosure } from "@headlessui/react";
 import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
+import { Menu, Transition, Disclosure } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 function classNames(...classes) {
@@ -22,7 +21,7 @@ export default function NavbarComponent() {
                     alt="Belajar"
                   />
                   <div className="ml-2 text-white text-lg font-bold">
-                    NamaBrand
+                    Demy U
                   </div>
                 </div>
               </div>
