@@ -9,7 +9,7 @@ function classNames(...classes) {
 
 export default function NavbarComponent() {
   return (
-    <Disclosure as="nav" className="bg-red-600 h-20">
+    <Disclosure as="nav" className=" bg-emerald-500 h-20">
       <>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center h-full">
           <div className="flex items-center">
@@ -20,10 +20,10 @@ export default function NavbarComponent() {
 
           <div className="flex items-center ml-auto">
             <Menu as="div" className="ml-4">
-              <Menu.Button className="inline-flex w-25 justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+              <Menu.Button className="inline-flex w-25 justify-center gap-x-1.5 rounded-md bg-emerald-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-emerald-300 hover:bg-emerald-500">
                 Kelas
                 <ChevronDownIcon
-                  className="-mr-1 h-5 w-5 text-gray-400"
+                  className="-mr-1 h-5 w-5 text-emerald-400"
                   aria-hidden="true"
                 />
               </Menu.Button>

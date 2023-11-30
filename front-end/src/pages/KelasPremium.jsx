@@ -2,24 +2,24 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
-    <div className="container p-1 rounded" style={{ marginTop: "20px" }}>
-      <h4 className="text-lg font-semibold mb-2">{title}</h4>
-      {options.map((option) => (
-        <div key={option.label} className="flex items-center mb-2 p-2 rounded">
-          <input
-            type="checkbox"
-            className="form-checkbox text-blue-500 mr-2"
-            id={option.label}
-            checked={option.checked}
-            onChange={() => handleCheckboxChange(title, option.label)}
-          />
-          <label htmlFor={option.label} className="text-sm">
-            {option.label}
-          </label>
-        </div>
-      ))}
-    </div>
-  );
+  <div className="container p-1 rounded" style={{ marginTop: "20px" }}>
+    <h4 className="text-lg font-semibold mb-2">{title}</h4>
+    {options.map((option) => (
+      <div key={option.label} className="flex items-center mb-2 p-2 rounded">
+        <input
+          type="checkbox"
+          className="form-checkbox text-blue-500 mr-2"
+          id={option.label}
+          checked={option.checked}
+          onChange={() => handleCheckboxChange(title, option.label)}
+        />
+        <label htmlFor={option.label} className="text-sm">
+          {option.label}
+        </label>
+      </div>
+    ))}
+  </div>
+);
 const KelasPremium = () => {
   const initialFilterOptions = [
     {
@@ -159,7 +159,7 @@ const KelasPremium = () => {
     <div className="bg-white-600 text-white">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">
         <div
-          className="lg:w-1/4 overflow-hidden rounded bg-pink-100 text-black mr-4"
+          className="lg:w-1/4 overflow-hidden rounded bg-lime-100 text-black mr-4"
           style={{ marginTop: "80px" }}
         >
           <div className="container mx-auto p-4 flex flex-col space-y-4">
@@ -196,7 +196,6 @@ const KelasPremium = () => {
               />
             </div>
           </div>
-
 
           <div className="flex justify-center space-x-4 mb-4">
             <button

@@ -157,10 +157,10 @@ const Kelas = () => {
   });
 
   return (
-    <div className="bg-white-600 text-white">
+    <div className="bg-white text-white">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">
         <div
-          className="lg:w-1/4 overflow-hidden rounded bg-pink-100 text-black mr-4"
+          className="lg:w-1/4 overflow-hidden rounded bg-lime-100 text-black mr-4"
           style={{ marginTop: "80px" }}
         >
           <div className="container mx-auto p-4 flex flex-col space-y-4">
