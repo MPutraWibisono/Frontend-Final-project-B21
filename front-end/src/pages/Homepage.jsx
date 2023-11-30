@@ -39,7 +39,7 @@ const Homepage = () => {
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12">
             <div
               style={{
-                backgroundImage: "url(../../public/belajar.jpg)",
+                backgroundImage: "url(/belajar.jpg)",
               }}
               className="relative bg-cover bg-center no-repeat col-span-4 lg:col-span-7"
             >
@@ -72,7 +72,7 @@ const Homepage = () => {
               <a href="#">
                 <div className="h-2/3 lg:max-h-80 overflow-hidden rounded-[13px]">
                   <img
-                    src="../../public/android dev.jpg"
+                    src="/android dev.jpg"
                     alt="Android Dev"
                     className="h-full w-full object-none object-center"
                   />
