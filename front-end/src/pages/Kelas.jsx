@@ -1,9 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-// import { SearchIcon } from "@heroicons/react/solid";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
-  <div className="container p-1 rounded">
+  <div className="container p-1 rounded" style={{ marginTop: "20px" }}>
     <h4 className="text-lg font-semibold mb-2">{title}</h4>
     {options.map((option) => (
       <div key={option.label} className="flex items-center mb-2 p-2 rounded">
@@ -45,7 +44,6 @@ const Kelas = () => {
     {
       title: "Level Kesulitan",
       options: [
-        { label: "Semua Level" },
         { label: "Beginner Level" },
         { label: "Intermediate Level 1" },
         { label: "Advance Level" },
@@ -54,6 +52,8 @@ const Kelas = () => {
   ];
 
   const [filterOptions, setFilterOptions] = useState(initialFilterOptions);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("All");
 
   const handleCheckboxChange = (sectionTitle, optionLabel) => {
     setFilterOptions((prevOptions) =>
@@ -64,6 +64,8 @@ const Kelas = () => {
               options: section.options.map((option) =>
                 option.label === optionLabel
                   ? { ...option, checked: !option.checked }
+                  : sectionTitle === "Filter"
+                  ? { ...option, checked: false }
                   : option
               ),
             }
@@ -72,18 +74,8 @@ const Kelas = () => {
     );
   };
 
-  // const [showAll, setShowAll] = useState(false);
-
-  // // Fungsi untuk  klik pada tombol All
-  // const handleClick = () => {
-  //   setShowAll(!showAll);
-  // };
-
-  const [searchQuery, setSearchQuery] = useState(""); // State untuk menyimpan query pencarian
-
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
-    // Implementasikan logika pencarian sesuai kebutuhan Anda di sini
   };
 
   const resetFilters = () => {
@@ -91,16 +83,106 @@ const Kelas = () => {
   };
 
   const handleDeleteFilter = () => {
-    // reset filter ke nilai awal
     resetFilters();
   };
 
+  const handleClassAll = () => {
+    setSelectedFilter("All");
+  };
+
+  const handleClassPremium = () => {
+    setSelectedFilter("Premium");
+  };
+
+  const handleClassFree = () => {
+    setSelectedFilter("Gratis");
+  };
+
+  const kelas = [
+    {
+      title: "UI/UX Design",
+      rating: 4.7,
+      description: "Belajar Web Designer dengan Figma",
+      instructor: "Angela Doe",
+      level: "Intermediate level",
+      modules: 5,
+      duration: "140 Menit",
+      type: "Premium",
+      image:
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
+    },
+    {
+      title: "Membuat Wireframe Hingga ke Visual Design",
+      rating: 4.7,
+      description: "Belajar Web Designer dengan Figma",
+      instructor: "Angela Doe",
+      level: "Intermediate level",
+      modules: 5,
+      duration: "140 Menit",
+      type: "Premium",
+      image:
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
+    },
+    {
+      title: "Data Science",
+      rating: 4.5,
+      description: "Dasar Pemrograman Python",
+      instructor: "James Doe",
+      level: "Intermediate level",
+      modules: 5,
+      duration: "90 Menit",
+      type: "Premium",
+      image: "https://miro.medium.com/max/1400/1*9bBtkVerj_gJsbaicD_MuQ.png",
+    },
+    {
+      title: "UI/UX",
+      rating: 4.7,
+      description: "Belajar Design dengan Figma",
+      instructor: "Angela Doe",
+      level: "Intermediate level",
+      modules: 10,
+      duration: "120 Menit",
+      type: "Premium",
+      image:
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
+    },
+  ];
+
+  const filteredClasses = kelas.filter((kelas) => {
+    if (selectedFilter === "All") {
+      return true;
+    } else {
+      return kelas.type.toLowerCase() === selectedFilter.toLowerCase();
+    }
+  });
+
   return (
-    <>
-      <div className="bg-white-600 text-white">
+    <div className="bg-white-600 text-white">
+      <div className="container mx-auto p-4 flex flex-col lg:flex-row">
+        <div
+          className="lg:w-1/4 overflow-hidden rounded bg-pink-100 text-black mr-4"
+          style={{ marginTop: "80px" }}
+        >
+          <div className="container mx-auto p-4 flex flex-col space-y-4">
+            {filterOptions.map((filter) => (
+              <FilterSection
+                key={filter.title}
+                {...filter}
+                handleCheckboxChange={handleCheckboxChange}
+              />
+            ))}
+            <button
+              onClick={handleDeleteFilter}
+              className="text-sm font-semibold leading-6 text-red-500"
+            >
+              Hapus Filter
+            </button>
+          </div>
+        </div>
+
         <div className="container mx-auto p-4 flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <div>
+            <div className="self-start">
               <div className="text-3xl font-bold text-black mb-2">
                 Topik Kelas
               </div>
@@ -116,74 +198,74 @@ const Kelas = () => {
             </div>
           </div>
 
-          {/* <SearchIcon className="h-5 w-5 text-gray-500 ml-2" /> */}
-
           <div className="flex justify-center space-x-4 mb-4">
             <button
-              onClick={() => {}}
+              onClick={handleClassAll}
               className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-emerald-50 px-6 text-sm font-medium tracking-wide text-black transition duration-300 hover:bg-blue-400 hover:text-blue-600 focus:bg-blue-500 focus:text-blue-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-blue-700 disabled:bg-blue-500 disabled:text-blue-500 disabled:shadow-none"
             >
               <span>All</span>
             </button>
             <button
-              onClick={() => {}}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-emerald-50 px-6 text-sm font-medium tracking-wide text-black transition duration-300 hover:bg-blue-400 hover:text-blue-600 focus:bg-blue-500 focus:text-blue-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-blue-700 disabled:bg-blue-500 disabled:text-blue-500 disabled:shadow-none"
-            >
-              <span>Kelas Gratis</span>
-            </button>
-            <button
-              onClick={() => {}}
+              onClick={handleClassPremium}
               className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-emerald-50 px-6 text-sm font-medium tracking-wide text-black transition duration-300 hover:bg-blue-400 hover:text-blue-600 focus:bg-blue-500 focus:text-blue-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-blue-700 disabled:bg-blue-500 disabled:text-blue-500 disabled:shadow-none"
             >
               <span>Kelas Premium</span>
             </button>
+            <button
+              onClick={handleClassFree}
+              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-emerald-50 px-6 text-sm font-medium tracking-wide text-black transition duration-300 hover:bg-blue-400 hover:text-blue-600 focus:bg-blue-500 focus:text-blue-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-blue-700 disabled:bg-blue-500 disabled:text-blue-500 disabled:shadow-none"
+            >
+              <span>Kelas Gratis</span>
+            </button>
           </div>
 
-          <div className="bg-pink-100 text-black" style={{ width: "20%" }}>
-            <div className="container mx-auto p-4 flex flex-col space-y-4">
-              {filterOptions.map((filter) => (
-                <FilterSection
-                  key={filter.title}
-                  {...filter}
-                  handleCheckboxChange={handleCheckboxChange}
-                />
-              ))}
-
-              <button
-                onClick={handleDeleteFilter}
-                className="text-sm font-semibold leading-6 text-red-500"
+          <div className="flex flex-wrap justify-around">
+            {filteredClasses.map((kelas, index) => (
+              <div
+                key={index}
+                className="w-full lg:w-2/5 mb-8 overflow-hidden rounded bg-white text-slate-500 shadow-md shadow-slate-200"
               >
-                Hapus Filter
-              </button>
-            </div>
-          </div>
-          <div className="overflow-hidden rounded bg-white text-slate-500 shadow-md shadow-slate-200">
-            <figure>
-              <img
-                src="https://via.placeholder.com/150"
-                alt="card image"
-                className="aspect-video w-1/2"
-              />
-            </figure>
+                <figure>
+                  <img
+                    src={kelas.image}
+                    alt="card image"
+                    className="aspect-video w-full"
+                  />
+                </figure>
 
-            <div className="p-6">
-              <header className="mb-4">
-                <h3 className="text-xl font-medium text-blue-700">Course</h3>
-                <p className="text-black">Materi</p>
-                <p className="text-black">by...</p>
-              </header>
-              <p>Title</p>
-            </div>
+                <div className="p-6">
+                  <header className="mb-4">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-xl font-bold text-slate-700">
+                        {kelas.title}
+                      </h3>
+                      <p className="text-slate-500">⭐ {kelas.rating}</p>
+                    </div>
+                    <p className="text-md font-normal text-slate-700">
+                      {kelas.description}
+                    </p>
+                    <p className="text-sm text-slate-400">
+                      {" "}
+                      By {kelas.instructor}
+                    </p>
+                  </header>
+                  <div className="flex justify-between">
+                    <p>💡{kelas.level}</p>
+                    <p>🧾{kelas.modules} Modul</p>
+                    <p>⏳{kelas.duration}</p>
+                  </div>
 
-            <div className="flex p-6 pt-0">
-              <button className="inline-flex h-10 w-1/2 items-center justify-center gap-2 whitespace-nowrap rounded bg-blue-500 px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-blue-600 focus:bg-blue-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-blue-300 disabled:bg-emerald-300 disabled:shadow-none">
-                <span>Premium</span>
-              </button>
-            </div>
+                  <button className="inline-flex m-3 h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-emerald-500 px-4 text-xs font-medium tracking-wide text-white transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:text-blue-500 disabled:shadow-none">
+                    <span className="order-2">{kelas.type}</span>
+                    <span className="relative only:-mx-4">💎</span>
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

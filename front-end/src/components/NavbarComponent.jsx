@@ -13,9 +13,8 @@ export default function NavbarComponent() {
       <>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center h-full">
           <div className="flex items-center">
-            <img className="h-8 w-auto" src="./logo.jpg" alt="DemyU" />
-            <Link to="/" className="ml-2 text-white text-lg font-bold">
-              DemyU
+            <Link to="/">
+              <img className="h-8 w-auto" src="./logo.png" alt="DemyU" />
             </Link>
           </div>
 
@@ -43,7 +42,7 @@ export default function NavbarComponent() {
                     <Menu.Item>
                       {({ active }) => (
                         <a
-                          href="/KelasGratis"
+                          href="/kelasGratis"
                           className={classNames(
                             active
                               ? "bg-gray-100 text-gray-900"
@@ -58,7 +57,7 @@ export default function NavbarComponent() {
                     <Menu.Item>
                       {({ active }) => (
                         <a
-                          href="/KelasPremium"
+                          href="/kelasPremium"
                           className={classNames(
                             active
                               ? "bg-gray-100 text-gray-900"
