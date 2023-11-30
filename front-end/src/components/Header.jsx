@@ -32,7 +32,12 @@ const NavbarBasicPreview = () => {
               className="flex items-center gap-2 whitespace-nowrap py-3 text-lg focus:outline-none lg:flex-1"
               href="javascript:void(0)"
             >
-              <img src="logo (1).png" width="100" height="70" alt="" />
+              <img
+                src="/logo (1).png"
+                width="100"
+                height="70"
+                alt="DemyU Course"
+              />
             </a>
             {/*      <!-- Mobile trigger --> */}
             <button
