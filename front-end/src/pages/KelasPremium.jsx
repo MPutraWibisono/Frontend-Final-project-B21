@@ -73,10 +73,12 @@ const KelasPremium = () => {
     );
   };
 
+  // cari by query
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
+  // mereset filter
   const resetFilters = () => {
     setFilterOptions(initialFilterOptions);
   };
@@ -148,13 +150,35 @@ const KelasPremium = () => {
   ];
 
   const filteredClasses = kelas.filter((kelas) => {
+    // filter by kelas & kategori yg dipilih
+    const isCategorySelected = filterOptions[1].options.some(
+      (category) => category.checked
+    );
+
+    // filter by kategori yg dipilih
+    if (isCategorySelected) {
+      const selectedCategories = filterOptions[1].options
+        .filter((category) => category.checked)
+        .map((category) => category.label.toLowerCase());
+
+      return selectedCategories.includes(kelas.title.toLowerCase());
+    }
+
+    // filter by kelas Premium/Gratis sesuai selectedFilter
     if (selectedFilter === "All") {
       return true;
-    } else {
-      return kelas.type.toLowerCase() === selectedFilter.toLowerCase();
     }
-  });
 
+    if (selectedFilter === "Premium" && kelas.type === "Premium") {
+      return true;
+    }
+
+    if (selectedFilter === "Gratis" && kelas.type !== "Premium") {
+      return true;
+    }
+
+    return false;
+  });
   return (
     <div className="bg-white-600 text-white">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">

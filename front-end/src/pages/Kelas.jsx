@@ -34,19 +34,19 @@ const Kelas = () => {
     {
       title: "Kategori",
       options: [
-        { label: "UI/UX Design" },
-        { label: "Web Development" },
-        { label: "Android Development" },
-        { label: "Data Science" },
-        { label: "Business Intelligence" },
+        { label: "UI/UX Design", checked: false },
+        { label: "Web Development", checked: false },
+        { label: "Android Development", checked: false },
+        { label: "Data Science", checked: false },
+        { label: "Business Intelligence", checked: false },
       ],
     },
     {
       title: "Level Kesulitan",
       options: [
-        { label: "Beginner Level" },
-        { label: "Intermediate Level 1" },
-        { label: "Advance Level" },
+        { label: "Beginner Level", checked: false },
+        { label: "Intermediate Level 1", checked: false },
+        { label: "Advance Level", checked: false },
       ],
     },
   ];
@@ -74,10 +74,12 @@ const Kelas = () => {
     );
   };
 
+  // cari by query
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
+  // mereset filter
   const resetFilters = () => {
     setFilterOptions(initialFilterOptions);
   };
@@ -149,11 +151,34 @@ const Kelas = () => {
   ];
 
   const filteredClasses = kelas.filter((kelas) => {
+    // filter by kelas & kategori yg dipilih
+    const isCategorySelected = filterOptions[1].options.some(
+      (category) => category.checked
+    );
+
+    // filter by kategori yg dipilih
+    if (isCategorySelected) {
+      const selectedCategories = filterOptions[1].options
+        .filter((category) => category.checked)
+        .map((category) => category.label.toLowerCase());
+
+      return selectedCategories.includes(kelas.title.toLowerCase());
+    }
+
+    // filter by kelas Premium/Gratis sesuai selectedFilter
     if (selectedFilter === "All") {
       return true;
-    } else {
-      return kelas.type.toLowerCase() === selectedFilter.toLowerCase();
     }
+
+    if (selectedFilter === "Premium" && kelas.type === "Premium") {
+      return true;
+    }
+
+    if (selectedFilter === "Gratis" && kelas.type !== "Premium") {
+      return true;
+    }
+
+    return false;
   });
 
   return (
