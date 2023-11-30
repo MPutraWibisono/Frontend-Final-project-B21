@@ -178,18 +178,20 @@ const KelasGratis = () => {
           </div>
         </div>
 
-        <div className="lg:w-3/4 overflow-hidden rounded bg-white text-slate-500 shadow-md shadow-slate-200">
-          <div className="flex items-center mb-4">
-            <div className="text-3xl font-bold text-black mb-2">
-              Topik Kelas
+        <div className="container mx-auto p-4 flex flex-col">
+          <div className="flex items-center justify-between mb-4">
+            <div className="self-start">
+              <div className="text-3xl font-bold text-black mb-2">
+                Topik Kelas
+              </div>
             </div>
-            <div className="ml-auto">
+            <div className="flex items-center">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Cari kelas..."
-                className="p-2 rounded border border-gray-300 text-black"
+                className="p-2 rounded border border-gray-300 text-black ml-auto"
               />
             </div>
           </div>
