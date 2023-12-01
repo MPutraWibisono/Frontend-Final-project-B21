@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { FaSearch } from "react-icons/fa";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
   <div className="container p-1 rounded" style={{ marginTop: "20px" }}>
@@ -218,8 +219,11 @@ const Kelas = () => {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Cari kelas..."
-                className="p-2 rounded border border-gray-300 text-black ml-auto"
+                className="p-2 rounded border border-gray-300 text-black"
               />
+              <div className="ml-2">
+                <FaSearch />
+              </div>
             </div>
           </div>
 
