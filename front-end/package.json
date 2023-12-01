@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@glidejs/glide": "^3.6.0",
+
     "@headlessui/react": "^1.7.17",
+
+
     "@heroicons/react": "^2.0.18",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^1.9.7",
