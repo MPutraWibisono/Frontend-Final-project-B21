@@ -20,7 +20,7 @@ const FilterSection = ({ title, options, handleCheckboxChange }) => (
     ))}
   </div>
 );
-const KelasPremium = () => {
+const FreeClass = () => {
   const initialFilterOptions = [
     {
       title: "Filter",
@@ -50,7 +50,7 @@ const KelasPremium = () => {
     },
   ];
 
-  const [selectedFilter, setSelectedFilter] = useState("Premium");
+  const [selectedFilter, setSelectedFilter] = useState("Gratis");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterOptions, setFilterOptions] = useState(initialFilterOptions);
 
@@ -72,7 +72,6 @@ const KelasPremium = () => {
       )
     );
   };
-
   // cari by query
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -102,48 +101,49 @@ const KelasPremium = () => {
   const kelas = [
     {
       title: "UI/UX Design",
-      rating: 4.7,
-      description: "Belajar Web Designer dengan Figma",
-      instructor: "Angela Doe",
-      level: "Intermediate level",
+      rating: 5.0,
+      description: "Intro to Basic of User Interaction Design",
+      instructor: "Simon Doe",
+      level: "Beginer level",
       modules: 5,
-      duration: "140 Menit",
-      type: "Premium",
+      duration: "450 Menit",
+      type: "Gratis",
       image:
         "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
     },
     {
-      title: "Membuat Wireframe Hingga ke Visual Design",
-      rating: 4.7,
-      description: "Belajar Web Designer dengan Figma",
-      instructor: "Angela Doe",
+      title: "UI/UX Design",
+      rating: 4.8,
+      description: "Menguasai Figma dengan Modern UI Dashboard Design",
+      instructor: "Simon Doe",
       level: "Intermediate level",
       modules: 5,
-      duration: "140 Menit",
-      type: "Premium",
+      duration: "60 Menit",
+      type: "Gratis",
       image:
         "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
     },
     {
-      title: "Data Science",
-      rating: 4.5,
-      description: "Dasar Pemrograman Python",
-      instructor: "James Doe",
-      level: "Intermediate level",
-      modules: 5,
-      duration: "90 Menit",
-      type: "Premium",
-      image: "https://miro.medium.com/max/1400/1*9bBtkVerj_gJsbaicD_MuQ.png",
-    },
-    {
-      title: "UI/UX",
-      rating: 4.7,
-      description: "Belajar Design dengan Figma",
-      instructor: "Angela Doe",
-      level: "Intermediate level",
+      title: "UI/UX Design",
+      rating: 4.9,
+      description: "Membuat Grid System dengan Figma",
+      instructor: "Simon Doe",
+      level: "Advanced level",
       modules: 10,
-      duration: "120 Menit",
-      type: "Premium",
+      duration: "100 Menit",
+      type: "Gratis",
+      image:
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
+    },
+    {
+      title: "UI/UX Design",
+      rating: 4.8,
+      description: "Menguasai Figma dengan AutoFlow",
+      instructor: "Simon Doe",
+      level: "Intermediate level",
+      modules: 5,
+      duration: "60 Menit",
+      type: "Gratis",
       image:
         "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
     },
@@ -279,8 +279,7 @@ const KelasPremium = () => {
                   </div>
 
                   <button className="inline-flex m-3 h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-emerald-500 px-4 text-xs font-medium tracking-wide text-white transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:text-blue-500 disabled:shadow-none">
-                    <span className="order-2">{kelas.type}</span>
-                    <span className="relative only:-mx-4">💎</span>
+                    <span className="order-2">Mulai Kelas</span>
                   </button>
                 </div>
               </div>
@@ -303,4 +302,4 @@ FilterSection.propTypes = {
   handleCheckboxChange: PropTypes.func.isRequired,
 };
 
-export default KelasPremium;
+export default FreeClass;

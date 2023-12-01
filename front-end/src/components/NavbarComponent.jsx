@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Fragment } from "react";
 import { Menu, Transition, Disclosure } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -8,13 +8,27 @@ function classNames(...classes) {
 }
 
 export default function NavbarComponent() {
+  const location = useLocation();
+  const noNavbar = [
+    "/",
+    "/auth/login",
+    "/auth/register",
+    "/auth/register/otp",
+    "/auth/resetpassword",
+    "/auth/otp",
+  ];
+  const shouldShowNavbar = noNavbar.includes(location.pathname);
+
+  if (shouldShowNavbar) {
+    return null; // Tidak menampilkan navbar untuk path tertentu
+  }
   return (
     <Disclosure as="nav" className=" bg-emerald-500 h-20">
       <>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center h-full">
           <div className="flex items-center">
             <Link to="/">
-              <img className="h-8 w-auto" src="./logo.png" alt="DemyU" />
+              <img className="h-8 w-auto" src="./logo (4).png" alt="DemyU" />
             </Link>
           </div>
 
@@ -41,8 +55,8 @@ export default function NavbarComponent() {
                   <div className="py-2">
                     <Menu.Item>
                       {({ active }) => (
-                        <a
-                          href="/kelasGratis"
+                        <Link
+                          to="/free"
                           className={classNames(
                             active
                               ? "bg-gray-100 text-gray-900"
@@ -51,13 +65,13 @@ export default function NavbarComponent() {
                           )}
                         >
                           Kelas Gratis
-                        </a>
+                        </Link>
                       )}
                     </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
-                        <a
-                          href="/kelasPremium"
+                        <Link
+                          to="/premium"
                           className={classNames(
                             active
                               ? "bg-gray-100 text-gray-900"
@@ -66,7 +80,7 @@ export default function NavbarComponent() {
                           )}
                         >
                           Kelas Premium
-                        </a>
+                        </Link>
                       )}
                     </Menu.Item>
                   </div>
