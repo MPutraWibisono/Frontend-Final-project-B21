@@ -11,22 +11,23 @@
   },
   "dependencies": {
     "@glidejs/glide": "^3.6.0",
-
     "@headlessui/react": "^1.7.17",
-
-
     "@heroicons/react": "^2.0.18",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.6.2",
+    "daisyui": "^4.4.17",
+    "formik": "^2.4.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
     "react-redux": "^8.1.3",
     "react-router-dom": "^6.20.0",
+    "react-toastify": "^9.1.3",
     "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "yup": "^1.3.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
