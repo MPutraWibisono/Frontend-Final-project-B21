@@ -28,7 +28,7 @@ export default function NavbarComponent() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center h-full">
           <div className="flex items-center">
             <Link to="/">
-              <img className="h-8 w-auto" src="./logo (4).png" alt="DemyU" />
+              <img className="h-8 w-auto" src="/logo (4).png" alt="DemyU" />
             </Link>
           </div>
 
@@ -92,14 +92,14 @@ export default function NavbarComponent() {
             <Link to="/user-profile">
               <img
                 className="h-8 w-auto m-3 cursor-pointer"
-                src="./user.png"
+                src="/user.png"
                 alt="User"
               />
             </Link>
             <Link to="/notifications">
               <img
                 className="h-7 w-auto m-3 cursor-pointer"
-                src="./bell.png"
+                src="/bell.png"
                 alt="Bell"
               />
             </Link>
