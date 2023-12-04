@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { toastNotify } from "../../libs/utils";
 
 const RegisterOTP = () => {
+  const navigate = useNavigate();
   const otpRefs = Array.from({ length: 6 }).map(() => useRef());
 
   const formik = useFormik({
