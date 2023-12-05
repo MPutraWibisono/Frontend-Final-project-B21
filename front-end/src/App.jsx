@@ -7,6 +7,8 @@ import PremiumClass from "./pages/PremiumClass";
 import { LoginPage, RegisterOTP, RegisterPage } from "./pages/Auth";
 import ForgotPass from "./pages/Auth/ForgotPass";
 import ForgotOTP from "./pages/Auth/ForgotOTP";
+import Account from "./pages/Account";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/auth/register/otp" element={<RegisterOTP />} />
         <Route path="/auth/resetpassword" element={<ForgotPass />} />
         <Route path="/auth/otp" element={<ForgotOTP />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/profile" element={<MyProfile />} />
       </Routes>
     </BrowserRouter>
   );
