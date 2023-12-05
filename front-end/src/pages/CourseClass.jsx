@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { FaSearch } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
   <div className="container p-1 rounded" style={{ marginTop: "20px" }}>
@@ -213,16 +213,16 @@ const Kelas = () => {
                 Topik Kelas
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="relative flex items-center">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Cari kelas..."
-                className="p-2 rounded border border-gray-300 text-black"
+                className="p-2 rounded border border-gray-300 text-black pl-8" // Adjusted padding for the search icon
               />
-              <div className="ml-2">
-                <FaSearch />
+              <div className="absolute right-2 ">
+                <IoSearch className="h-6 w-6 text-gray-500" />
               </div>
             </div>
           </div>
