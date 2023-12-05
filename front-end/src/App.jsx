@@ -7,6 +7,7 @@ import PremiumClass from "./pages/PremiumClass";
 import { LoginPage, RegisterOTP, RegisterPage } from "./pages/Auth";
 import ForgotPass from "./pages/Auth/ForgotPass";
 import ForgotOTP from "./pages/Auth/ForgotOTP";
+import { Dashboard, KelolaKelas } from "./pages/DashboardAdmin";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
         <Route path="/auth/register/otp" element={<RegisterOTP />} />
         <Route path="/auth/resetpassword" element={<ForgotPass />} />
         <Route path="/auth/otp" element={<ForgotOTP />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/kelola-kelas" element={<KelolaKelas />} />
       </Routes>
     </BrowserRouter>
   );
