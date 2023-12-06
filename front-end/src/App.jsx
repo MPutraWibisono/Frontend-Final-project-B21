@@ -9,6 +9,8 @@ import ForgotPass from "./pages/Auth/ForgotPass";
 import ForgotOTP from "./pages/Auth/ForgotOTP";
 import Account from "./pages/Account";
 import MyProfile from "./pages/MyProfile";
+import ChangePass from "./pages/ChangePass";
+import PurchaseHistory from "./pages/PurchaseHistory";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
         <Route path="/auth/otp" element={<ForgotOTP />} />
         <Route path="/account" element={<Account />} />
         <Route path="/profile" element={<MyProfile />} />
+        <Route path="/changepassword" element={<ChangePass />} />
+        <Route path="/purchasehistory" element={<PurchaseHistory />} />
       </Routes>
     </BrowserRouter>
   );

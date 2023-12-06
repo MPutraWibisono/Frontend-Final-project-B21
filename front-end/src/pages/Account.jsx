@@ -7,7 +7,26 @@ import {
   IoCartOutline,
   IoLogOutOutline,
 } from "react-icons/io5";
+import PropTypes from "prop-types";
 
+function InputForm({ label, id, type, placeholder }) {
+  return (
+    <div className="mb-4">
+      <label
+        className="block text-gray-700 text-sm font-bold mb-2"
+        htmlFor={id}
+      >
+        {label}
+      </label>
+      <input
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id={id}
+        type={type}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+}
 const Account = () => {
   return (
     <>
@@ -19,63 +38,127 @@ const Account = () => {
           </div>
         </div>
       </Disclosure>
-      <header className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-1xl tracking-tight text-gray-900">Akun</h1>
+      <div className="bg-white shadow">
+        <div className="text-center mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 className="text-2xl tracking-tight text-gray-900">Akun</h1>
         </div>
-      </header>
-      <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          <div className="drawer lg:drawer-open">
-            <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content flex flex-col items-center justify-center">
-              {/* Page content here */}
-              <label
-                htmlFor="my-drawer-2"
-                className="btn btn-primary drawer-button lg:hidden"
-              >
-                Open drawer
-              </label>
-            </div>
-            <div className="drawer-side">
-              <label
-                htmlFor="my-drawer-2"
-                aria-label="close sidebar"
-                className="drawer-overlay"
-              ></label>
-              <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-                {/* Sidebar content here */}
-                <li className="mt-5">
-                  <Link to="/profile">
-                    <IoPencilSharp />
-                    Profil Saya
-                  </Link>
-                </li>
-                <li className="mt-5">
-                  <Link to="/ubahPassword">
-                    <IoSettingsOutline />
-                    Ubah Password
-                  </Link>
-                </li>
-                <li className="mt-5">
-                  <Link to="/riwayatPembayaran">
-                    <IoCartOutline />
-                    Riwayat Pembayaran
-                  </Link>
-                </li>
-                <li className="mt-5">
-                  <Link to="/keluar">
-                    <IoLogOutOutline />
-                    Keluar
-                  </Link>
-                </li>
-              </ul>
+      </div>
+
+      <main className="flex">
+        {/* Sidebar */}
+        <div className="drawer lg:drawer-open">
+          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content flex flex-col items-center justify-center">
+            {/* Page content here */}
+            <label
+              htmlFor="my-drawer-2"
+              className="btn btn-primary drawer-button lg:hidden"
+            >
+              Open drawer
+            </label>
+          </div>
+          <div className="drawer-side">
+            <label
+              htmlFor="my-drawer-2"
+              aria-label="close sidebar"
+              className="drawer-overlay"
+            ></label>
+            <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content my-ul">
+              {/* Sidebar content here */}
+              <li className="mt-5 text-1xl">
+                <Link to="/profile">
+                  <IoPencilSharp />
+                  Profil Saya
+                </Link>
+              </li>
+              <li className="mt-5 text-1xl">
+                <Link to="/changepassword">
+                  <IoSettingsOutline />
+                  Ubah Password
+                </Link>
+              </li>
+              <li className="mt-5 text-1xl">
+                <Link to="/purchasehistory">
+                  <IoCartOutline />
+                  Riwayat Pembayaran
+                </Link>
+              </li>
+              <li className="mt-5 text-1xl">
+                <Link to="/logout">
+                  <IoLogOutOutline />
+                  Keluar
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="container mx-auto">
+          <div className="flex border rounded-lg items-center">
+            <div className="container mx-auto mt-5">
+              <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <div className="text-center">
+                  <img
+                    src="/profile.png"
+                    className="w-20 mx-auto block"
+                    alt="profile"
+                  />
+                </div>
+                <form>
+                  <InputForm
+                    label="Nama"
+                    id="nama"
+                    type="text"
+                    placeholder="Nama"
+                  />
+                  <InputForm
+                    label="Email"
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                  />
+                  <InputForm
+                    label="Telepon"
+                    id="telepon"
+                    type="text"
+                    placeholder="Nomor Telepon"
+                  />
+                  <InputForm
+                    label="Negara"
+                    id="negara"
+                    type="text"
+                    placeholder="Masukan Negara tempat tinggal"
+                  />
+                  <InputForm
+                    label="Kota"
+                    id="kota"
+                    type="text"
+                    placeholder="Masukan Kota tempat tinggal"
+                  />
+                </form>
+                <div className="text-center">
+                  <button
+                    // onClick={handleDeleteFilter}
+                    className=" text-sm rounded-3xl font-semibold leading-6 bg-green-500 text-white border-4 border-green-500 m-10"
+                  >
+                    Simpan Profil Saya
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </main>
     </>
   );
+};
+
+InputForm.propTypes = {
+  label: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
 };
 
 export default Account;
