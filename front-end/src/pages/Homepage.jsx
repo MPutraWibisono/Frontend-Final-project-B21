@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import Glide from "@glidejs/glide";
 import CourseCard from "../components/CourseCard";
 import { Link } from "react-router-dom";
-import Header from "../components/Header";
+// import Header from "../components/Header";
+import kelas from "./../data/kelas.json";
 
 const Homepage = () => {
   useEffect(() => {
@@ -35,7 +36,7 @@ const Homepage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {/*<!-- Component: Two columns even layout --> */}
       <section>
         <div className=" m-auto ">
@@ -46,7 +47,7 @@ const Homepage = () => {
               }}
               className="relative bg-cover bg-center no-repeat col-span-4 lg:col-span-7"
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-white from-5% via-lime-100/10 via-50% to-green-300 to-95%"></div>
+              <div className="absolute inset-0"></div>
             </div>
             <div className="h-96 text-xl col-span-4 lg:col-span-5 bg-gradient-to-b from-white from-5% via-lime-100 via-50% to-green-300 to-95% flex justify-center items-center flex-col ">
               <h1 className="pb-4">Belajar dari Praktisi Terbaik</h1>
@@ -168,7 +169,7 @@ const Homepage = () => {
         </Link>
       </div>
 
-      <div className="px-5 flex space-x-3">
+      <div className="px-5 flex space-x-3 overflow-x-auto touch-pan-x">
         {/*<!-- Component: Small primary basic button --> */}
         <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-700 disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
           <span>All</span>
@@ -186,9 +187,21 @@ const Homepage = () => {
       </div>
 
       <div className="flex justify-center items-center flex-wrap p-2 gap-5">
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
+        {kelas.map((kelas) => (
+          <CourseCard
+            key={kelas.id}
+            image={kelas.image}
+            title={kelas.title}
+            rating={kelas.rating}
+            description={kelas.description}
+            instructor={kelas.instructor}
+            level={kelas.level}
+            modules={kelas.modules}
+            duration={kelas.duration}
+            type={kelas.type}
+            price={kelas.price}
+          />
+        ))}
       </div>
     </>
   );

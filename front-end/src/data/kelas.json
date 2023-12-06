@@ -1,0 +1,57 @@
+[
+    {
+      "id": "1",
+      "title": "UI/UX Design",
+      "rating": 4.7,
+      "description": "Belajar Web Designer dengan Figma",
+      "instructor": "Angela Doe",
+      "level": "Intermediate level",
+      "modules": 5,
+      "duration": "140 Menit",
+      "type": "Premium",
+      "price": "Rp. 249.000",
+      "image":
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg"
+    },
+    {
+      "id": "2",
+      "title": "Membuat Wireframe Hingga ke Visual Design",
+      "rating": 4.7,
+      "description": "Belajar Web Designer dengan Figma",
+      "instructor": "Angela Doe",
+      "level": "Intermediate level",
+      "modules": 5,
+      "duration": "140 Menit",
+      "type": "Premium",
+      "price": "Rp. 229.000",
+      "image":
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg"
+    },
+    {
+      "id": "3",
+      "title": "Data Science",
+      "rating": 4.5,
+      "description": "Dasar Pemrograman Python",
+      "instructor": "James Doe",
+      "level": "Intermediate level",
+      "modules": 5,
+      "duration": "90 Menit",
+      "type": "Premium",
+      "price": "Rp. 219.000",
+      "image": "https://miro.medium.com/max/1400/1*9bBtkVerj_gJsbaicD_MuQ.png"
+    },
+    {
+      "id": "4",
+      "title": "UI/UX",
+      "rating": 4.7,
+      "description": "Belajar Design dengan Figma",
+      "instructor": "Angela Doe",
+      "level": "Intermediate level",
+      "modules": 10,
+      "duration": "120 Menit",
+      "type": "Premium",
+      "price": "Rp. 249.000",
+      "image":
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg"
+    }
+  ]

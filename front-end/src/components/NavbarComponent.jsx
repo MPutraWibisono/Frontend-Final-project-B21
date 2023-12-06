@@ -10,7 +10,7 @@ function classNames(...classes) {
 export default function NavbarComponent() {
   const location = useLocation();
   const noNavbar = [
-    "/",
+    // "/",
     "/auth/login",
     "/auth/register",
     "/auth/register/otp",
