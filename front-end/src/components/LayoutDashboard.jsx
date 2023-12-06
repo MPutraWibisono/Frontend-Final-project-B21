@@ -49,7 +49,7 @@ const LayoutDashboard = ({ children }) => {
         </button>
       </div>
       <section className="ml-[300px]">
-        <div className="w-full bg-darkBlue03/20 flex items-center justify-between px-5 py-5">
+        <div className="w-full bg-darkBlue03/20 flex items-center justify-between px-12 py-5">
           <h1 className="text-darkBlue05 text-2xl">Hi, Admin!</h1>
           <div className="relative">
             <input type="text" placeholder="Cari" className="input w-72 " />
@@ -60,7 +60,7 @@ const LayoutDashboard = ({ children }) => {
             </div>
           </div>
         </div>
-        <div className="mt-5 ml-5">{children}</div>
+        <div className="mt-5 mx-12">{children}</div>
       </section>
     </div>
   );
