@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { IoSearch } from "react-icons/io5";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
   <div className="container p-1 rounded" style={{ marginTop: "20px" }}>
@@ -180,10 +181,10 @@ const PremiumClass = () => {
     return false;
   });
   return (
-    <div className="bg-white-600 text-white">
+    <div className="bg-paleOrange text-white">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">
         <div
-          className="lg:w-1/4 overflow-hidden rounded bg-lime-100 text-black mr-4"
+          className="lg:w-1/4 overflow-hidden rounded bg-white text-black mr-4"
           style={{ marginTop: "80px" }}
         >
           <div className="container mx-auto p-4 flex flex-col space-y-4">
@@ -210,33 +211,36 @@ const PremiumClass = () => {
                 Topik Kelas
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="relative flex items-center">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Cari kelas..."
-                className="p-2 rounded border border-gray-300 text-black ml-auto"
+                className="p-2 rounded border border-pinkTone text-black pl-8"
               />
+              <div className="absolute right-2 ">
+                <IoSearch className="h-6 w-6 text-pinkTone" />
+              </div>
             </div>
           </div>
 
           <div className="flex justify-center space-x-4 mb-4">
             <button
               onClick={handleClassAll}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-emerald-50 px-6 text-sm font-medium tracking-wide text-black transition duration-300 hover:bg-blue-400 hover:text-blue-600 focus:bg-blue-500 focus:text-blue-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-blue-700 disabled:bg-blue-500 disabled:text-blue-500 disabled:shadow-none"
+              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 hover:text-white focus:bg-red-400 focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
             >
               <span>All</span>
             </button>
             <button
               onClick={handleClassPremium}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-emerald-50 px-6 text-sm font-medium tracking-wide text-black transition duration-300 hover:bg-blue-400 hover:text-blue-600 focus:bg-blue-500 focus:text-blue-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-blue-700 disabled:bg-blue-500 disabled:text-blue-500 disabled:shadow-none"
+              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 hover:text-white focus:bg-red-400 focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
             >
               <span>Kelas Premium</span>
             </button>
             <button
               onClick={handleClassFree}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-emerald-50 px-6 text-sm font-medium tracking-wide text-black transition duration-300 hover:bg-blue-400 hover:text-blue-600 focus:bg-blue-500 focus:text-blue-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-blue-700 disabled:bg-blue-500 disabled:text-blue-500 disabled:shadow-none"
+              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 hover:text-white focus:bg-red-400 focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
             >
               <span>Kelas Gratis</span>
             </button>
@@ -278,7 +282,7 @@ const PremiumClass = () => {
                     <p>⏳{kelas.duration}</p>
                   </div>
 
-                  <button className="inline-flex m-3 h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-emerald-500 px-4 text-xs font-medium tracking-wide text-white transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:text-blue-500 disabled:shadow-none">
+                  <button className="inline-flex m-3 h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-pinkTone px-4 text-xs font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 focus:bg-red-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-white disabled:bg-pinkTone disabled:shadow-none">
                     <span className="order-2">{kelas.type}</span>
                     <span className="relative only:-mx-4">💎</span>
                   </button>
