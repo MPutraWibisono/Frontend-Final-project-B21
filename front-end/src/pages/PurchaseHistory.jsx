@@ -65,7 +65,7 @@ const filteredClasses = kelas.filter(() => {
 const PurchaseHistory = () => {
   return (
     <>
-      <Disclosure className="bg-emerald-50 h-20">
+      <Disclosure className="bg-cream06 h-20">
         <div className="flex items-center">
           <IoArrowBackSharp className="h-6 w-6 text-black mt-1" />
           <div className="text-1xl text-black mt-1 mr-2">
@@ -73,9 +73,9 @@ const PurchaseHistory = () => {
           </div>
         </div>
       </Disclosure>
-      <div className="bg-white shadow">
+      <div className="bg-pink01 shadow">
         <div className="text-center mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-2xl tracking-tight text-gray-900">Akun</h1>
+          <h1 className="text-2xl tracking-tight text-white">Akun</h1>
         </div>
       </div>
 
@@ -85,12 +85,6 @@ const PurchaseHistory = () => {
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col items-center justify-center">
             {/* Page content here */}
-            <label
-              htmlFor="my-drawer-2"
-              className="btn btn-primary drawer-button lg:hidden"
-            >
-              Open drawer
-            </label>
           </div>
           <div className="drawer-side">
             <label
@@ -102,25 +96,25 @@ const PurchaseHistory = () => {
               {/* Sidebar content here */}
               <li className="mt-5 text-1xl">
                 <Link to="/profile">
-                  <IoPencilSharp />
+                  <IoPencilSharp className="text-brown01" />
                   Profil Saya
                 </Link>
               </li>
               <li className="mt-5 text-1xl">
                 <Link to="/changepassword">
-                  <IoSettingsOutline />
+                  <IoSettingsOutline className="text-brown01" />
                   Ubah Password
                 </Link>
               </li>
               <li className="mt-5 text-1xl">
                 <Link to="/purchasehistory">
-                  <IoCartOutline />
+                  <IoCartOutline className="text-brown01" />
                   Riwayat Pembayaran
                 </Link>
               </li>
               <li className="mt-5 text-1xl">
                 <Link to="/logout">
-                  <IoLogOutOutline />
+                  <IoLogOutOutline className="text-brown01" />
                   Keluar
                 </Link>
               </li>

@@ -30,17 +30,17 @@ function InputForm({ label, id, type, placeholder }) {
 const Account = () => {
   return (
     <>
-      <Disclosure className="bg-emerald-50 h-20">
+      <Disclosure className="bg-cream06 h-20">
         <div className="flex items-center">
-          <IoArrowBackSharp className="h-6 w-6 text-black mt-1" />
-          <div className="text-1xl text-black mt-1 mr-2">
+          <IoArrowBackSharp className="h-6 w-6 text-pinkTone mt-1" />
+          <div className="text-1xl text-pinkTone mt-1 mr-2">
             <Link to="/">Kembali ke Beranda</Link>
           </div>
         </div>
       </Disclosure>
-      <div className="bg-white shadow">
+      <div className="bg-pinkTone shadow">
         <div className="text-center mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-2xl tracking-tight text-gray-900">Akun</h1>
+          <h1 className="text-2xl tracking-tight text-white">Akun</h1>
         </div>
       </div>
 
@@ -50,12 +50,6 @@ const Account = () => {
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col items-center justify-center">
             {/* Page content here */}
-            <label
-              htmlFor="my-drawer-2"
-              className="btn btn-primary drawer-button lg:hidden"
-            >
-              Open drawer
-            </label>
           </div>
           <div className="drawer-side">
             <label
@@ -67,25 +61,25 @@ const Account = () => {
               {/* Sidebar content here */}
               <li className="mt-5 text-1xl">
                 <Link to="/profile">
-                  <IoPencilSharp />
+                  <IoPencilSharp className="text-pinkTone" />
                   Profil Saya
                 </Link>
               </li>
               <li className="mt-5 text-1xl">
                 <Link to="/changepassword">
-                  <IoSettingsOutline />
+                  <IoSettingsOutline className="text-pinkTone" />
                   Ubah Password
                 </Link>
               </li>
               <li className="mt-5 text-1xl">
                 <Link to="/purchasehistory">
-                  <IoCartOutline />
+                  <IoCartOutline className="text-pinkTone" />
                   Riwayat Pembayaran
                 </Link>
               </li>
               <li className="mt-5 text-1xl">
                 <Link to="/logout">
-                  <IoLogOutOutline />
+                  <IoLogOutOutline className="text-pinkTone" />
                   Keluar
                 </Link>
               </li>
@@ -140,7 +134,7 @@ const Account = () => {
                 <div className="text-center">
                   <button
                     // onClick={handleDeleteFilter}
-                    className=" text-sm rounded-3xl font-semibold leading-6 bg-green-500 text-white border-4 border-green-500 m-10"
+                    className=" text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
                   >
                     Simpan Profil Saya
                   </button>
