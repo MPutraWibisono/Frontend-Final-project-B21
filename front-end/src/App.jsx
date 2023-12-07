@@ -11,6 +11,8 @@ import Account from "./pages/Account";
 import MyProfile from "./pages/MyProfile";
 import ChangePass from "./pages/ChangePass";
 import PurchaseHistory from "./pages/PurchaseHistory";
+import { Dashboard, KelolaKelas } from "./pages/DashboardAdmin";
+
 
 function App() {
   return (
@@ -30,6 +32,9 @@ function App() {
         <Route path="/profile" element={<MyProfile />} />
         <Route path="/changepassword" element={<ChangePass />} />
         <Route path="/purchasehistory" element={<PurchaseHistory />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/kelola-kelas" element={<KelolaKelas />} />
+
       </Routes>
     </BrowserRouter>
   );
