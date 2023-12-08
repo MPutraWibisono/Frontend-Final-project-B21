@@ -16,6 +16,8 @@ export default function NavbarComponent() {
     "/auth/register/otp",
     "/auth/resetpassword",
     "/auth/otp",
+    "/dashboard",
+    "/dashboard/kelola-kelas",
   ];
   const shouldShowNavbar = noNavbar.includes(location.pathname);
 
