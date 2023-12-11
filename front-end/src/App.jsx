@@ -1,23 +1,27 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Homepage from "./pages/Homepage";
-import NavbarComponent from "./components/NavbarComponent";
-import CourseClass from "./pages/CourseClass";
-import FreeClass from "./pages/FreeClass";
-import PremiumClass from "./pages/PremiumClass";
-import { LoginPage, RegisterOTP, RegisterPage } from "./pages/Auth";
-import ForgotPass from "./pages/Auth/ForgotPass";
-import ForgotOTP from "./pages/Auth/ForgotOTP";
-import Detail from "./pages/Detail";
-import Account from "./pages/Account";
-import MyProfile from "./pages/MyProfile";
-import ChangePass from "./pages/ChangePass";
-import PurchaseHistory from "./pages/PurchaseHistory";
+import Header from "./components/Header";
+import Homepage from "./pages/Home/Homepage";
+import {
+  ForgotOTP,
+  ForgotPass,
+  LoginPage,
+  RegisterPage,
+  RegisterOTP,
+} from "./pages/Auth";
+import { CourseClass, FreeClass, PremiumClass } from "./pages/Dashboard";
+import {
+  Account,
+  ChangePass,
+  MyProfile,
+  PurchaseHistory,
+} from "./pages/Profile";
+import Detail from "./pages/DetailPage/Detail";
 import { Dashboard, KelolaKelas } from "./pages/DashboardAdmin";
 
 function App() {
   return (
     <BrowserRouter>
-      <NavbarComponent />
+      <Header />
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/class" element={<CourseClass />} />

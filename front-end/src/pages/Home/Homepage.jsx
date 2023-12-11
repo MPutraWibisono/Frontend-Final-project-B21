@@ -1,9 +1,13 @@
 import { useEffect } from "react";
 import Glide from "@glidejs/glide";
-import CourseCard from "../components/CourseCard";
+import CourseCard from "../../components/CourseCard";
 import { Link } from "react-router-dom";
 // import Header from "../components/Header";
-import kelas from "./../data/kelas.json";
+import kelas from "../../data/kelas.json";
+import andro from "../../assets/images/android dev.jpg";
+import uiux from "../../assets/images/uiux.jpg";
+import datas from "../../assets/images/data science.jpg";
+import belajar from "../../assets/images/belajar.jpg";
 
 const Homepage = () => {
   useEffect(() => {
@@ -43,7 +47,7 @@ const Homepage = () => {
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 relative">
             <div
               style={{
-                backgroundImage: "url(/belajar.jpg)",
+                backgroundImage: `url(${belajar})`,
               }}
               className="relative h-96 bg-cover bg-center no-repeat col-span-4 lg:col-span-7 2xl:col-span-5"
             >
@@ -79,7 +83,7 @@ const Homepage = () => {
               <Link to="/">
                 <div className="h-2/3 lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400 ">
                   <img
-                    src="/android dev.jpg"
+                    src={andro}
                     alt="Android Dev"
                     className="h-full w-full object-none object-center"
                   />
@@ -93,7 +97,7 @@ const Homepage = () => {
               <Link to="/">
                 <div className="h-2/3 lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400">
                   <img
-                    src="/uiux.jpg"
+                    src={uiux}
                     alt="UI/UX Design"
                     className="h-full w-full object-none object-center"
                   />
@@ -107,7 +111,7 @@ const Homepage = () => {
               <Link to="/">
                 <div className="h-2/3 lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400">
                   <img
-                    src="/data science.jpg"
+                    src={datas}
                     alt="Data Science"
                     className="h-full w-full object-none object-center"
                   />

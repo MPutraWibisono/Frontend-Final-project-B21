@@ -4,12 +4,15 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
+import logo from "../../assets/images/logo.png";
+import user from "../../assets/images/user.png";
+import bell from "../../assets/images/bell.png";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const NavbarComponent = () => {
+const Header = () => {
   const [nav, setNav] = useState(false);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [state, setState] = useState({
@@ -65,12 +68,7 @@ const NavbarComponent = () => {
               className="flex items-center gap-2 whitespace-nowrap py-3 text-lg focus:outline-none lg:flex-1"
               to="/"
             >
-              <img
-                src="/logo (3).png"
-                width="100"
-                height="70"
-                alt="DemyU Course"
-              />
+              <img src={logo} width="100" height="70" alt="DemyU Course" />
             </Link>
             {/*      <!-- Mobile trigger --> */}
             <button
@@ -218,14 +216,14 @@ const NavbarComponent = () => {
                     <Link to="/account">
                       <img
                         className="h-8 w-auto m-3 cursor-pointer"
-                        src="/user.png"
+                        src={user}
                         alt="User"
                       />
                     </Link>
                     <Link to="/notifications">
                       <img
                         className="h-7 w-auto m-3 cursor-pointer"
-                        src="/bell.png"
+                        src={bell}
                         alt="Bell"
                       />
                     </Link>
@@ -240,4 +238,4 @@ const NavbarComponent = () => {
   );
 };
 
-export default NavbarComponent;
+export default Header;

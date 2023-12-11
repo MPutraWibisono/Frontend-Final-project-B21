@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import CourseCard from "../components/CourseCard";
-import kelas from "./../data/kelas.json";
+import CourseCard from "../../components/CourseCard";
+import kelas from "../../data/kelas.json";
 import { IoSearch } from "react-icons/io5";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
