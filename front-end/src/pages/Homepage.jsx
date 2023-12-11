@@ -40,21 +40,22 @@ const Homepage = () => {
       {/*<!-- Component: Two columns even layout --> */}
       <section>
         <div className=" m-auto ">
-          <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12">
+          <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 relative">
             <div
               style={{
                 backgroundImage: "url(/belajar.jpg)",
               }}
-              className="relative bg-cover bg-center no-repeat col-span-4 lg:col-span-7"
+              className="relative h-96 bg-cover bg-center no-repeat col-span-4 lg:col-span-7 2xl:col-span-5"
             >
-              <div className="absolute inset-0"></div>
+              <div className=" md:block md:absolute inset-0 bg-gradient-to-r from-transparent from-5% via-transparent via-50% to-darkGrayish to-95%"></div>
             </div>
-            <div className="h-96 text-xl col-span-4 lg:col-span-5 bg-gradient-to-b from-white from-5% via-lime-100 via-50% to-green-300 to-95% flex justify-center items-center flex-col ">
-              <h1 className="pb-4">Belajar dari Praktisi Terbaik</h1>
-              {/*<!-- Component: Large primary basic button --> */}
+            <div className="absolute md:static w-full h-96 text-xl col-span-4 lg:col-span-5 2xl:col-span-7 bg-darkGrayish/80 flex justify-center items-center flex-col md:bg-darkGrayish">
+              <h1 className="pb-4 text-paleWhite">
+                Belajar dari Praktisi Terbaik
+              </h1>
               <Link to="/auth/login">
-                <button className="inline-flex items-center justify-center h-12 gap-2 px-6 text-sm font-medium tracking-wide text-white transition duration-300 rounded-[20px] whitespace-nowrap bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
-                  <span>Ikuti Kelas</span>
+                <button className="inline-flex items-center justify-center h-12 gap-2 px-6 text-sm font-medium tracking-wide text-darkRed transition duration-300 rounded-[20px] whitespace-nowrap bg-slate-100 hover:bg-slate-400 focus:bg-slate-600 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-300 disabled:shadow-none">
+                  <span>IKUTI KELAS</span>
                 </button>
               </Link>
             </div>
@@ -64,8 +65,8 @@ const Homepage = () => {
       {/*<!-- End Two columns even layout --> */}
 
       {/*<!-- Component: Carousel with indicators & controls inside --> */}
-      <div className="bg-gradient-to-b from-green-300 from-50% via-lime-100 via-70% to-white to-95% glide-03 relative w-full">
-        <div className="py-5 px-2 flex">
+      <div className="bg-paleOrange px-9 glide-03 relative w-full">
+        <div className="py-5 px-2 flex text-sm md:text-lg">
           <h2>Kategori Belajar</h2>
           <Link to="/" className="ms-auto text-sky-600">
             Lihat semua
@@ -76,14 +77,16 @@ const Homepage = () => {
           <ul className="whitespace-no-wrap  flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
             <li>
               <Link to="/">
-                <div className="h-2/3 lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400">
+                <div className="h-2/3 lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400 ">
                   <img
                     src="/android dev.jpg"
                     alt="Android Dev"
                     className="h-full w-full object-none object-center"
                   />
                 </div>
-                <p className="text-center pt-2">Android Dev</p>
+                <p className="text-center pt-2 text-xs md:text-base">
+                  Android Dev
+                </p>
               </Link>
             </li>
             <li>
@@ -95,7 +98,9 @@ const Homepage = () => {
                     className="h-full w-full object-none object-center"
                   />
                 </div>
-                <p className="text-center pt-2">UI/UX Design</p>
+                <p className="text-center pt-2 text-xs md:text-base">
+                  UI/UX Design
+                </p>
               </Link>
             </li>
             <li>
@@ -107,7 +112,9 @@ const Homepage = () => {
                     className="h-full w-full object-none object-center"
                   />
                 </div>
-                <p className="text-center pt-2">Data Science</p>
+                <p className="text-center pt-2 text-xs md:text-base">
+                  Data Science
+                </p>
               </Link>
             </li>
           </ul>
@@ -162,7 +169,7 @@ const Homepage = () => {
         </div>
       </div>
       {/*<!-- End Carousel with indicators & controls inside --> */}
-      <div className=" px-2 flex">
+      <div className=" px-11 flex pt-4 text-sm md:text-lg">
         <h2 className="pb-4"> Kursus Populer</h2>
         <Link to="" className="ms-auto text-sky-600">
           Lihat semua
@@ -171,16 +178,16 @@ const Homepage = () => {
 
       <div className="px-5 flex space-x-3 overflow-x-auto touch-pan-x">
         {/*<!-- Component: Small primary basic button --> */}
-        <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-700 disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
+        <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
           <span>All</span>
         </button>
-        <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-700 disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
+        <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
           <span>UI/UX</span>
         </button>
-        <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-700 disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
+        <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
           <span>IOS Development</span>
         </button>
-        <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-700 disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
+        <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
           <span>Data Science</span>
         </button>
         {/*<!-- End Small primary basic button --> */}

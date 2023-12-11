@@ -1,14 +1,14 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { HiChatAlt2 } from "react-icons/hi";
+import { FaTelegramPlane } from "react-icons/fa";
 import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { IoIosCheckmarkCircleOutline, IoIosStar } from "react-icons/io";
 import { FaCirclePlay } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 const Detail = () => {
   return (
     <>
-      <div className="bg-green-100 relative">
+      <div className="bg-paleOrange relative">
         <div className="grid grid-cols-10 grid-rows-10">
           <Link
             to="/class"
@@ -19,10 +19,13 @@ const Detail = () => {
             </div>
             <div className="hidden md:block">Kelas lainnya</div>
           </Link>
-          <div className="col-start-2 col-end-10 lg:col-end-7">
+          <div className="col-start-2 col-end-10 lg:col-end-7 space-y-1">
             <div className="flex col-start-2 col-end-7">
-              <h1 className="text-md md:text-xl">UI/UX Design</h1>
-              <span className="ms-auto pe-5 text-xs md:text-sm">⭐5.0</span>
+              <h1 className="text-md md:text-xl ">UI/UX Design</h1>
+              <span className="ms-auto pe-5 text-xs md:text-sm flex items-center space-x-1 font-bold">
+                <IoIosStar className="text-yellow-400" />
+                <span>5.0</span>
+              </span>
             </div>
             <div className="col-start-2 col-end-5">
               <h3 className="text-md md:text-xl font-medium">
@@ -31,29 +34,29 @@ const Detail = () => {
               <p className="text-sm md:text-md">by Simon Doe</p>
               <div className="flex space-x-5 text-sm text-center pt-2">
                 <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
-                  <RiShieldStarLine className="text-xl" />
-                  <p>Begginer level</p>
+                  <RiShieldStarLine className="text-xl text-darkGrayish" />
+                  <p className="font-bold text-darkRed01">Begginer level</p>
                 </p>
                 <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
-                  <RiBookLine className="text-xl" />
-                  <p>5 Modul</p>
+                  <RiBookLine className="text-xl text-darkGrayish" />
+                  <p className="font-bold text-darkRed01">5 Modul</p>
                 </p>
                 <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
-                  <RiTimeFill className="text-xl" />
-                  <p>45 Menit</p>
+                  <RiTimeFill className="text-xl text-darkGrayish" />
+                  <p className="font-bold text-darkRed01">45 Menit</p>
                 </p>
               </div>
 
-              <button className="inline-flex h-8 md:h-10 items-center justify-center gap-2 whitespace-nowrap rounded rounded-full bg-emerald-500 px-4 md:px-8 text-xs md:text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none my-4">
+              <button className="inline-flex h-8 md:h-10 items-center justify-center gap-2 whitespace-nowrap rounded rounded-full bg-sky-500 px-4 md:px-8 text-xs md:text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-sky-600 focus:bg-sky-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300 disabled:shadow-none my-4">
                 <span>Join Grup Telegram</span>
                 <span className="relative only:-mx-5">
-                  <HiChatAlt2 />
+                  <FaTelegramPlane />
                 </span>
               </button>
             </div>
           </div>
           <div className="row-start-3 col-start-2 col-end-10 w-full lg:w-1/3 lg:justify-end lg:p-6 lg:absolute right-20">
-            <div className="rounded-md shadow-xl bg-slate-400 p-5 mb-4">
+            <div className="rounded-md shadow-xl bg-paleWhite p-5 mb-4">
               <div className="flex truncate text-base md:text-lg">
                 <h1 className="pe-4">Materi Belajar</h1>
                 <div className="flex w-full space-x-2">
@@ -71,24 +74,24 @@ const Detail = () => {
                       id="p01d"
                       max="100"
                       value="10"
-                      className="block w-full overflow-hidden rounded bg-slate-100 [&::-webkit-progress-bar]:bg-slate-400/50 [&::-webkit-progress-value]:bg-emerald-500 [&::-moz-progress-bar]:bg-emerald-500"
+                      className="block w-full overflow-hidden rounded bg-slate-100 [&::-webkit-progress-bar]:bg-slate-400/50 [&::-webkit-progress-value]:bg-pinkTone [&::-moz-progress-bar]:bg-pinkTone"
                     >
                       25%
                     </progress>
                   </div>
                 </div>
               </div>
-              <div className="flex w-full justify-between space-x-4 text-xs md:text-sm">
-                <span>Chapter 1 - Pendahuluan</span>
-                <span className="ms-auto">60 Menit</span>
+              <div className="flex w-full justify-between space-x-4 text-xs md:text-sm font-bold pt-2">
+                <span className="text-pinkTone">Chapter 1 - Pendahuluan</span>
+                <span className="ms-auto text-blue-500 ">60 Menit</span>
               </div>
               <div className="flex">
-                <ul className="divide-y w-full divide-slate-100">
+                <ul className="divide-y w-full divide-slate-200">
                   <li className="flex gap-4 px-4 py-3">
                     <Link to="/" className="flex space-x-3 w-full">
                       <div className="self-center">
                         <div className="h-8 w-8 ">
-                          <div className="bg-slate-300 w-full rounded-full flex justify-center items-center h-full text-white">
+                          <div className="bg-paleOrange w-full rounded-full flex justify-center items-center h-full text-darkRed font-semibold">
                             <p className="">1</p>
                           </div>
                         </div>
@@ -99,7 +102,7 @@ const Detail = () => {
                             Tujuan Mengikuti Kelas Design System
                           </h4>
                         </div>
-                        <FaCirclePlay className="text-xl" />
+                        <FaCirclePlay className="text-xl text-darkMagenta" />
                       </div>
                     </Link>
                   </li>
@@ -107,7 +110,7 @@ const Detail = () => {
                     <Link to="/" className="flex space-x-3 w-full">
                       <div className="self-center">
                         <div className="h-8 w-8 ">
-                          <div className="bg-slate-300 w-full rounded-full flex justify-center items-center h-full text-white">
+                          <div className="bg-paleOrange w-full rounded-full flex justify-center items-center h-full text-darkRed font-semibold">
                             <p className="">2</p>
                           </div>
                         </div>
@@ -118,7 +121,7 @@ const Detail = () => {
                             Pengenalan Design System
                           </h4>
                         </div>
-                        <FaCirclePlay className="text-xl" />
+                        <FaCirclePlay className="text-xl text-darkMagenta" />
                       </div>
                     </Link>
                   </li>
@@ -126,7 +129,7 @@ const Detail = () => {
                     <Link to="/" className="flex space-x-3 w-full">
                       <div className="self-center">
                         <div className="h-8 w-8 ">
-                          <div className="bg-slate-300 w-full rounded-full flex justify-center items-center h-full text-white">
+                          <div className="bg-paleOrange w-full rounded-full flex justify-center items-center h-full text-darkRed font-semibold">
                             <p className="">3</p>
                           </div>
                         </div>
@@ -137,7 +140,7 @@ const Detail = () => {
                             Contoh Dalam Membangun Design System
                           </h4>
                         </div>
-                        <FaCirclePlay className="text-xl" />
+                        <FaCirclePlay className="text-xl text-pink" />
                       </div>
                     </Link>
                   </li>
@@ -146,11 +149,11 @@ const Detail = () => {
             </div>
           </div>
         </div>
-        <div className="bg-slate-300 grid grid-cols-10 grid-rows-10">
+        <div className="bg-paleWhite grid grid-cols-10 grid-rows-10">
           <div className="col-start-2 col-end-10 lg:col-end-7">
             <div className="p-5">
               <iframe
-                className="rounded-[25px] w-full aspect-video"
+                className="rounded-[25px] w-full aspect-video shadow-2xl"
                 src="https://www.youtube.com/embed/1GHsinR-t3E?si=WFoKdMyEMboJoV21"
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -159,7 +162,7 @@ const Detail = () => {
             </div>
             <div className="p-5 text-justify">
               <h1>Tentang Kelas</h1>
-              <p className="indent-8 text-sm">
+              <p className="indent-8 text-sm leading-loose">
                 Design system adalah kumpulan komponen design, code, ataupun
                 dokumentasi yang dapat digunakan sebagai panduan utama yang
                 memunginkan designer serta developer memiliki lebih banyak
@@ -181,7 +184,7 @@ const Detail = () => {
             </div>
             <div className="ps-5">
               <h1>Kelas Ini Ditujukan Untuk</h1>
-              <ul className="list-decimal ps-6 text-sm">
+              <ul className="list-decimal ps-6 text-sm leading-loose">
                 <li>Anda yang ingin memahami poin penting design system</li>
                 <li>
                   Anda yang ingin membantu perusahaan lebih optimal dalam

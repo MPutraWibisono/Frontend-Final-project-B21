@@ -8,6 +8,10 @@ import { LoginPage, RegisterOTP, RegisterPage } from "./pages/Auth";
 import ForgotPass from "./pages/Auth/ForgotPass";
 import ForgotOTP from "./pages/Auth/ForgotOTP";
 import Detail from "./pages/Detail";
+import Account from "./pages/Account";
+import MyProfile from "./pages/MyProfile";
+import ChangePass from "./pages/ChangePass";
+import PurchaseHistory from "./pages/PurchaseHistory";
 import { Dashboard, KelolaKelas } from "./pages/DashboardAdmin";
 
 function App() {
@@ -25,6 +29,10 @@ function App() {
         <Route path="/auth/register/otp" element={<RegisterOTP />} />
         <Route path="/auth/resetpassword" element={<ForgotPass />} />
         <Route path="/auth/otp" element={<ForgotOTP />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/profile" element={<MyProfile />} />
+        <Route path="/changepassword" element={<ChangePass />} />
+        <Route path="/purchasehistory" element={<PurchaseHistory />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/kelola-kelas" element={<KelolaKelas />} />
       </Routes>
