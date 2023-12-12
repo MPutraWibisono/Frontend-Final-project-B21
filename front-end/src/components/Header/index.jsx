@@ -1,6 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-// import { Fragment } from "react";
-// import { Menu, Transition } from "@headlessui/react";
 import { FaListUl, FaRegUser, FaRegBell } from "react-icons/fa6";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
