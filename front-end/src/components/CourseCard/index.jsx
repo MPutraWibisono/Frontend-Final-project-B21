@@ -39,7 +39,7 @@ const CourseCard = ({
           <button className="inline-flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-pinkTone px-4 text-xs font-medium tracking-wide text-white transition duration-300 hover:bg-pink focus:bg-darkMagenta focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
             {type == "Premium" ? (
               <>
-                <span className="relative only:-mx-4">💎</span>
+                {/* <span className="relative only:-mx-4">💎</span> */}
                 <span>{type}</span>
                 <span className=" ms-auto ps-3">{price}</span>
               </>

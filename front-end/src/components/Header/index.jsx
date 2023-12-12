@@ -21,7 +21,7 @@ const Header = () => {
     "/dashboard/kelola-kelas",
   ];
 
-  const [activeButton, setActiveButton] = useState("");
+  const [activeButton, setActiveButton] = useState("class");
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
@@ -51,15 +51,16 @@ const Header = () => {
             role="navigation"
           >
             {/*      <!-- Brand logo --> */}
-            <Link
+            <div
               id="WindUI"
               aria-label="WindUI logo"
               aria-current="page"
               className="flex items-center gap-2 whitespace-nowrap py-3 text-lg focus:outline-none lg:flex-1"
-              to="/"
             >
-              <img src={logo} width="100" height="70" alt="DemyU Course" />
-            </Link>
+              <Link to="/">
+                <img src={logo} width="100" height="70" alt="DemyU Course" />
+              </Link>
+            </div>
             {/*      <!-- Mobile trigger --> */}
             <button
               className={`relative order-10 block h-10 w-10 self-center lg:hidden

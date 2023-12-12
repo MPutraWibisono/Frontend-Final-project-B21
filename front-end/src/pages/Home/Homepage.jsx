@@ -69,15 +69,15 @@ const Homepage = () => {
 
       {/*<!-- Component: Carousel with indicators & controls inside --> */}
       <div className="bg-paleOrange">
-        <div className="px-9 glide-03 relative w-full mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[96rem]">
-          <div className="py-5 px-2 flex text-sm md:text-lg">
-            <h2>Kategori Belajar</h2>
+        <div className="px-9 glide-03 relative w-full mx-auto max-w-7xl lg:max-w-8xl 2xl:max-w-[96rem]">
+          <div className="py-5 flex text-sm md:text-lg">
+            <h2 className="font-bold">Kategori Belajar</h2>
             <Link to="/" className="text-sm ms-auto text-sky-600">
               Lihat semua
             </Link>
           </div>
           {/*    <!-- Slides --> */}
-          <div className="overflow-hidden" data-glide-el="track">
+          <div className="overflow-hidden mx-8" data-glide-el="track">
             <ul className="whitespace-no-wrap  flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
               <li>
                 <Link to="/">
@@ -174,47 +174,48 @@ const Homepage = () => {
         </div>
       </div>
       {/*<!-- End Carousel with indicators & controls inside --> */}
-      <div className="mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[96rem]">
-        <div className=" px-11 flex pt-4 text-sm md:text-lg">
-          <h2 className="pb-4"> Kursus Populer</h2>
+      <div className="mx-auto max-w-7xl lg:max-w-8xl 2xl:max-w-[96rem]">
+        <div className=" px-9 flex pt-4 text-sm md:text-lg">
+          <h2 className="pb-4 font-bold"> Kursus Populer</h2>
           <Link to="" className="text-sm ms-auto text-sky-600">
             Lihat semua
           </Link>
         </div>
+        <div className="mx-8">
+          <div className="px-5 flex space-x-3 overflow-x-auto touch-pan-x">
+            {/*<!-- Component: Small primary basic button --> */}
+            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
+              <span>All</span>
+            </button>
+            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
+              <span>UI/UX</span>
+            </button>
+            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
+              <span>IOS Development</span>
+            </button>
+            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
+              <span>Data Science</span>
+            </button>
+            {/*<!-- End Small primary basic button --> */}
+          </div>
 
-        <div className="px-5 flex space-x-3 overflow-x-auto touch-pan-x">
-          {/*<!-- Component: Small primary basic button --> */}
-          <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
-            <span>All</span>
-          </button>
-          <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
-            <span>UI/UX</span>
-          </button>
-          <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
-            <span>IOS Development</span>
-          </button>
-          <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
-            <span>Data Science</span>
-          </button>
-          {/*<!-- End Small primary basic button --> */}
-        </div>
-
-        <div className="flex justify-center items-center flex-wrap p-2 gap-5">
-          {kelas.map((kelas) => (
-            <CourseCard
-              key={kelas.id}
-              image={kelas.image}
-              title={kelas.title}
-              rating={kelas.rating}
-              description={kelas.description}
-              instructor={kelas.instructor}
-              level={kelas.level}
-              modules={kelas.modules}
-              duration={kelas.duration}
-              type={kelas.type}
-              price={kelas.price}
-            />
-          ))}
+          <div className="flex justify-center items-center flex-wrap p-2 gap-5">
+            {kelas.map((kelas) => (
+              <CourseCard
+                key={kelas.id}
+                image={kelas.image}
+                title={kelas.title}
+                rating={kelas.rating}
+                description={kelas.description}
+                instructor={kelas.instructor}
+                level={kelas.level}
+                modules={kelas.modules}
+                duration={kelas.duration}
+                type={kelas.type}
+                price={kelas.price}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>
