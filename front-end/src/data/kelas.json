@@ -53,5 +53,53 @@
       "price": "Rp. 249.000",
       "image":
         "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg"
+    },
+        {
+      "title": "UI/UX Design",
+      "rating": 5.0,
+      "description": "Intro to Basic of User Interaction Design",
+      "instructor": "Simon Doe",
+      "level": "Beginer level",
+      "modules": 5,
+      "duration": "450 Menit",
+      "type": "Gratis",
+      "image":
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg"
+    },
+    {
+      "title": "UI/UX Design",
+      "rating": 4.8,
+      "description": "Menguasai Figma dengan Modern UI Dashboard Design",
+      "instructor": "Simon Doe",
+      "level": "Intermediate level",
+      "modules": 5,
+      "duration": "60 Menit",
+      "type": "Gratis",
+      "image":
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg"
+    },
+    {
+      "title": "UI/UX Design",
+      "rating": 4.9,
+      "description": "Membuat Grid System dengan Figma",
+      "instructor": "Simon Doe",
+      "level": "Advanced level",
+      "modules": 10,
+      "duration": "100 Menit",
+      "type": "Gratis",
+      "image":
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg"
+    },
+    {
+      "title": "UI/UX Design",
+      "rating": 4.8,
+      "description": "Menguasai Figma dengan AutoFlow",
+      "instructor": "Simon Doe",
+      "level": "Intermediate level",
+      "modules": 5,
+      "duration": "60 Menit",
+      "type": "Gratis",
+      "image":
+        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg"
     }
   ]

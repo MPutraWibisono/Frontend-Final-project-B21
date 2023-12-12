@@ -8,7 +8,7 @@ import {
   RegisterPage,
   RegisterOTP,
 } from "./pages/Auth";
-import { CourseClass, FreeClass, PremiumClass } from "./pages/Dashboard";
+import CourseClass from "./pages/Dashboard/";
 import {
   Account,
   ChangePass,
@@ -25,8 +25,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/class" element={<CourseClass />} />
-        <Route path="/premium" element={<PremiumClass />} />
-        <Route path="/free" element={<FreeClass />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/auth/login" element={<LoginPage />} />
         <Route path="/auth/register" element={<RegisterPage />} />
@@ -37,8 +35,8 @@ function App() {
         <Route path="/profile" element={<MyProfile />} />
         <Route path="/changepassword" element={<ChangePass />} />
         <Route path="/purchasehistory" element={<PurchaseHistory />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/kelola-kelas" element={<KelolaKelas />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/dashboard/kelola-kelas" element={<KelolaKelas />} />
       </Routes>
     </BrowserRouter>
   );

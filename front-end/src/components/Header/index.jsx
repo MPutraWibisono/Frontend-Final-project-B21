@@ -1,19 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
-import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+// import { Fragment } from "react";
+// import { Menu, Transition } from "@headlessui/react";
+import { FaListUl, FaRegUser, FaRegBell } from "react-icons/fa6";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import logo from "../../assets/images/logo.png";
-import user from "../../assets/images/user.png";
-import bell from "../../assets/images/bell.png";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 const Header = () => {
-  const [nav, setNav] = useState(false);
+  const [user, setUser] = useState(false);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [state, setState] = useState({
     "id-l16": "",
@@ -28,7 +22,12 @@ const Header = () => {
     "/dashboard",
     "/dashboard/kelola-kelas",
   ];
-  const navbarSearch = ["/"];
+
+  const [activeButton, setActiveButton] = useState("");
+
+  const handleButtonClick = (buttonName) => {
+    setActiveButton(buttonName);
+  };
 
   const handleChange = (evt) => {
     const value = evt.target.value;
@@ -38,23 +37,16 @@ const Header = () => {
     });
   };
 
-  useEffect(() => {
-    const shouldShowNavbar = noNavbar.includes(location.pathname);
-    const shouldShowNavbarSearch = navbarSearch.includes(location.pathname);
+  const shouldShowNavbar = noNavbar.includes(location.pathname);
 
-    if (shouldShowNavbar) {
-      return null; // Tidak menampilkan navbar untuk path tertentu
-    } else if (shouldShowNavbarSearch) {
-      setNav(true); // menampilkan navbar untuk path Homepage
-    } else {
-      setNav(false);
-    }
-  }, []);
+  if (shouldShowNavbar) {
+    return null; // Tidak menampilkan navbar untuk path tertentu
+  }
 
   return (
     <>
       <header className="relative z-20 w-full bg-darkGrayish after:absolute after:top-full after:left-0 after:z-10 after:block after:h-px after:w-full lg:backdrop-blur-sm lg:after:hidden">
-        <div className="relative mx-auto max-w-full px-6 lg:max-w-5xl xl:max-w-7xl 2xl:max-w-[96rem]">
+        <div className="relative mx-auto max-w-full px-8 lg:max-w-8xl 2xl:max-w-[96rem]">
           <nav
             aria-label="main navigation"
             className="flex h-[5.5rem] items-stretch justify-between font-medium text-slate-700"
@@ -108,7 +100,7 @@ const Header = () => {
                   : "invisible opacity-0"
               }`}
             >
-              {nav ? (
+              {user ? (
                 <>
                   {/*    <!-- Component: Rounded large search input  --> */}
                   <div className="relative my-6">
@@ -156,16 +148,11 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <div className="flex items-center ml-auto">
+                  {/* <div className="flex items-center ml-auto">
                     <Menu as="div" className="ml-4">
-                      <Menu.Button className="inline-flex w-25 justify-center gap-x-1.5 rounded-md bg-pinkTone px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-pinkTone hover:bg-pinkTone">
+                      <Menu.Button className="inline-flex w-25 justify-center gap-x-1.5 rounded-md bg-pinkTone px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-pink hover:bg-pink">
                         Kelas
-                        <ChevronDownIcon
-                          className="-mr-1 h-5 w-5 text-white"
-                          aria-hidden="true"
-                        />
                       </Menu.Button>
-
                       <Transition
                         as={Fragment}
                         enter="transition ease-out duration-100"
@@ -209,23 +196,57 @@ const Header = () => {
                             </Menu.Item>
                           </div>
                         </Menu.Items>
-                      </Transition>
+                      </Transition> 
                     </Menu>
-                  </div>
-                  <div className="flex items-center">
-                    <Link to="/account">
-                      <img
-                        className="h-8 w-auto m-3 cursor-pointer"
-                        src={user}
-                        alt="User"
-                      />
+                  </div> */}
+                  <div className="flex items-center gap-2">
+                    <Link
+                      to="/class"
+                      onClick={() => handleButtonClick("class")}
+                      className={`inline-flex w-25 justify-center items-center gap-x-1.5 rounded-md px-3 py-2 text-base font-semibold text-white shadow-sm hover:ring-pinkTone hover:bg-pink group/item ${
+                        activeButton === "class" ? "bg-pinkTone" : ""
+                      }`}
+                    >
+                      <FaListUl />
+                      <span
+                        className={`${
+                          activeButton === "class" ? "block" : "hidden"
+                        }`}
+                      >
+                        Kelas
+                      </span>
                     </Link>
-                    <Link to="/notifications">
-                      <img
-                        className="h-7 w-auto m-3 cursor-pointer"
-                        src={bell}
-                        alt="Bell"
-                      />
+                    <Link
+                      to="/account"
+                      onClick={() => handleButtonClick("account")}
+                      className={`inline-flex w-25 justify-center items-center gap-x-1.5 rounded-md px-3 py-2 text-base font-semibold text-white shadow-sm hover:ring-pinkTone hover:bg-pink group/item ${
+                        activeButton === "account" ? "bg-pinkTone" : ""
+                      }`}
+                    >
+                      <FaRegUser />
+                      <span
+                        className={`${
+                          activeButton === "account" ? "block" : "hidden"
+                        }`}
+                      >
+                        Profile
+                      </span>
+                    </Link>
+                    <Link
+                      to="/notifications"
+                      onClick={() => handleButtonClick("notifications")}
+                      className={`inline-flex w-25 justify-center items-center gap-x-1.5 rounded-md px-3 py-2 text-base font-semibold text-white shadow-sm hover:ring-pinkTone hover:bg-pink group/item ${
+                        activeButton === "notifications" ? "bg-pinkTone" : ""
+                      }`}
+                    >
+                      <FaRegBell />
+                      <span
+                        className={`${
+                          activeButton === "notifications" ? "block" : "hidden"
+                        }`}
+                      >
+                        Notifikasi
+                      </span>
                     </Link>
                   </div>
                 </>

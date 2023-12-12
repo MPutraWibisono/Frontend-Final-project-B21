@@ -159,7 +159,7 @@ const LoginPage = () => {
 
           {/* Login button */}
           <button
-            className="text-white bg-customEmerald01 rounded-lg w-full p-2"
+            className="text-white bg-pinkTone rounded-lg w-full p-2"
             onClick={validasi}
           >
             Masuk

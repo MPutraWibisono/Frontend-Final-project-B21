@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link, useLocation } from "react-router-dom";
 import { BiSearchAlt } from "react-icons/bi";
-import logo2 from "../../assets/images/logo2.png";
+import logo from "../../assets/images/logo.png";
 
 const LayoutDashboard = ({ children }) => {
   const location = useLocation();
@@ -23,8 +23,8 @@ const LayoutDashboard = ({ children }) => {
 
   return (
     <div>
-      <div className="w-[300px] fixed top-0 left-0 h-[100vh] bg-darkBlue05 py-5">
-        <img src={logo2} alt="DemyU" className="w-[150px] mx-auto my-5" />
+      <div className="w-[300px] fixed top-0 left-0 h-[100vh] bg-darkGrayish py-5">
+        <img src={logo} alt="DemyU" className="w-[150px] mx-auto my-5" />
         {sidebar.map((item, index) => (
           <Link
             key={index}
@@ -46,8 +46,8 @@ const LayoutDashboard = ({ children }) => {
         </button>
       </div>
       <section className="ml-[300px]">
-        <div className="w-full bg-darkBlue03/20 flex items-center justify-between px-12 py-5">
-          <h1 className="text-darkBlue05 text-2xl">Hi, Admin!</h1>
+        <div className="w-full bg-darkGrayish/20 flex items-center justify-between px-12 py-5">
+          <h1 className="text-darkGrayish text-2xl">Hi, Admin!</h1>
           <div className="relative">
             <input type="text" placeholder="Cari" className="input w-72 " />
             <div className="absolute right-2 top-1/2 -translate-y-1/2">
