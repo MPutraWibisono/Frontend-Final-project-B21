@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Disclosure } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import {
@@ -7,11 +8,14 @@ import {
   IoCartOutline,
   IoLogOutOutline,
 } from "react-icons/io5";
-import { useState } from "react";
 import { PiEye, PiEyeSlash } from "react-icons/pi";
 
 const ChangePass = () => {
-  const [newPassValue, setNewPassValue] = useState({
+  const [passLamaValue, setPassLamaValue] = useState({
+    password: "",
+    showPass: false,
+  });
+  const [passBaruValue, setPassBaruValue] = useState({
     password: "",
     showPass: false,
   });
@@ -20,16 +24,24 @@ const ChangePass = () => {
     showPass: false,
   });
 
-  const handlePassBaru = (event) => {
-    setNewPassValue({ ...newPassValue, password: event.target.value });
+  const handlePassLama = (event) => {
+    setPassLamaValue({ ...passLamaValue, password: event.target.value });
   };
 
-  const handleUlangiPass = (event) => {
+  const handlePassBaru = (event) => {
+    setPassBaruValue({ ...passBaruValue, password: event.target.value });
+  };
+
+  const handlePass = (event) => {
     setPassValue({ ...passValue, password: event.target.value });
   };
 
+  const toggleVisibility1 = () => {
+    setPassLamaValue({ ...passLamaValue, showPass: !passLamaValue.showPass });
+  };
+
   const toggleVisibility2 = () => {
-    setNewPassValue({ ...newPassValue, showPass: !newPassValue.showPass });
+    setPassBaruValue({ ...passBaruValue, showPass: !passBaruValue.showPass });
   };
 
   const toggleVisibility3 = () => {
@@ -67,8 +79,10 @@ const ChangePass = () => {
   };
 
   const validasi = () => {
-    if (newPassValue.password !== passValue.password) {
-      showAlert("Input Password Salah", "error");
+    if (passLamaValue.password !== passBaruValue.password) {
+      showAlert("Masukkan Password dengan Benar", "error");
+    } else if (passBaruValue.password === passValue.password) {
+      showAlert("Password Baru tidak boleh sama dengan Password Lama", "error");
     } else {
       showAlert("Berhasil Reset Password", "success");
     }
@@ -143,55 +157,82 @@ const ChangePass = () => {
           </div>
 
           {/* Content */}
-          <div className="col-span-3 p-4 flex flex-col items-center">
-            <div className="container mx-auto">
+          <div className="col-span-3 p-4 flex justify-center flex-col items-start">
+            <div className="text-left mx-auto max-w-7xl content-container">
               <div className="text-center">
                 <div className="text-2xl">Ubah Password</div>
               </div>
               <div className="mt-2 relative block mb-4 lg:mb-8">
                 <br />
                 <p className="float-left">Masukkan Password Lama</p>
-                <br />
-              </div>
-              <div className="mt-2 relative block mb-4 lg:mb-8">
-                <br />
-                <p className="float-left">Masukkan Password Baru</p>
+
                 <br />
                 <input
-                  type={newPassValue.showPass ? "text" : "password"}
-                  name="password"
-                  id="passInput2"
-                  placeholder="Password Baru"
+                  type={passLamaValue.showPass ? "text" : "password"}
+                  name="passLama"
+                  id="passInputlama"
+                  placeholder="Password Lama"
                   className="float-left border-2 rounded-2xl w-full p-2 text-black"
-                  value={newPassValue.password}
-                  onChange={handlePassBaru}
+                  value={passLamaValue.password}
+                  onChange={handlePassLama}
                   required
                 />
+
                 <button
                   className="absolute right-4 top-14"
-                  onClick={toggleVisibility2}
+                  onClick={toggleVisibility1}
                 >
-                  {!newPassValue.showPass ? (
+                  {!passLamaValue.showPass ? (
                     <PiEye color="grey" size={30} />
                   ) : (
                     <PiEyeSlash color="grey" size={30} />
                   )}
                 </button>
               </div>
+
+              {/* passbaru */}
               <div className="mt-2 relative block mb-4 lg:mb-8">
                 <br />
-                <p className="float-left">Ulangi Password Baru</p>
+                <p className="float-left">Masukkan Password Baru</p>
+                <br />
+                <input
+                  type={passBaruValue.showPass ? "text" : "password"}
+                  name="passwordBaru"
+                  id="passInputBaru"
+                  placeholder=" Password Baru"
+                  className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                  value={passBaruValue.password}
+                  onChange={handlePassBaru}
+                  required
+                />
+
+                <button
+                  className="absolute right-4 top-14"
+                  onClick={toggleVisibility2}
+                >
+                  {!passBaruValue.showPass ? (
+                    <PiEye color="grey" size={30} />
+                  ) : (
+                    <PiEyeSlash color="grey" size={30} />
+                  )}
+                </button>
+              </div>
+
+              <div className="mt-2 relative block mb-4 lg:mb-8">
+                <br />
+                <p className="float-left">Ulangi Password</p>
                 <br />
                 <input
                   type={passValue.showPass ? "text" : "password"}
-                  name="password"
-                  id="passInput3"
+                  name="ulangiPassword"
+                  id="passInput"
                   placeholder="Ulangi Password"
                   className="float-left border-2 rounded-2xl w-full p-2 text-black"
                   value={passValue.password}
-                  onChange={handleUlangiPass}
+                  onChange={handlePass}
                   required
                 />
+
                 <button
                   className="absolute right-4 top-14"
                   onClick={toggleVisibility3}
@@ -203,12 +244,13 @@ const ChangePass = () => {
                   )}
                 </button>
               </div>
+
               <div className="text-center">
                 <button
                   onClick={validasi}
-                  className="text-sm rounded-3xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
+                  className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
                 >
-                  Ubah Password
+                  Simpan Profil Saya
                 </button>
               </div>
             </div>

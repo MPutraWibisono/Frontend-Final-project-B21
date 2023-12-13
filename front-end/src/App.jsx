@@ -35,9 +35,8 @@ function App() {
         <Route path="/profile" element={<MyProfile />} />
         <Route path="/changepassword" element={<ChangePass />} />
         <Route path="/purchasehistory" element={<PurchaseHistory />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/kelola-kelas" element={<KelolaKelas />} />
-
+        <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/dashboard/kelola-kelas" element={<KelolaKelas />} />
       </Routes>
     </BrowserRouter>
   );
