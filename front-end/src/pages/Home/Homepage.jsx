@@ -42,7 +42,7 @@ const Homepage = () => {
       {/* <Header /> */}
       {/*<!-- Component: Two columns even layout --> */}
       <section className="bg-darkGrayish">
-        <div className=" mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[96rem]">
+        <div className=" mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[120rem]">
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 relative">
             <div
               style={{
