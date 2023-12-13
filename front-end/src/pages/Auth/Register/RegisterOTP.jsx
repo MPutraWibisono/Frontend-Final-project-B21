@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toastNotify } from "../../libs/utils";
+import { toastNotify } from "../../../libs/utils";
+import logo4 from "../../../assets/images/logo4.png";
 
 const RegisterOTP = () => {
   const navigate = useNavigate();
@@ -103,10 +103,10 @@ const RegisterOTP = () => {
         </form>
       </div>
 
-      <div className="bg-customLime01 h-full w-full relative lg:block hidden">
+      <div className="bg-paleOrange h-full w-full relative lg:block hidden">
         <Link to="/">
           <img
-            src="/logo (2).png"
+            src={logo4}
             alt="DemyU Course"
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           />

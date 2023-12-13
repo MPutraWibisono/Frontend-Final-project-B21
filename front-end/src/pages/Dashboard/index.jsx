@@ -1,5 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import CourseCard from "../../components/CourseCard";
+import kelas from "../../data/kelas.json";
+import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
@@ -21,39 +24,11 @@ const FilterSection = ({ title, options, handleCheckboxChange }) => (
     ))}
   </div>
 );
-const FreeClass = () => {
-  const initialFilterOptions = [
-    {
-      title: "Filter",
-      options: [
-        { label: "Paling Baru", checked: false },
-        { label: "Paling Populer", checked: false },
-        { label: "Promo", checked: false },
-      ],
-    },
-    {
-      title: "Kategori",
-      options: [
-        { label: "UI/UX Design" },
-        { label: "Web Development" },
-        { label: "Android Development" },
-        { label: "Data Science" },
-        { label: "Business Intelligence" },
-      ],
-    },
-    {
-      title: "Level Kesulitan",
-      options: [
-        { label: "Beginner Level" },
-        { label: "Intermediate Level 1" },
-        { label: "Advance Level" },
-      ],
-    },
-  ];
 
-  const [selectedFilter, setSelectedFilter] = useState("Gratis");
+const Kelas = () => {
+  const [filterOptions, setFilterOptions] = useState(filtered);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterOptions, setFilterOptions] = useState(initialFilterOptions);
+  const [selectedFilter, setSelectedFilter] = useState("All");
 
   const handleCheckboxChange = (sectionTitle, optionLabel) => {
     setFilterOptions((prevOptions) =>
@@ -73,6 +48,7 @@ const FreeClass = () => {
       )
     );
   };
+
   // cari by query
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -80,7 +56,7 @@ const FreeClass = () => {
 
   // mereset filter
   const resetFilters = () => {
-    setFilterOptions(initialFilterOptions);
+    setFilterOptions(filtered);
   };
 
   const handleDeleteFilter = () => {
@@ -98,57 +74,6 @@ const FreeClass = () => {
   const handleClassFree = () => {
     setSelectedFilter("Gratis");
   };
-
-  const kelas = [
-    {
-      title: "UI/UX Design",
-      rating: 5.0,
-      description: "Intro to Basic of User Interaction Design",
-      instructor: "Simon Doe",
-      level: "Beginer level",
-      modules: 5,
-      duration: "450 Menit",
-      type: "Gratis",
-      image:
-        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
-    },
-    {
-      title: "UI/UX Design",
-      rating: 4.8,
-      description: "Menguasai Figma dengan Modern UI Dashboard Design",
-      instructor: "Simon Doe",
-      level: "Intermediate level",
-      modules: 5,
-      duration: "60 Menit",
-      type: "Gratis",
-      image:
-        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
-    },
-    {
-      title: "UI/UX Design",
-      rating: 4.9,
-      description: "Membuat Grid System dengan Figma",
-      instructor: "Simon Doe",
-      level: "Advanced level",
-      modules: 10,
-      duration: "100 Menit",
-      type: "Gratis",
-      image:
-        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
-    },
-    {
-      title: "UI/UX Design",
-      rating: 4.8,
-      description: "Menguasai Figma dengan AutoFlow",
-      instructor: "Simon Doe",
-      level: "Intermediate level",
-      modules: 5,
-      duration: "60 Menit",
-      type: "Gratis",
-      image:
-        "https://minervainfotech.com/blog/wp-content/uploads/2019/09/Untitled-6-1920x1280.jpg",
-    },
-  ];
 
   const filteredClasses = kelas.filter((kelas) => {
     // filter by kelas & kategori yg dipilih
@@ -180,6 +105,23 @@ const FreeClass = () => {
 
     return false;
   });
+
+  // let sortedItems;
+
+  // switch (selectedFilter) {
+  //   case "Premium":
+  //     sortedItems = filteredClasses.filter((item) => item.type === "Premium");
+  //     break;
+  //   case "Gratis":
+  //     sortedItems = filteredClasses.filter((item) => item.type === "Gratis");
+  //     break;
+  //   default:
+  //     sortedItems = filteredClasses;
+  //     break;
+  // }
+
+  // console.log(filteredClasses);
+
   return (
     <div className="bg-paleOrange text-white">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">
@@ -246,47 +188,21 @@ const FreeClass = () => {
             </button>
           </div>
 
-          <div className="flex flex-wrap justify-around">
+          <div className="flex flex-wrap justify-around gap-5 p-2">
             {filteredClasses.map((kelas, index) => (
-              <div
+              <CourseCard
                 key={index}
-                className="w-full lg:w-2/5 mb-8 overflow-hidden rounded bg-white text-slate-500 shadow-md shadow-slate-200"
-              >
-                <figure>
-                  <img
-                    src={kelas.image}
-                    alt="card image"
-                    className="aspect-video w-full"
-                  />
-                </figure>
-
-                <div className="p-6">
-                  <header className="mb-4">
-                    <div className="flex justify-between items-center">
-                      <h3 className="text-xl font-bold text-slate-700">
-                        {kelas.title}
-                      </h3>
-                      <p className="text-slate-500">⭐ {kelas.rating}</p>
-                    </div>
-                    <p className="text-md font-normal text-slate-700">
-                      {kelas.description}
-                    </p>
-                    <p className="text-sm text-slate-400">
-                      {" "}
-                      By {kelas.instructor}
-                    </p>
-                  </header>
-                  <div className="flex justify-between ">
-                    <p>💡{kelas.level}</p>
-                    <p>🧾{kelas.modules} Modul</p>
-                    <p>⏳{kelas.duration}</p>
-                  </div>
-
-                  <button className="inline-flex m-3 h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-pinkTone px-4 text-xs font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 focus:bg-red-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pink01 disabled:bg-pink01 disabled:shadow-none">
-                    <span className="order-2">Mulai Kelas</span>
-                  </button>
-                </div>
-              </div>
+                image={kelas.image}
+                title={kelas.title}
+                rating={kelas.rating}
+                description={kelas.description}
+                instructor={kelas.instructor}
+                level={kelas.level}
+                modules={kelas.modules}
+                duration={kelas.duration}
+                type={kelas.type}
+                price={kelas.price}
+              />
             ))}
           </div>
         </div>
@@ -306,4 +222,4 @@ FilterSection.propTypes = {
   handleCheckboxChange: PropTypes.func.isRequired,
 };
 
-export default FreeClass;
+export default Kelas;

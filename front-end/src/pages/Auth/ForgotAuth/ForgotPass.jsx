@@ -3,6 +3,7 @@ import { useState } from "react";
 import { PiEye } from "react-icons/pi";
 import { PiEyeSlash } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import logo4 from "../../../assets/images/logo4.png";
 
 const ForgotPass = () => {
   //useState untuk password
@@ -152,10 +153,10 @@ const ForgotPass = () => {
       </div>
 
       {/* Bagian Kanan */}
-      <div className="bg-customLime01 p-8 lg:p-16 w-full lg:w-[45%] h-[100vh] flex items-center justify-center hidden lg:flex">
+      <div className="bg-paleOrange p-8 lg:p-16 w-full lg:w-[45%] h-[100vh] flex items-center justify-center hidden lg:flex">
         <Link to="/">
           <img
-            src="/logo (2).png"
+            src={logo4}
             alt="DemyU Course"
             className="mx-auto w-full"
             width={300}
