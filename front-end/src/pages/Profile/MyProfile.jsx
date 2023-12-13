@@ -8,6 +8,7 @@ import {
   IoLogOutOutline,
 } from "react-icons/io5";
 import PropTypes from "prop-types";
+import profile from "../../assets/images/profile.png";
 
 function InputForm({ label, id, type, placeholder }) {
   return (
@@ -102,7 +103,7 @@ const Account = () => {
             <div className="text-left mx-auto max-w-7xl">
               <div className="text-center">
                 <img
-                  src="/profile.png"
+                  src={profile}
                   className="w-20 mx-auto block"
                   alt="profile"
                 />
