@@ -17,8 +17,8 @@ const Header = () => {
     "/auth/register/otp",
     "/auth/resetpassword",
     "/auth/otp",
-    "/dashboard",
-    "/dashboard/kelola-kelas",
+    "/admin/dashboard",
+    "/admin/dashboard/kelola-kelas",
   ];
 
   const [activeButton, setActiveButton] = useState("class");

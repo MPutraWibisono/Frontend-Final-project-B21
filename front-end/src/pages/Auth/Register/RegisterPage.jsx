@@ -214,7 +214,7 @@ const RegisterPage = () => {
 
           <button
             type="submit"
-            className="btn bg-customEmerald01 text-slate-100 self-center w-full "
+            className="btn bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full "
           >
             Daftar
           </button>

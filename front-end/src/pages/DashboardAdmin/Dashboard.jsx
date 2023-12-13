@@ -98,7 +98,7 @@ const Dashboard = () => {
       <div className="overflow-x-auto mt-10 flex flex-col space-y-4">
         <div className="flex items-center justify-between">
           <p className="text-xl font-semibold">Status Pembayaran</p>
-          <button className="flex items-center btn btn-outline btn-success rounded-full">
+          <button className="flex items-center btn btn-sm btn-outline btn-primary rounded-full">
             <TbFilter className="h-6 w-6 " />
             <p className="font-medium">Filter</p>
           </button>
