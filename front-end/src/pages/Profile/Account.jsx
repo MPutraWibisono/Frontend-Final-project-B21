@@ -88,7 +88,7 @@ const Account = () => {
                 style={{ marginTop: "2rem" }}
                 className="text-1xl flex items-center justify-between border-b"
               >
-                <Link to="/logout">
+                <Link to="/">
                   <div className="flex items-center ">
                     <IoLogOutOutline className="text-pinkTone mr-2" />
                     <span>Keluar</span>

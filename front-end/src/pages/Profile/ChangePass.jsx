@@ -146,7 +146,7 @@ const ChangePass = () => {
                 style={{ marginTop: "2rem" }}
                 className="text-1xl flex items-center justify-between border-b"
               >
-                <Link to="/logout">
+                <Link to="/">
                   <div className="flex items-center ">
                     <IoLogOutOutline className="text-pinkTone mr-2" />
                     <span>Keluar</span>
@@ -252,7 +252,7 @@ const ChangePass = () => {
                     onClick={validasi}
                     className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
                   >
-                    Simpan Profil Saya
+                    Ubah Password
                   </button>
                 </div>
               </div>
