@@ -97,9 +97,9 @@ const LoginPage = () => {
   return (
     <div className=" flex flex-col lg:flex-row w-full min-h-screen">
       {/* Bagian Kiri */}
-      <div className="bg-white p-8 lg:p-16 lg:w-2/3 flex items-center justify-center    overflow-hidden">
+      <div className="bg-white p-8 lg:p-16 lg:w-2/3 flex items-center justify-center overflow-hidden">
         <div className="w-full lg:w-2/3 text-black">
-          <h1 className="font-bold text-[28px] text-customEmerald01 lg:mb-12 text-left">
+          <h1 className="font-bold text-[28px] text-darkGrayish lg:mb-12 text-left">
             Masuk
           </h1>
 
@@ -127,7 +127,7 @@ const LoginPage = () => {
             <p className="float-left">Password</p>
 
             <p className="float-right">
-              <Link to="/auth/otp" className="text-customGreen01 font-medium">
+              <Link to="/auth/otp" className="text-darkGrayish font-medium">
                 Lupa Kata Sandi
               </Link>
             </p>
@@ -168,7 +168,7 @@ const LoginPage = () => {
 
           <p className="text-black items-center text-center mt-6">
             Belum punya akun?{" "}
-            <Link to="/auth/register" className="text-customGreen01 font-bold">
+            <Link to="/auth/register" className="text-darkGrayish font-bold">
               Daftar di sini
             </Link>
           </p>

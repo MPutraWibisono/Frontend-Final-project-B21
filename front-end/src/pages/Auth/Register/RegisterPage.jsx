@@ -42,19 +42,19 @@ const RegisterPage = () => {
   });
 
   return (
-    <section className="h-[100vh] w-full grid lg:grid-cols-2 grid-cols-1 ">
-      <div className="flex items-start flex-col justify-center w-full lg:px-32 md:px-16 px-5 lg:py-0 py-10 lg:bg-transparent bg-customEmerald01/10">
-        <h1 className="font-bold lg:text-4xl text-3xl text-customEmerald01 ">
+    <div className="lg:h-screen w-full grid lg:grid-cols-2 grid-cols-1 bg-paleOrange">
+      <div className="flex items-start flex-col justify-center w-full lg:px-32 md:px-16 px-5 lg:py-0 py-10 lg:bg-paleWhite bg-darkGrayish/10">
+        <h1 className="font-bold lg:text-4xl text-3xl text-darkGrayish mt-4">
           Daftar
         </h1>
         <form
-          className="w-full flex flex-col gap-4 my-6"
+          className="w-full flex flex-col gap-3 mt-3"
           onSubmit={formik.handleSubmit}
         >
           <label className="form-control w-full relative">
             <div className="label">
               <span
-                className={`lg:text-lg text-base font-medium ${
+                className={`lg:text-base text-base font-medium ${
                   formik.errors.nama && formik.touched.nama && "text-red-500"
                 }`}
               >
@@ -64,7 +64,7 @@ const RegisterPage = () => {
             <input
               type="text"
               placeholder="Nama Lengkap"
-              className={`input input-bordered w-full ${
+              className={`input input-bordered w-full h-10 ${
                 formik.errors.nama && formik.touched.nama && "input-error"
               }`}
               name="nama"
@@ -83,7 +83,7 @@ const RegisterPage = () => {
           <label className="form-control w-full relative">
             <div className="label">
               <span
-                className={`lg:text-lg text-base font-medium ${
+                className={`lg:text-base text-base font-medium ${
                   formik.errors.email && formik.touched.email && "text-red-500"
                 }`}
               >
@@ -93,7 +93,7 @@ const RegisterPage = () => {
             <input
               type="email"
               placeholder="Contoh: johndee@gmail.com"
-              className={`input input-bordered w-full ${
+              className={`input input-bordered w-full h-10 ${
                 formik.errors.email && formik.touched.email && "input-error"
               }`}
               name="email"
@@ -112,7 +112,7 @@ const RegisterPage = () => {
           <label className="form-control w-full relative">
             <div className="label">
               <span
-                className={`lg:text-lg text-base font-medium ${
+                className={`lg:text-base text-base font-medium ${
                   formik.errors.nomorTelepon &&
                   formik.touched.nomorTelepon &&
                   "text-red-500"
@@ -124,7 +124,7 @@ const RegisterPage = () => {
             <input
               type="text"
               placeholder="Contoh: +62.."
-              className={`input input-bordered w-full ${
+              className={`input input-bordered w-full h-10 ${
                 formik.errors.nomorTelepon &&
                 formik.touched.nomorTelepon &&
                 "input-error"
@@ -145,7 +145,7 @@ const RegisterPage = () => {
           <label className="form-control w-full relative">
             <div className="label">
               <span
-                className={`lg:text-lg text-base font-medium ${
+                className={`lg:text-base text-base font-medium ${
                   formik.errors.password &&
                   formik.touched.password &&
                   "text-red-500"
@@ -157,7 +157,7 @@ const RegisterPage = () => {
             <input
               type="password"
               placeholder="Masukkan Password"
-              className={`input input-bordered w-full ${
+              className={`input input-bordered w-full h-10 ${
                 formik.errors.password &&
                 formik.touched.password &&
                 "input-error"
@@ -178,7 +178,7 @@ const RegisterPage = () => {
           <label className="form-control w-full relative">
             <div className="label">
               <span
-                className={`lg:text-lg text-base font-medium ${
+                className={`lg:text-base text-base font-medium ${
                   formik.errors.konfirmasiPassword &&
                   formik.touched.konfirmasiPassword &&
                   "text-red-500"
@@ -190,7 +190,7 @@ const RegisterPage = () => {
             <input
               type="password"
               placeholder="Konfirmasi Password"
-              className={`input input-bordered w-full ${
+              className={`input input-bordered w-full h-10 ${
                 formik.errors.konfirmasiPassword &&
                 formik.touched.konfirmasiPassword &&
                 "input-error"
@@ -214,20 +214,20 @@ const RegisterPage = () => {
 
           <button
             type="submit"
-            className="btn bg-customEmerald01 text-slate-100 self-center w-full "
+            className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full "
           >
             Daftar
           </button>
         </form>
-        <p className="font-medium text-center w-full">
-          Sudah punya akun?{" "}
-          <span className="font-bold text-customGreen01">
+        <p className="font-medium text-center w-full pt-3">
+          Sudah punya akun?
+          <span className="font-bold text-darkGrayish">
             <Link to="/auth/login">Masuk di sini</Link>
           </span>
         </p>
       </div>
 
-      <div className="bg-paleOrange h-full w-full relative lg:block hidden">
+      <div className=" h-full w-full relative lg:block hidden">
         <Link to="/">
           <img
             src={logo4}
@@ -236,7 +236,7 @@ const RegisterPage = () => {
           />
         </Link>
       </div>
-    </section>
+    </div>
   );
 };
 

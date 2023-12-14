@@ -56,7 +56,7 @@ const Homepage = () => {
               <h1 className="pb-4 text-paleWhite">
                 Belajar dari Praktisi Terbaik
               </h1>
-              <Link to="/auth/login">
+              <Link to="/class">
                 <button className="inline-flex items-center justify-center h-12 gap-2 px-6 text-sm font-medium tracking-wide text-darkRed transition duration-300 rounded-[20px] whitespace-nowrap bg-slate-100 hover:bg-slate-400 focus:bg-slate-600 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-300 disabled:shadow-none">
                   <span>IKUTI KELAS</span>
                 </button>
@@ -184,16 +184,16 @@ const Homepage = () => {
         <div className="mx-8">
           <div className="px-5 flex space-x-3 overflow-x-auto touch-pan-x">
             {/*<!-- Component: Small primary basic button --> */}
-            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
+            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pink focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
               <span>All</span>
             </button>
-            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
+            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pink focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
               <span>UI/UX</span>
             </button>
-            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
+            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pink focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
               <span>IOS Development</span>
             </button>
-            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pinkTone/80 focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
+            <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pink focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
               <span>Data Science</span>
             </button>
             {/*<!-- End Small primary basic button --> */}
@@ -201,19 +201,20 @@ const Homepage = () => {
 
           <div className="flex justify-center items-center flex-wrap p-2 gap-5">
             {kelas.map((kelas) => (
-              <CourseCard
-                key={kelas.id}
-                image={kelas.image}
-                title={kelas.title}
-                rating={kelas.rating}
-                description={kelas.description}
-                instructor={kelas.instructor}
-                level={kelas.level}
-                modules={kelas.modules}
-                duration={kelas.duration}
-                type={kelas.type}
-                price={kelas.price}
-              />
+              <div className="w-2/5" key={kelas.id}>
+                <CourseCard
+                  image={kelas.image}
+                  title={kelas.title}
+                  rating={kelas.rating}
+                  description={kelas.description}
+                  instructor={kelas.instructor}
+                  level={kelas.level}
+                  modules={kelas.modules}
+                  duration={kelas.duration}
+                  type={kelas.type}
+                  price={kelas.price}
+                />
+              </div>
             ))}
           </div>
         </div>

@@ -4,10 +4,12 @@ import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
 import { IoIosCheckmarkCircleOutline, IoIosStar } from "react-icons/io";
 import { FaCirclePlay } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import Modal from "../../components/Modals";
 
 const Detail = () => {
   return (
     <>
+      <Modal />
       <div className="bg-paleOrange">
         <div className="relative mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[96rem]">
           <div className="grid grid-cols-10 grid-rows-10">

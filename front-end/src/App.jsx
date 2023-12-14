@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import Homepage from "./pages/Home/Homepage";
+import Homepage from "./pages/Home";
 import {
   ForgotOTP,
   ForgotPass,
@@ -15,7 +15,7 @@ import {
   MyProfile,
   PurchaseHistory,
 } from "./pages/Profile";
-import Detail from "./pages/DetailPage/Detail";
+import Detail from "./pages/DetailPage";
 import { Dashboard, KelolaKelas } from "./pages/DashboardAdmin";
 
 function App() {

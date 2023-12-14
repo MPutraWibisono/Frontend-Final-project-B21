@@ -106,22 +106,6 @@ const Kelas = () => {
     return false;
   });
 
-  // let sortedItems;
-
-  // switch (selectedFilter) {
-  //   case "Premium":
-  //     sortedItems = filteredClasses.filter((item) => item.type === "Premium");
-  //     break;
-  //   case "Gratis":
-  //     sortedItems = filteredClasses.filter((item) => item.type === "Gratis");
-  //     break;
-  //   default:
-  //     sortedItems = filteredClasses;
-  //     break;
-  // }
-
-  // console.log(filteredClasses);
-
   return (
     <div className="bg-paleOrange text-white">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">
@@ -170,39 +154,40 @@ const Kelas = () => {
           <div className="flex justify-center space-x-4 mb-4">
             <button
               onClick={handleClassAll}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 hover:text-white focus:bg-red-400 focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
+              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pink/70 hover:text-white focus:bg-pink focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
             >
               <span>All</span>
             </button>
             <button
               onClick={handleClassPremium}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 hover:text-white focus:bg-red-400 focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
+              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pink/70 hover:text-white focus:bg-pink focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
             >
               <span>Kelas Premium</span>
             </button>
             <button
               onClick={handleClassFree}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 hover:text-white focus:bg-red-400 focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
+              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pink/70 hover:text-white focus:bg-pink focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
             >
               <span>Kelas Gratis</span>
             </button>
           </div>
 
-          <div className="flex flex-wrap justify-around gap-5 p-2">
+          <div className="flex flex-row flex-wrap justify-around gap-5 p-2">
             {filteredClasses.map((kelas, index) => (
-              <CourseCard
-                key={index}
-                image={kelas.image}
-                title={kelas.title}
-                rating={kelas.rating}
-                description={kelas.description}
-                instructor={kelas.instructor}
-                level={kelas.level}
-                modules={kelas.modules}
-                duration={kelas.duration}
-                type={kelas.type}
-                price={kelas.price}
-              />
+              <div className="w-2/5" key={index}>
+                <CourseCard
+                  image={kelas.image}
+                  title={kelas.title}
+                  rating={kelas.rating}
+                  description={kelas.description}
+                  instructor={kelas.instructor}
+                  level={kelas.level}
+                  modules={kelas.modules}
+                  duration={kelas.duration}
+                  type={kelas.type}
+                  price={kelas.price}
+                />
+              </div>
             ))}
           </div>
         </div>

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import logo from "../../assets/images/logo.png";
 
 const Header = () => {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(true);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [state, setState] = useState({
     "id-l16": "",
