@@ -1,0 +1,28 @@
+[
+    {
+    "title": "Filter",
+    "options": [
+        { "label": "Paling Baru", "checked": false },
+        { "label": "Paling Populer", "checked": false },
+        { "label": "Promo", "checked": false }
+    ]
+    },
+    {
+    "title": "Kategori",
+    "options": [
+        { "label": "UI/UX Design", "checked": false },
+        { "label": "Web Development", "checked": false },
+        { "label": "Android Development", "checked": false },
+        { "label": "Data Science", "checked": false },
+        { "label": "Business Intelligence", "checked": false }
+    ]
+    },
+    {
+    "title": "Level Kesulitan",
+    "options": [
+        { "label": "Beginner Level", "checked": false },
+        { "label": "Intermediate Level 1", "checked": false },
+        { "label": "Advance Level", "checked": false }
+    ]
+    }
+]
