@@ -33,6 +33,7 @@ const LoginPage = () => {
     const tempatAlert = document.querySelector(".tempatAlert");
     const alertElement = document.createElement("div");
     alertElement.classList.add("custom-alert");
+    alertElement.classList.add("absolute");
     alertElement.classList.add("text-white");
     alertElement.classList.add("rounded-lg");
     alertElement.classList.add("w-[250px]");
