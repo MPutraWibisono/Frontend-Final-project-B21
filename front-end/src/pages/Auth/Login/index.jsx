@@ -95,24 +95,23 @@ const LoginPage = () => {
     }
   };
   return (
-    <div className=" flex flex-col lg:flex-row w-full min-h-screen">
+    <div className=" flex flex-col lg:flex-row w-full min-h-screen mx-auto max-w-7xl lg:max-w-[96rem]">
       {/* Bagian Kiri */}
-      <div className="bg-white p-8 lg:p-16 lg:w-2/3 flex items-center justify-center overflow-hidden">
-        <div className="w-full lg:w-2/3 text-black">
-          <h1 className="font-bold text-[28px] text-darkGrayish lg:mb-12 text-left">
+      <div className="bg-white w-full p-8 lg:p-16 flex items-center justify-center overflow-hidden">
+        <div className="w-full sm:w-2/3 lg:w-2/3 text-black">
+          <h1 className="font-bold text-[28px] text-darkGrayish lg:mb-12 text-center mb-6">
             Masuk
           </h1>
 
           {/* Email/No telp */}
-          <div className="mb-4 lg:mb-8">
-            <p className="float-left">Email/No Telpon</p>
-            <br />
+          <div className="flex flex-col">
+            <p className="float-left pb-1 font-medium">Email/No Telpon</p>
             <input
               type="text"
               name="Email"
               placeholder="Contoh: johndoe@gmail.com"
               id="emailInput"
-              className="emailInput float-left  border-2 rounded-2xl w-full p-2 text-black"
+              className="emailInput float-left border rounded-xl w-full p-2 text-black mb-4"
               value={Email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -122,44 +121,45 @@ const LoginPage = () => {
           </div>
 
           {/* PASSWORD */}
-          <div className="mt-2 relative block mb-4 lg:mb-8">
-            <br />
-            <p className="float-left">Password</p>
-
-            <p className="float-right">
-              <Link to="/auth/otp" className="text-darkGrayish font-medium">
-                Lupa Kata Sandi
-              </Link>
-            </p>
-            <br />
-            <input
-              type={passValue.showPass ? "text" : "password"}
-              name="password"
-              id="passInput"
-              placeholder="Password"
-              className="float-left border-2 rounded-2xl w-full p-2 text-black"
-              value={passValue.password}
-              onChange={handlePass}
-              required
-            />
-
-            <button
-              className="absolute right-4 top-14"
-              onClick={toggleVisibility}
-            >
-              {!passValue.showPass ? (
-                <PiEye color="grey" size={30} />
-              ) : (
-                <PiEyeSlash color="grey" size={30} />
-              )}
-            </button>
+          <div className="flex flex-col mt">
+            <div>
+              <p className="float-left pb-1 font-medium">Password</p>
+              <p className="float-right">
+                <Link
+                  to="/auth/otp"
+                  className="text-darkGrayish font-medium text-xs"
+                >
+                  Lupa Kata Sandi
+                </Link>
+              </p>
+            </div>
+            <div className="relative">
+              <input
+                type={passValue.showPass ? "text" : "password"}
+                name="password"
+                id="passInput"
+                placeholder="Password"
+                className="float-left border rounded-xl w-full p-2 text-black mb-6"
+                value={passValue.password}
+                onChange={handlePass}
+                required
+              />
+              <button
+                className="absolute right-3 top-1.5"
+                onClick={toggleVisibility}
+              >
+                {!passValue.showPass ? (
+                  <PiEye color="grey" size={30} />
+                ) : (
+                  <PiEyeSlash color="grey" size={30} />
+                )}
+              </button>
+            </div>
           </div>
-          <br />
-          <br />
 
           {/* Login button */}
           <button
-            className="text-white bg-pinkTone rounded-lg w-full p-2"
+            className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full"
             onClick={validasi}
           >
             Masuk
@@ -179,7 +179,7 @@ const LoginPage = () => {
       </div>
 
       {/* Bagian Kanan */}
-      <div className="bg-paleOrange p-8 lg:p-16 w-full lg:w-[45%] h-[100vh] flex items-center justify-center hidden lg:flex">
+      <div className="bg-paleOrange w-10/12 flex items-center justify-center hidden lg:flex">
         <Link to="/">
           <img
             src={logo4}

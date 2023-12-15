@@ -70,11 +70,11 @@ const ForgotPass = () => {
     }
   };
   return (
-    <div className=" flex flex-col lg:flex-row w-full min-h-screen">
+    <div className="flex flex-col lg:flex-row w-full min-h-screen mx-auto max-w-7xl lg:max-w-[96rem]">
       {/* Bagian Kiri */}
-      <div className="bg-white p-8 lg:p-16 lg:w-2/3 flex items-center justify-center    overflow-hidden">
+      <div className="bg-white w-full p-8 lg:p-16 flex items-center justify-center overflow-hidden">
         <div className="w-full lg:w-2/3 text-black">
-          <h1 className="font-bold text-[28px] text-customEmerald01 lg:mb-12 text-left">
+          <h1 className="font-bold text-[28px] text-darkGrayish lg:mb-12 text-center mb-6">
             Reset Password
           </h1>
 
@@ -140,7 +140,7 @@ const ForgotPass = () => {
 
           {/* Login button */}
           <button
-            className="text-white bg-customEmerald01 rounded-lg w-full p-2"
+            className="text-white bg-pinkTone hover:bg-pinkTone/80 rounded-lg w-full p-2"
             onClick={validasi}
           >
             Simpan
@@ -153,15 +153,9 @@ const ForgotPass = () => {
       </div>
 
       {/* Bagian Kanan */}
-      <div className="bg-paleOrange p-8 lg:p-16 w-full lg:w-[45%] h-[100vh] flex items-center justify-center hidden lg:flex">
+      <div className=" bg-paleOrange w-10/12 flex items-center justify-center hidden lg:flex">
         <Link to="/">
-          <img
-            src={logo4}
-            alt="DemyU Course"
-            className="mx-auto w-full"
-            width={300}
-            height={300}
-          />
+          <img src={logo4} alt="DemyU Course" className="mx-auto w-full" />
         </Link>
       </div>
     </div>

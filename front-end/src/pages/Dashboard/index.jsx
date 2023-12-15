@@ -4,6 +4,7 @@ import CourseCard from "../../components/CourseCard";
 import kelas from "../../data/kelas.json";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
+// import DropdownBasic from "../../components/Dropdown";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
   <div className="container p-1 rounded" style={{ marginTop: "20px" }}>
@@ -109,11 +110,12 @@ const Kelas = () => {
   return (
     <div className="bg-paleOrange text-white">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">
-        <div
-          className="lg:w-1/4 overflow-hidden rounded bg-white text-black mr-4"
-          style={{ marginTop: "80px" }}
-        >
-          <div className="container mx-auto p-4 flex flex-col space-y-4">
+        <div className="lg:w-1/4 overflow-hidden rounded text-black mr-4">
+          <div className="text-3xl font-bold text-black my-7 text-center lg:text-start">
+            Topik Kelas
+          </div>
+          <div className="container mx-auto p-4 flex flex-col space-y-4 bg-white md:overflow-visible overflow-y-auto h-32 md:h-fit">
+            {/* hidden md:block */}
             {filterOptions.map((filter) => (
               <FilterSection
                 key={filter.title}
@@ -128,22 +130,26 @@ const Kelas = () => {
               Hapus Filter
             </button>
           </div>
+          {/* <div className="block md:hidden">
+          {filterOptions.map((filter) => (
+            <DropdownBasic
+              key={filter.title}
+              {...filter}
+              handleCheckboxChange={handleCheckboxChange}
+            />
+          ))}
+          
+        </div> */}
         </div>
-
         <div className="container mx-auto p-4 flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <div className="self-start">
-              <div className="text-3xl font-bold text-black mb-2">
-                Topik Kelas
-              </div>
-            </div>
+          <div className="flex items-center justify-between mb-4 mx-auto md:mx-0 md:ms-auto">
             <div className="relative flex items-center">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Cari kelas..."
-                className="p-2 rounded border border-pinkTone text-black pl-8"
+                className="p-2 rounded border border-pinkTone text-black"
               />
               <div className="absolute right-2 ">
                 <IoSearch className="h-6 w-6 text-pinkTone" />
@@ -151,7 +157,7 @@ const Kelas = () => {
             </div>
           </div>
 
-          <div className="flex justify-center space-x-4 mb-4">
+          <div className="flex justify-center space-x-4 mb-4 overflow-x-auto py-3">
             <button
               onClick={handleClassAll}
               className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pink/70 hover:text-white focus:bg-pink focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
@@ -174,7 +180,7 @@ const Kelas = () => {
 
           <div className="flex flex-row flex-wrap justify-around gap-5 p-2">
             {filteredClasses.map((kelas, index) => (
-              <div className="w-2/5" key={index}>
+              <div className="md:w-2/5 w-full" key={index}>
                 <CourseCard
                   image={kelas.image}
                   title={kelas.title}

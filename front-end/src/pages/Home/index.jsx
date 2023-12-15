@@ -23,8 +23,11 @@ const Homepage = () => {
         },
       },
       breakpoints: {
-        640: {
-          perView: 3,
+        400: {
+          perView: 1,
+        },
+        620: {
+          perView: 2,
         },
         768: {
           perView: 4,
@@ -81,11 +84,11 @@ const Homepage = () => {
             <ul className="whitespace-no-wrap  flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
               <li>
                 <Link to="/">
-                  <div className="h-2/3 lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400 ">
+                  <div className=" lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400 ">
                     <img
                       src={andro}
                       alt="Android Dev"
-                      className="h-full w-full object-none object-center"
+                      className="w-full object-cover object-center h-32 sm:h-24 md:h-24 lg:h-28 xl:h-40 2xl:h-52"
                     />
                   </div>
                   <p className="text-center pt-2 text-xs md:text-base">
@@ -95,11 +98,11 @@ const Homepage = () => {
               </li>
               <li>
                 <Link to="/">
-                  <div className="h-2/3 lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400">
+                  <div className=" lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400">
                     <img
                       src={uiux}
                       alt="UI/UX Design"
-                      className="h-full w-full object-none object-center"
+                      className="w-full object-cover object-center h-32 sm:h-24 md:h-24 lg:h-28 xl:h-40 2xl:h-52"
                     />
                   </div>
                   <p className="text-center pt-2 text-xs md:text-base">
@@ -109,11 +112,11 @@ const Homepage = () => {
               </li>
               <li>
                 <Link to="/">
-                  <div className="h-2/3 lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400">
+                  <div className=" lg:max-h-80 overflow-hidden rounded-[13px] shadow-md shadow-slate-400">
                     <img
                       src={datas}
                       alt="Data Science"
-                      className="h-full w-full object-none object-center"
+                      className="w-full object-cover object-center h-32 sm:h-24 md:h-24 lg:h-28 xl:h-40 2xl:h-52"
                     />
                   </div>
                   <p className="text-center pt-2 text-xs md:text-base">
@@ -125,7 +128,7 @@ const Homepage = () => {
           </div>
           {/*    <!-- Controls --> */}
           <div
-            className="absolute left-0 top-1/2 flex h-0 w-full items-center justify-between px-4 "
+            className="absolute left-0 top-32 xl:top-40 flex h-0 w-full items-center justify-between px-4 "
             data-glide-el="controls"
           >
             <button
@@ -182,7 +185,7 @@ const Homepage = () => {
           </Link>
         </div>
         <div className="mx-8">
-          <div className="px-5 flex space-x-3 overflow-x-auto touch-pan-x">
+          <div className="p-5 flex space-x-3 overflow-x-auto touch-pan-x">
             {/*<!-- Component: Small primary basic button --> */}
             <button className="inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-pinkTone hover:bg-pink focus:bg-pinkTone disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish">
               <span>All</span>
@@ -201,7 +204,7 @@ const Homepage = () => {
 
           <div className="flex justify-center items-center flex-wrap p-2 gap-5">
             {kelas.map((kelas) => (
-              <div className="w-2/5" key={kelas.id}>
+              <div className="md:w-2/5 w-full" key={kelas.id}>
                 <CourseCard
                   image={kelas.image}
                   title={kelas.title}

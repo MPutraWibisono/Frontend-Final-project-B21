@@ -22,7 +22,7 @@ const CourseCard = ({
           <img src={image} alt="card image" className="aspect-video w-full" />
         </figure>
         {/*  <!-- Body--> */}
-        <div className="p-6 h-60 grid content-between">
+        <div className="p-6 lg:h-72 xl:h-60 h-80 grid content-between">
           <header className="">
             <div className="flex">
               <h3 className="text-xl font-bold text-slate-700 w-4/5">
@@ -33,16 +33,27 @@ const CourseCard = ({
                 {rating}
               </div>
             </div>
-            <p className="text-md font-normal text-slate-700 w-4/5">
+            <p className="text-sm sm:text-lg md:text-sm font-normal text-slate-700 w-4/5 ">
               {description}
             </p>
-            <p className="text-sm text-slate-400"> By {instructor}</p>
+            <p className="text-xs sm:text-base md:text-sm text-slate-400">
+              By {instructor}
+            </p>
           </header>
           <div>
-            <div className="flex justify-between text-sm pb-3">
-              <p>💡{level}</p>
-              <p>🧾{modules} Modul</p>
-              <p>⏳{duration}</p>
+            <div className="flex justify-between pb-3 text-sm sm:text-lg md:text-sm">
+              <span className="text-center sm:flex sm:text-start">
+                <p>💡</p>
+                <p>{level}</p>
+              </span>
+              <span className="text-center sm:flex sm:text-start">
+                <p>🧾</p>
+                <p>{modules} Modul</p>
+              </span>
+              <span className="text-center sm:flex sm:text-start">
+                <p>⏳</p>
+                <p>{duration}</p>
+              </span>
             </div>
 
             {/*<!-- Component: Small primary button with leading icon  --> */}
