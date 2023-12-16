@@ -9,14 +9,12 @@ import {
   RegisterOTP,
 } from "./pages/Auth";
 import CourseClass from "./pages/Dashboard/";
-import {
-  Account,
-  ChangePass,
-  MyProfile,
-  PurchaseHistory,
-} from "./pages/Profile";
+import { ChangePass, MyProfile, PurchaseHistory } from "./pages/Profile";
 import Detail from "./pages/DetailPage";
 import { Dashboard, KelolaKelas } from "./pages/DashboardAdmin";
+import Payment from "./pages/Payment/PaymentDetail";
+import PaymentSucces from "./pages/Payment/PaymentSucces";
+import Notification from "./pages/Payment/Notification";
 
 function App() {
   return (
@@ -31,12 +29,14 @@ function App() {
         <Route path="/auth/register/otp" element={<RegisterOTP />} />
         <Route path="/auth/resetpassword" element={<ForgotPass />} />
         <Route path="/auth/otp" element={<ForgotOTP />} />
-        <Route path="/account" element={<Account />} />
         <Route path="/profile" element={<MyProfile />} />
+        <Route path="/notification" element={<Notification />} />
         <Route path="/changepassword" element={<ChangePass />} />
         <Route path="/purchasehistory" element={<PurchaseHistory />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/dashboard/kelola-kelas" element={<KelolaKelas />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment/success" element={<PaymentSucces />} />
       </Routes>
     </BrowserRouter>
   );

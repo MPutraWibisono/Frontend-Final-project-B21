@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
-import CourseCard from "../CourseCard";
-import kelas from "../../data/kelas.json";
+// import CourseCard from "../CourseCard";
+// import kelas from "../../data/kelas.json";
 // import useTheme from "../../../../../.";
 
 const Modal = () => {
@@ -96,7 +96,7 @@ const Modal = () => {
             >
               {/*    <!-- Modal --> */}
               <div
-                className="flex max-h-[90vh] w-11/12 max-w-2xl flex-col gap-6 overflow-hidden rounded bg-white p-6 text-slate-500 shadow-xl shadow-slate-700/10"
+                className="flex max-h-[90vh] w-1/3 max-w-2xl flex-col gap-6 overflow-hidden rounded bg-white p-6 text-slate-500 shadow-xl shadow-slate-700/10"
                 ref={wrapperRef}
                 id="modal"
                 role="document"
@@ -139,7 +139,7 @@ const Modal = () => {
                   </button>
                 </header>
                 {/*        <!-- Modal body --> */}
-                <div id="content-1a" className=" overflow-auto w-full">
+                {/* <div id="content-1a" className=" overflow-auto w-full">
                   <div className="">
                     <CourseCard
                       image={kelas[1].image}
@@ -153,6 +153,23 @@ const Modal = () => {
                       type={kelas[1].type}
                       price={kelas[1].price}
                     />
+                  </div>
+                </div> */}
+                <div className="grid justify-center">
+                  <img
+                    src="/src/assets/images/gambarCourse.svg"
+                    height={70}
+                    width={323}
+                  />
+                  {/* TEXT KONTEN */}
+                  <div className="p-2">
+                    <h3 className="font-semibold md:text-[14px]  text-secret-pink">
+                      UI/UX Design
+                    </h3>
+                    <h3 className="font-semibold md:text-[12px] text-[11px]">
+                      Intro to Basic of User Interaction Design
+                    </h3>
+                    <p className="md:text-[10px] text-[8px]">By Simon Doe</p>
                   </div>
                 </div>
                 {/*        <!-- Modal actions --> */}
