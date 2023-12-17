@@ -4,6 +4,10 @@ import * as Yup from "yup";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { toastNotify } from "../../../libs/utils";
 import logo4 from "../../../assets/images/logo4.png";
+import { PatternFormat } from "react-number-format";
+import phoneRegExp from "../../../libs/phoneReg";
+// import "react-phone-number-input/style.css";
+// import PhoneInput from "react-phone-number-input";
 // import { useState } from "react";
 // import { PiEye } from "react-icons/pi";
 // import { PiEyeSlash } from "react-icons/pi";
@@ -33,7 +37,7 @@ const RegisterPage = () => {
         .required("Email harus diisi"),
       nomorTelepon: Yup.string()
         .required("Nomor Telepon harus diisi")
-        .min(9, "Nomor Telepon tidak valid"),
+        .matches(phoneRegExp, "Nomor minimal 12 angka"),
       password: Yup.string()
         .required("Password harus diisi")
         .min(8, "Password minimal 8 karakter"),
@@ -45,7 +49,7 @@ const RegisterPage = () => {
       console.log(values);
       toastNotify({
         type: "success",
-        message: "Berhasil mendaftar",
+        message: "Tautan Verifikasi telah dikirim!",
       });
       navigate("/auth/register/otp");
     },
@@ -105,7 +109,7 @@ const RegisterPage = () => {
               </div>
               <input
                 type="email"
-                placeholder="Contoh: johndee@gmail.com"
+                placeholder="johndoe@gmail.com"
                 className={`input input-bordered w-full h-10 ${
                   formik.errors.email && formik.touched.email && "input-error"
                 }`}
@@ -134,17 +138,18 @@ const RegisterPage = () => {
                   Nomor Telepon
                 </span>
               </div>
-              <input
-                type="text"
-                placeholder="Contoh: +62.."
+              <PatternFormat
+                placeholder="0812 3456 7891"
+                name="nomorTelepon"
+                format="#### #### ####"
                 className={`input input-bordered w-full h-10 ${
                   formik.errors.nomorTelepon &&
                   formik.touched.nomorTelepon &&
                   "input-error"
                 }`}
-                name="nomorTelepon"
                 value={formik.values.nomorTelepon}
                 onChange={formik.handleChange}
+                valueIsNumericString={true}
               />
               {formik.errors.nomorTelepon && formik.touched.nomorTelepon ? (
                 <div className="text-red-500">{formik.errors.nomorTelepon}</div>
@@ -164,7 +169,7 @@ const RegisterPage = () => {
                     "text-red-500"
                   }`}
                 >
-                  Password
+                  Buat Password
                 </span>
               </div>
               <input

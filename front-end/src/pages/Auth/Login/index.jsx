@@ -29,19 +29,17 @@ const LoginPage = () => {
     password: "cobaan",
   };
   //function buat bikin alert
-  const showAlert = (message, type = "info", duration = 5000) => {
+  const showAlert = (message, type = "info", duration = 1500) => {
     const tempatAlert = document.querySelector(".tempatAlert");
     const alertElement = document.createElement("div");
     alertElement.classList.add("custom-alert");
     alertElement.classList.add("text-white");
-    alertElement.classList.add("rounded-lg");
+    alertElement.classList.add("rounded-xl");
     alertElement.classList.add("w-[250px]");
-    alertElement.classList.add("items-center");
     alertElement.classList.add("text-center");
     alertElement.classList.add("py-2");
     alertElement.classList.add("px-5");
     alertElement.classList.add("text-xs");
-    alertElement.classList.add("bottom-6");
     alertElement.classList.add("mx-auto");
 
     if (type === "success") {
@@ -65,7 +63,7 @@ const LoginPage = () => {
 
     setTimeout(() => {
       emailInput.classList.remove("border-red-500");
-    }, 5000);
+    }, 3000);
   };
   const inputPassMerah = () => {
     const passInput = document.querySelector("#passInput");
@@ -73,23 +71,23 @@ const LoginPage = () => {
 
     setTimeout(() => {
       passInput.classList.remove("border-red-500");
-    }, 5000);
+    }, 3000);
   };
   const validasi = () => {
     if (Email === Dummy.Email && passValue.password !== Dummy.password) {
       inputPassMerah();
-      showAlert("Maaf kata sandi salah", "error");
+      showAlert("Password salah!", "error");
     } else if (Email === Dummy.Email && passValue.password === Dummy.password) {
       showAlert("Berhasil masuk", "success");
     } else if (Email !== Dummy.Email && passValue.password === Dummy.password) {
       inputEmailMerah();
-      showAlert("Alamat email tidak terdaftar!", "error");
+      showAlert("Email tidak terdaftar!", "error");
     } else if (Email === "" && passValue.password === "") {
-      showAlert("email dan kata sandi tidak boleh kosong", "error");
+      showAlert("Email dan Password tidak boleh kosong!", "error");
       inputEmailMerah();
       inputPassMerah();
     } else {
-      showAlert("Maaf kata sandi salah atau email tidak terdaftar", "error");
+      showAlert("Email tidak terdaftar atau Password salah!", "error");
       inputEmailMerah();
       inputPassMerah();
     }
@@ -105,11 +103,11 @@ const LoginPage = () => {
 
           {/* Email/No telp */}
           <div className="flex flex-col">
-            <p className="float-left pb-1 font-medium">Email/No Telpon</p>
+            <p className="float-left pb-2 font-medium">Email/No Telpon</p>
             <input
               type="text"
               name="Email"
-              placeholder="Contoh: johndoe@gmail.com"
+              placeholder="Email atau Nomor telepon"
               id="emailInput"
               className="emailInput float-left border rounded-xl w-full p-2 text-black mb-4"
               value={Email}
@@ -121,15 +119,15 @@ const LoginPage = () => {
           </div>
 
           {/* PASSWORD */}
-          <div className="flex flex-col mt">
+          <div className="flex flex-col">
             <div>
-              <p className="float-left pb-1 font-medium">Password</p>
+              <p className="float-left pb-2 font-medium">Password</p>
               <p className="float-right">
                 <Link
                   to="/auth/otp"
                   className="text-darkGrayish font-medium text-xs"
                 >
-                  Lupa Kata Sandi
+                  Lupa Password
                 </Link>
               </p>
             </div>
@@ -174,7 +172,7 @@ const LoginPage = () => {
           </p>
 
           {/* div kosong buat tempat alert */}
-          <div className="tempatAlert fixed bottom-6 lg:bottom-4 lg:left-[33%] left-1/2  transform -translate-x-1/2 flex justify-center items-center w-full lg:w-auto sm:bottom-2 "></div>
+          <div className="tempatAlert fixed bottom-6 lg:bottom-4 lg:left-[29%] left-1/2 transform -translate-x-1/2 flex justify-center items-center w-full lg:w-auto sm:bottom-2 "></div>
         </div>
       </div>
 

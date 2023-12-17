@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const Notifikasi = () => {
   return (
-    <div>
-      <div className="md:px-[100px] px-5 py-16 shadow-md z-10 bg-paleOrange relative">
+    <div className="pt-20">
+      <div className="md:px-[100px] px-5 py-16 shadow-md  bg-paleOrange relative">
         {/* LINK KEMBALI */}
         <Link to="/" className="flex gap-5 md:ml-20 relative top-[-40px]">
           <ArrowLeftIcon className="w-5 font-extrabold " />
@@ -14,11 +14,11 @@ const Notifikasi = () => {
       </div>
       {/* NOTIFIKASI  */}
       <div>
-        <div className="z-20 flex flex-col md:w-[70vw] w-[80vw] mx-auto rounded-[20px] shadow-2xl relative top-[-65px]">
+        <div className=" flex flex-col md:w-[70vw] w-[80vw] mx-auto rounded-[20px] shadow-2xl relative top-[-65px]">
           <div className="text-center bg-darkGrayish text-white p-5 rounded-t-[20px]">
             <h1 className="font-bold">Notifikasi</h1>
           </div>
-          <div className="h-[300px] z-20 md:p-10 p-2">
+          <div className="h-[300px]  md:p-10 p-2">
             {/* tulisan Notifikasi */}
             <div className="flex justify-between mt-2">
               {/* isi content */}

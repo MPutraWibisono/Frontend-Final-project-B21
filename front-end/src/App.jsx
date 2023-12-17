@@ -30,7 +30,7 @@ function App() {
         <Route path="/auth/resetpassword" element={<ForgotPass />} />
         <Route path="/auth/otp" element={<ForgotOTP />} />
         <Route path="/profile" element={<MyProfile />} />
-        <Route path="/notification" element={<Notification />} />
+        <Route path="/notifications" element={<Notification />} />
         <Route path="/changepassword" element={<ChangePass />} />
         <Route path="/purchasehistory" element={<PurchaseHistory />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />

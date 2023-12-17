@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const PembayaranSukses = () => {
   return (
-    <div>
+    <div className="pt-20">
       {/* NOTIFIKASI BERHASIL PEMBAYARAN */}
       <div className="md:px-[100px] px-5 py-6 shadow-md">
         {/* LINK KEMBALI */}

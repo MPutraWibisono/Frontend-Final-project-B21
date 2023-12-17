@@ -11,12 +11,12 @@ const Detail = () => {
   return (
     <>
       <Modal />
-      <div className="bg-paleOrange">
+      <div className="bg-paleOrange pt-24">
         <div className="relative mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[96rem]">
           <div className="grid grid-cols-10 grid-rows-10">
             <Link
               to="/class"
-              className="col-span-2 flex justify-start p-4 space-x-3"
+              className="col-span-3 flex justify-start p-4 space-x-3"
             >
               <div className="w-5">
                 <ArrowLeftIcon />
