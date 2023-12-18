@@ -70,82 +70,75 @@ const ForgotPass = () => {
     }
   };
   return (
-    <div className=" flex flex-col lg:flex-row w-full min-h-screen">
+    <div className="flex flex-col lg:flex-row w-full min-h-screen mx-auto max-w-7xl lg:max-w-[96rem]">
       {/* Bagian Kiri */}
-      <div className="bg-white p-8 lg:p-16 lg:w-2/3 flex items-center justify-center    overflow-hidden">
+      <div className="bg-white w-full p-8 lg:p-16 flex items-center justify-center overflow-hidden">
         <div className="w-full lg:w-2/3 text-black">
-          <h1 className="font-bold text-[28px] text-customEmerald01 lg:mb-12 text-left">
+          <h1 className="font-bold text-[28px] text-darkGrayish lg:mb-12 text-center mb-6">
             Reset Password
           </h1>
 
           {/* Reset Password */}
-          <div className="mt-2 relative block mb-4 lg:mb-8">
-            <br />
-            <p className="float-left">Password Baru</p>
-
-            <br />
-            <input
-              type={newPassValue.showPass ? "text" : "password"}
-              name="password"
-              id="passInput1"
-              placeholder="Password"
-              className="float-left border-2 rounded-2xl w-full p-2 text-black"
-              value={newPassValue.password}
-              onChange={handlePass1}
-              required
-            />
-
-            <button
-              className="absolute right-4 top-14"
-              onClick={toggleVisibility1}
-            >
-              {!newPassValue.showPass ? (
-                <PiEye color="grey" size={30} />
-              ) : (
-                <PiEyeSlash color="grey" size={30} />
-              )}
-            </button>
+          <div className="flex flex-col">
+            <p className="float-left pb-2 font-medium">Password Baru</p>
+            <div className="relative mb-4">
+              <input
+                type={newPassValue.showPass ? "text" : "password"}
+                name="password"
+                id="passInput1"
+                placeholder="Password"
+                className="float-left border rounded-xl w-full p-2 text-black "
+                value={newPassValue.password}
+                onChange={handlePass1}
+                required
+              />
+              <button
+                className="absolute right-2 inset-y-0"
+                onClick={toggleVisibility1}
+              >
+                {!newPassValue.showPass ? (
+                  <PiEye color="grey" size={30} />
+                ) : (
+                  <PiEyeSlash color="grey" size={30} />
+                )}
+              </button>
+            </div>
           </div>
 
           {/* PASSWORD */}
-          <div className="mt-2 relative block mb-4 lg:mb-8">
-            <br />
-            <p className="float-left">Ulangi Password Baru</p>
-
-            <br />
-            <input
-              type={passValue.showPass ? "text" : "password"}
-              name="password"
-              id="passInput2"
-              placeholder="Ulangi Password"
-              className="float-left border-2 rounded-2xl w-full p-2 text-black"
-              value={passValue.password}
-              onChange={handlePass2}
-              required
-            />
-
-            <button
-              className="absolute right-4 top-14"
-              onClick={toggleVisibility2}
-            >
-              {!passValue.showPass ? (
-                <PiEye color="grey" size={30} />
-              ) : (
-                <PiEyeSlash color="grey" size={30} />
-              )}
-            </button>
+          <div className="flex flex-col">
+            <p className="float-left pb-2 font-medium">Password Baru</p>
+            <div className="relative mb-4">
+              <input
+                type={passValue.showPass ? "text" : "password"}
+                name="password"
+                id="passInput1"
+                placeholder="Password"
+                className="float-left border rounded-xl w-full p-2 text-black "
+                value={passValue.password}
+                onChange={handlePass2}
+                required
+              />
+              <button
+                className="absolute right-2 inset-y-0"
+                onClick={toggleVisibility2}
+              >
+                {!passValue.showPass ? (
+                  <PiEye color="grey" size={30} />
+                ) : (
+                  <PiEyeSlash color="grey" size={30} />
+                )}
+              </button>
+            </div>
           </div>
-          <br />
-          <br />
 
           {/* Login button */}
           <button
-            className="text-white bg-customEmerald01 rounded-lg w-full p-2"
+            className="text-white bg-pinkTone hover:bg-pinkTone/80 rounded-lg w-full p-2"
             onClick={validasi}
           >
             Simpan
           </button>
-          <br />
 
           {/* div kosong buat tempat alert */}
           <div className="tempatAlert fixed bottom-6 lg:bottom-4 lg:left-[33%] left-1/2  transform -translate-x-1/2 flex justify-center items-center w-full lg:w-auto sm:bottom-2 "></div>
@@ -153,15 +146,9 @@ const ForgotPass = () => {
       </div>
 
       {/* Bagian Kanan */}
-      <div className="bg-paleOrange p-8 lg:p-16 w-full lg:w-[45%] h-[100vh] flex items-center justify-center hidden lg:flex">
+      <div className=" bg-paleOrange w-10/12 flex items-center justify-center hidden lg:flex">
         <Link to="/">
-          <img
-            src={logo4}
-            alt="DemyU Course"
-            className="mx-auto w-full"
-            width={300}
-            height={300}
-          />
+          <img src={logo4} alt="DemyU Course" className="mx-auto w-full" />
         </Link>
       </div>
     </div>

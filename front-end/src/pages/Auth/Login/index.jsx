@@ -29,19 +29,17 @@ const LoginPage = () => {
     password: "cobaan",
   };
   //function buat bikin alert
-  const showAlert = (message, type = "info", duration = 5000) => {
+  const showAlert = (message, type = "info", duration = 1500) => {
     const tempatAlert = document.querySelector(".tempatAlert");
     const alertElement = document.createElement("div");
     alertElement.classList.add("custom-alert");
     alertElement.classList.add("text-white");
-    alertElement.classList.add("rounded-lg");
+    alertElement.classList.add("rounded-xl");
     alertElement.classList.add("w-[250px]");
-    alertElement.classList.add("items-center");
     alertElement.classList.add("text-center");
     alertElement.classList.add("py-2");
     alertElement.classList.add("px-5");
     alertElement.classList.add("text-xs");
-    alertElement.classList.add("bottom-6");
     alertElement.classList.add("mx-auto");
 
     if (type === "success") {
@@ -65,7 +63,7 @@ const LoginPage = () => {
 
     setTimeout(() => {
       emailInput.classList.remove("border-red-500");
-    }, 5000);
+    }, 3000);
   };
   const inputPassMerah = () => {
     const passInput = document.querySelector("#passInput");
@@ -73,46 +71,45 @@ const LoginPage = () => {
 
     setTimeout(() => {
       passInput.classList.remove("border-red-500");
-    }, 5000);
+    }, 3000);
   };
   const validasi = () => {
     if (Email === Dummy.Email && passValue.password !== Dummy.password) {
       inputPassMerah();
-      showAlert("Maaf kata sandi salah", "error");
+      showAlert("Password salah!", "error");
     } else if (Email === Dummy.Email && passValue.password === Dummy.password) {
       showAlert("Berhasil masuk", "success");
     } else if (Email !== Dummy.Email && passValue.password === Dummy.password) {
       inputEmailMerah();
-      showAlert("Alamat email tidak terdaftar!", "error");
+      showAlert("Email tidak terdaftar!", "error");
     } else if (Email === "" && passValue.password === "") {
-      showAlert("email dan kata sandi tidak boleh kosong", "error");
+      showAlert("Email dan Password tidak boleh kosong!", "error");
       inputEmailMerah();
       inputPassMerah();
     } else {
-      showAlert("Maaf kata sandi salah atau email tidak terdaftar", "error");
+      showAlert("Email tidak terdaftar atau Password salah!", "error");
       inputEmailMerah();
       inputPassMerah();
     }
   };
   return (
-    <div className=" flex flex-col lg:flex-row w-full min-h-screen">
+    <div className=" flex flex-col lg:flex-row w-full min-h-screen mx-auto max-w-7xl lg:max-w-[96rem]">
       {/* Bagian Kiri */}
-      <div className="bg-white p-8 lg:p-16 lg:w-2/3 flex items-center justify-center    overflow-hidden">
-        <div className="w-full lg:w-2/3 text-black">
-          <h1 className="font-bold text-[28px] text-customEmerald01 lg:mb-12 text-left">
+      <div className="bg-white w-full p-8 lg:p-16 flex items-center justify-center overflow-hidden">
+        <div className="w-full sm:w-2/3 lg:w-2/3 text-black">
+          <h1 className="font-bold text-[28px] text-darkGrayish lg:mb-12 text-center mb-6">
             Masuk
           </h1>
 
           {/* Email/No telp */}
-          <div className="mb-4 lg:mb-8">
-            <p className="float-left">Email/No Telpon</p>
-            <br />
+          <div className="flex flex-col">
+            <p className="float-left pb-2 font-medium">Email/No Telpon</p>
             <input
               type="text"
               name="Email"
-              placeholder="Contoh: johndoe@gmail.com"
+              placeholder="Email atau Nomor telepon"
               id="emailInput"
-              className="emailInput float-left  border-2 rounded-2xl w-full p-2 text-black"
+              className="emailInput float-left border rounded-xl w-full p-2 text-black mb-4"
               value={Email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -122,44 +119,45 @@ const LoginPage = () => {
           </div>
 
           {/* PASSWORD */}
-          <div className="mt-2 relative block mb-4 lg:mb-8">
-            <br />
-            <p className="float-left">Password</p>
-
-            <p className="float-right">
-              <Link to="/auth/otp" className="text-customGreen01 font-medium">
-                Lupa Kata Sandi
-              </Link>
-            </p>
-            <br />
-            <input
-              type={passValue.showPass ? "text" : "password"}
-              name="password"
-              id="passInput"
-              placeholder="Password"
-              className="float-left border-2 rounded-2xl w-full p-2 text-black"
-              value={passValue.password}
-              onChange={handlePass}
-              required
-            />
-
-            <button
-              className="absolute right-4 top-14"
-              onClick={toggleVisibility}
-            >
-              {!passValue.showPass ? (
-                <PiEye color="grey" size={30} />
-              ) : (
-                <PiEyeSlash color="grey" size={30} />
-              )}
-            </button>
+          <div className="flex flex-col">
+            <div>
+              <p className="float-left pb-2 font-medium">Password</p>
+              <p className="float-right">
+                <Link
+                  to="/auth/otp"
+                  className="text-darkGrayish font-medium text-xs"
+                >
+                  Lupa Password
+                </Link>
+              </p>
+            </div>
+            <div className="relative">
+              <input
+                type={passValue.showPass ? "text" : "password"}
+                name="password"
+                id="passInput"
+                placeholder="Password"
+                className="float-left border rounded-xl w-full p-2 text-black mb-6"
+                value={passValue.password}
+                onChange={handlePass}
+                required
+              />
+              <button
+                className="absolute right-3 top-1.5"
+                onClick={toggleVisibility}
+              >
+                {!passValue.showPass ? (
+                  <PiEye color="grey" size={30} />
+                ) : (
+                  <PiEyeSlash color="grey" size={30} />
+                )}
+              </button>
+            </div>
           </div>
-          <br />
-          <br />
 
           {/* Login button */}
           <button
-            className="text-white bg-pinkTone rounded-lg w-full p-2"
+            className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full"
             onClick={validasi}
           >
             Masuk
@@ -168,18 +166,18 @@ const LoginPage = () => {
 
           <p className="text-black items-center text-center mt-6">
             Belum punya akun?{" "}
-            <Link to="/auth/register" className="text-customGreen01 font-bold">
+            <Link to="/auth/register" className="text-darkGrayish font-bold">
               Daftar di sini
             </Link>
           </p>
 
           {/* div kosong buat tempat alert */}
-          <div className="tempatAlert fixed bottom-6 lg:bottom-4 lg:left-[33%] left-1/2  transform -translate-x-1/2 flex justify-center items-center w-full lg:w-auto sm:bottom-2 "></div>
+          <div className="tempatAlert fixed bottom-6 lg:bottom-4 lg:left-[29%] left-1/2 transform -translate-x-1/2 flex justify-center items-center w-full lg:w-auto sm:bottom-2 "></div>
         </div>
       </div>
 
       {/* Bagian Kanan */}
-      <div className="bg-paleOrange p-8 lg:p-16 w-full lg:w-[45%] h-[100vh] flex items-center justify-center hidden lg:flex">
+      <div className="bg-paleOrange w-10/12 flex items-center justify-center hidden lg:flex">
         <Link to="/">
           <img
             src={logo4}

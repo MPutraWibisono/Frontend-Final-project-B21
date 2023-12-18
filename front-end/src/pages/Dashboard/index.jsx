@@ -1,9 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import CourseCard from "../../components/CourseCard";
+import CourseCard from "../../components/CourseCard/Card";
 import kelas from "../../data/kelas.json";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
+// import DropdownBasic from "../../components/Dropdown";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
   <div className="container p-1 rounded" style={{ marginTop: "20px" }}>
@@ -106,30 +107,15 @@ const Kelas = () => {
     return false;
   });
 
-  // let sortedItems;
-
-  // switch (selectedFilter) {
-  //   case "Premium":
-  //     sortedItems = filteredClasses.filter((item) => item.type === "Premium");
-  //     break;
-  //   case "Gratis":
-  //     sortedItems = filteredClasses.filter((item) => item.type === "Gratis");
-  //     break;
-  //   default:
-  //     sortedItems = filteredClasses;
-  //     break;
-  // }
-
-  // console.log(filteredClasses);
-
   return (
-    <div className="bg-paleOrange text-white">
+    <div className="bg-paleOrange text-white pt-20">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">
-        <div
-          className="lg:w-1/4 overflow-hidden rounded bg-white text-black mr-4"
-          style={{ marginTop: "80px" }}
-        >
-          <div className="container mx-auto p-4 flex flex-col space-y-4">
+        <div className="lg:w-1/4 overflow-hidden rounded text-black mr-4">
+          <div className="text-3xl font-bold text-black my-7 text-center lg:text-start">
+            Topik Kelas
+          </div>
+          <div className="container mx-auto p-4 flex flex-col space-y-4 bg-white lg:overflow-visible overflow-y-auto h-32 lg:h-fit rounded-xl                                                                                ">
+            {/* hidden md:block */}
             {filterOptions.map((filter) => (
               <FilterSection
                 key={filter.title}
@@ -144,65 +130,85 @@ const Kelas = () => {
               Hapus Filter
             </button>
           </div>
+          {/* <div className="block md:hidden">
+          {filterOptions.map((filter) => (
+            <DropdownBasic
+              key={filter.title}
+              {...filter}
+              handleCheckboxChange={handleCheckboxChange}
+            />
+          ))}
+          
+        </div> */}
         </div>
-
         <div className="container mx-auto p-4 flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <div className="self-start">
-              <div className="text-3xl font-bold text-black mb-2">
-                Topik Kelas
-              </div>
-            </div>
-            <div className="relative flex items-center">
+          <div className="flex items-center justify-between mb-4 mx-auto md:mx-0 md:ms-auto">
+            <div className="relative flex items-center me-6">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={handleSearchChange}
-                placeholder="Cari kelas..."
-                className="p-2 rounded border border-pinkTone text-black pl-8"
+                placeholder="Cari Kelas..."
+                className="p-3 px-6 pr-14 rounded border border-pinkTone outline-0 text-black rounded-2xl text-sm"
               />
               <div className="absolute right-2 ">
-                <IoSearch className="h-6 w-6 text-pinkTone" />
+                <IoSearch className="h-6 w-6 text-pinkTone me-3" />
               </div>
             </div>
           </div>
 
-          <div className="flex justify-center space-x-4 mb-4">
+          <div className="flex justify-center space-x-4 mb-4 overflow-x-auto py-3 ps-16">
             <button
               onClick={handleClassAll}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 hover:text-white focus:bg-red-400 focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
+              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                selectedFilter === "All"
+                  ? "w-64 bg-pink hover:bg-pink"
+                  : "w-32 bg-pinkTone hover:bg-pink/60"
+              }`}
             >
               <span>All</span>
             </button>
             <button
               onClick={handleClassPremium}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 hover:text-white focus:bg-red-400 focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
+              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                selectedFilter === "Premium"
+                  ? "w-64 bg-pink hover:bg-pink"
+                  : "w-32 bg-pinkTone hover:bg-pink/60"
+              }`}
             >
               <span>Kelas Premium</span>
             </button>
             <button
               onClick={handleClassFree}
-              className="inline-flex h-12 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full bg-pinkTone px-6 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-red-500 hover:text-white focus:bg-red-400 focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:text-white disabled:shadow-none"
+              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                selectedFilter === "Gratis"
+                  ? "w-64 bg-pink hover:bg-pink"
+                  : "w-32 bg-pinkTone hover:bg-pink/60"
+              }`}
             >
               <span>Kelas Gratis</span>
             </button>
           </div>
 
-          <div className="flex flex-wrap justify-around gap-5 p-2">
+          <div className="flex flex-row flex-wrap justify-around gap-5 p-2">
             {filteredClasses.map((kelas, index) => (
-              <CourseCard
+              <div
+                className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
                 key={index}
-                image={kelas.image}
-                title={kelas.title}
-                rating={kelas.rating}
-                description={kelas.description}
-                instructor={kelas.instructor}
-                level={kelas.level}
-                modules={kelas.modules}
-                duration={kelas.duration}
-                type={kelas.type}
-                price={kelas.price}
-              />
+              >
+                <CourseCard
+                  image={kelas.image}
+                  title={kelas.title}
+                  rating={kelas.rating}
+                  description={kelas.description}
+                  instructor={kelas.instructor}
+                  level={kelas.level}
+                  modules={kelas.modules}
+                  duration={kelas.duration}
+                  type={kelas.type}
+                  price={kelas.price}
+                />
+              </div>
             ))}
           </div>
         </div>

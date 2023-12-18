@@ -9,11 +9,11 @@ const LayoutDashboard = ({ children }) => {
   const sidebar = [
     {
       title: "Dashboard",
-      path: "/dashboard",
+      path: "/admin/dashboard",
     },
     {
       title: "Kelola Kelas",
-      path: "/dashboard/kelola-kelas",
+      path: "/admin/dashboard/kelola-kelas",
     },
   ];
 

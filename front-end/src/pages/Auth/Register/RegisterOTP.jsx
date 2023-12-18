@@ -7,7 +7,6 @@ import { toastNotify } from "../../../libs/utils";
 import logo4 from "../../../assets/images/logo4.png";
 
 const RegisterOTP = () => {
-  const navigate = useNavigate();
   const otpRefs = Array.from({ length: 6 }).map(() => useRef());
 
   const formik = useFormik({
@@ -50,8 +49,8 @@ const RegisterOTP = () => {
 
   return (
     <section className="h-[100vh] w-full grid lg:grid-cols-2 grid-cols-1 ">
-      <div className="flex items-center flex-col justify-center w-full lg:px-32 md:px-16 px-5 lg:py-0 py-10 lg:bg-transparent bg-customEmerald01/10">
-        <h1 className="font-bold lg:text-4xl text-3xl text-customEmerald01">
+      <div className="flex items-center flex-col justify-center w-full lg:px-24 md:px-16 px-5 lg:py-0 py-10 lg:bg-transparent">
+        <h1 className="font-bold lg:text-4xl text-3xl text-darkGrayish text-center">
           Masukkan OTP
         </h1>
         <form
@@ -65,19 +64,21 @@ const RegisterOTP = () => {
                 <span className="font-bold">J*****@gmail.com</span>
               </span>
             </div>
-            <div className="grid grid-cols-6 gap-3">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <input
-                  key={i}
-                  type="text"
-                  ref={otpRefs[i]}
-                  className="font-bold w-[50px] bg-customLime01 pl-5 p-3 border border-customGreen01 focus:border-customGreen01 focus:ring-2 focus:ring-customGreen01 focus:outline-none rounded-2xl"
-                  name={`otp${i + 1}`}
-                  value={formik.values[`otp${i + 1}`]}
-                  onChange={(e) => handleOTPChange(e, i)}
-                  maxLength={1}
-                />
-              ))}
+            <div className="w-full flex justify-center">
+              <div className="grid grid-cols-6 gap-1 lg:gap-6 ">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <input
+                    key={i}
+                    type="text"
+                    ref={otpRefs[i]}
+                    className="font-bold w-[42px] h-9 lg:w-[52px] lg:h-12 bg-whitePale border border-pinkTone/80 focus:border-pinkTone focus:ring-2 focus:ring-pinkTone focus:outline-none rounded-2xl text-center"
+                    name={`otp${i + 1}`}
+                    value={formik.values[`otp${i + 1}`]}
+                    onChange={(e) => handleOTPChange(e, i)}
+                    maxLength={1}
+                  />
+                ))}
+              </div>
             </div>
           </label>
           {formik.errors && formik.touched && (
@@ -94,12 +95,14 @@ const RegisterOTP = () => {
           <p className="text-sm w-full text-center font-medium mt-6 mb-12">
             Kirim Ulang OTP dalam 60 detik
           </p>
-          <button
-            type="submit"
-            className="btn bg-customEmerald01 text-slate-100 self-center w-full"
-          >
-            Simpan
-          </button>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="btn bg-pinkTone text-slate-100 self-center w-1/2"
+            >
+              Simpan
+            </button>
+          </div>
         </form>
       </div>
 

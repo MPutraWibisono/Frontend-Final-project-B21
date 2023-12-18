@@ -4,16 +4,19 @@ import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
 import { IoIosCheckmarkCircleOutline, IoIosStar } from "react-icons/io";
 import { FaCirclePlay } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import Modal from "../../components/Modals";
+// import ReactPlayer from "react-player/youtube";
 
 const Detail = () => {
   return (
     <>
-      <div className="bg-paleOrange">
+      <Modal />
+      <div className="bg-paleOrange pt-24">
         <div className="relative mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[96rem]">
           <div className="grid grid-cols-10 grid-rows-10">
             <Link
               to="/class"
-              className="col-span-2 flex justify-start p-4 space-x-3"
+              className="col-span-3 flex justify-start p-4 space-x-3"
             >
               <div className="w-5">
                 <ArrowLeftIcon />
@@ -33,7 +36,7 @@ const Detail = () => {
                   Intro to Basic of User Interaction Design
                 </h3>
                 <p className="text-sm md:text-md">by Simon Doe</p>
-                <div className="flex space-x-5 text-sm text-center pt-2">
+                <div className="flex space-x-5 text-sm text-center pt-6">
                   <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
                     <RiShieldStarLine className="text-xl text-darkGrayish" />
                     <p className="font-bold text-darkRed01">Begginer level</p>
@@ -152,14 +155,19 @@ const Detail = () => {
           </div>
           <div className="bg-paleWhite grid grid-cols-10 grid-rows-10">
             <div className="col-start-2 col-end-10 lg:col-end-7">
-              <div className="p-5">
+              <div className="lg:px-5 py-5">
                 <iframe
                   className="rounded-[25px] w-full aspect-video shadow-2xl"
                   src="https://www.youtube.com/embed/1GHsinR-t3E?si=WFoKdMyEMboJoV21"
                   title="YouTube video player"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
+                  allowFullScreen
                 ></iframe>
+                {/* <ReactPlayer
+                  width="100%"
+                  className="border"
+                  url="https://www.youtube.com/embed/1GHsinR-t3E?si=WFoKdMyEMboJoV21"
+                /> */}
               </div>
               <div className="p-5 text-justify">
                 <h1>Tentang Kelas</h1>
