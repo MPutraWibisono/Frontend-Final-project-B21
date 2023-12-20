@@ -1,0 +1,10 @@
+.swiper-button-prev,
+.swiper-button-next {
+  top: 38%;
+  color: white;
+}
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  top: 38%;
+  color: rgb(109, 108, 108);
+}

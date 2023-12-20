@@ -3,60 +3,107 @@ import { FaTelegramPlane } from "react-icons/fa";
 import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
 import { IoIosCheckmarkCircleOutline, IoIosStar } from "react-icons/io";
 import { FaCirclePlay } from "react-icons/fa6";
-import { Link } from "react-router-dom";
 import Modal from "../../components/Modals";
-// import ReactPlayer from "react-player/youtube";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCourse,
+  getMaterial,
+  getChapter,
+} from "../../redux/actions/courseActions";
+import { useEffect, useState } from "react";
+import ReactPlayer from "react-player/youtube";
+import Loading from "../../components/Loading";
 
 const Detail = () => {
+  const dispatch = useDispatch();
+  const { courseId } = useParams();
+  const { course, material, chapter } = useSelector((state) => state.course);
+  const [errors, setErrors] = useState({
+    isError: false,
+    message: null,
+  });
+
+  useEffect(() => {
+    dispatch(getCourse(setErrors));
+    dispatch(getMaterial(setErrors));
+    dispatch(getChapter(setErrors));
+  }, [dispatch]);
+
+  if (errors.isError) {
+    return <h1>{errors.message}</h1>;
+  }
+
+  if (course.length === 0 || material.length === 0 || chapter.length === 0) {
+    return <Loading />;
+  }
+
+  const courseIWant = course.find((item) => item.id == courseId);
+  const materialIWant = material.find((item) => item.id == courseId);
+  const chapterIWant = chapter.find((item) => item.courseId == courseId);
+
   return (
     <>
-      <Modal />
+      <Modal
+        title={courseIWant?.category?.name}
+        name={courseIWant?.name}
+        author={courseIWant?.author}
+        rating={courseIWant?.rating}
+        level={courseIWant?.level}
+        modul={courseIWant?.modul}
+        price={courseIWant?.price}
+        image={courseIWant?.imageUrl}
+        duration={courseIWant?.durasi}
+      />
       <div className="bg-paleOrange pt-24">
         <div className="relative mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[96rem]">
           <div className="grid grid-cols-10 grid-rows-10">
             <Link
               to="/class"
-              className="col-span-3 flex justify-start p-4 space-x-3"
+              className="col-span-3 flex justify-start p-4 space-x-3 items-center"
             >
               <div className="w-5">
                 <ArrowLeftIcon />
               </div>
               <div className="hidden md:block">Kelas lainnya</div>
             </Link>
-            <div className="col-start-2 col-end-10 lg:col-end-7 space-y-1">
-              <div className="flex col-start-2 col-end-7">
-                <h1 className="text-md md:text-xl ">UI/UX Design</h1>
+            <div className="col-start-2 col-end-10 lg:col-end-7 ">
+              <div className="flex col-start-2 col-end-7 items-center justify-center">
+                <h1 className="text-md md:text-xl font-bold text-darkGrayish">
+                  {courseIWant?.category?.name}
+                </h1>
                 <span className="ms-auto pe-5 text-xs md:text-sm flex items-center space-x-1 font-bold">
                   <IoIosStar className="text-yellow-400" />
-                  <span>5.0</span>
+                  <span>{courseIWant.rating}</span>
                 </span>
               </div>
               <div className="col-start-2 col-end-5">
-                <h3 className="text-md md:text-xl font-medium">
-                  Intro to Basic of User Interaction Design
+                <h3 className="text-md md:text-xl font-bold pb-1">
+                  {courseIWant.name}
                 </h3>
-                <p className="text-sm md:text-md">by Simon Doe</p>
-                <div className="flex space-x-5 text-sm text-center pt-6">
+                <p className="text-sm md:text-md">by {courseIWant.author}</p>
+                <div className="flex space-x-5 text-sm text-center pt-2">
                   <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
                     <RiShieldStarLine className="text-xl text-darkGrayish" />
-                    <p className="font-bold text-darkRed01">Begginer level</p>
+                    <p className="font-semibold ">{courseIWant.level}</p>
                   </p>
                   <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
                     <RiBookLine className="text-xl text-darkGrayish" />
-                    <p className="font-bold text-darkRed01">5 Modul</p>
+                    <p className="font-semibold ">{courseIWant.modul} Modul</p>
                   </p>
                   <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
                     <RiTimeFill className="text-xl text-darkGrayish" />
-                    <p className="font-bold text-darkRed01">45 Menit</p>
+                    <p className="font-semibold ">{courseIWant.durasi} Menit</p>
                   </p>
                 </div>
-
-                <button className="inline-flex h-8 md:h-10 items-center justify-center gap-2 whitespace-nowrap rounded rounded-full bg-sky-500 px-4 md:px-8 text-xs md:text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-sky-600 focus:bg-sky-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300 disabled:shadow-none my-4">
-                  <span>Join Grup Telegram</span>
-                  <span className="relative only:-mx-5">
-                    <FaTelegramPlane />
-                  </span>
-                </button>
+                <a href={`https://${courseIWant.groupUrl}`} target="blank">
+                  <button className="btn inline-flex h-8 md:h-10 items-center justify-center gap-2 whitespace-nowrap rounded rounded-full bg-sky-500 px-4 md:px-6 text-xs md:text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-sky-600 focus:bg-sky-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300 disabled:shadow-none my-4">
+                    <span>Join Grup Telegram</span>
+                    <span className="relative only:-mx-5">
+                      <FaTelegramPlane />
+                    </span>
+                  </button>
+                </a>
               </div>
             </div>
             <div className="row-start-3 col-start-2 col-end-10 w-full lg:w-1/3 lg:justify-end lg:p-6 lg:absolute right-20">
@@ -86,8 +133,10 @@ const Detail = () => {
                   </div>
                 </div>
                 <div className="flex w-full justify-between space-x-4 text-xs md:text-sm font-bold pt-2">
-                  <span className="text-pinkTone">Chapter 1 - Pendahuluan</span>
-                  <span className="ms-auto text-blue-500 ">60 Menit</span>
+                  <span className="text-pinkTone">{chapterIWant.name}</span>
+                  <span className="ms-auto text-blue-500 ">
+                    {chapterIWant.duration}
+                  </span>
                 </div>
                 <div className="flex">
                   <ul className="divide-y w-full divide-slate-200">
@@ -103,48 +152,10 @@ const Detail = () => {
                         <div className="flex items-center w-full">
                           <div className="flex min-h-[2rem] flex-1 flex-col items-start justify-center gap-0 overflow-hidden">
                             <h4 className="text-sm md:text-base text-slate-700">
-                              Tujuan Mengikuti Kelas Design System
+                              {materialIWant.name}
                             </h4>
                           </div>
                           <FaCirclePlay className="text-xl text-darkMagenta" />
-                        </div>
-                      </Link>
-                    </li>
-                    <li className="flex gap-4 px-4 py-3">
-                      <Link to="/" className="flex space-x-3 w-full">
-                        <div className="self-center">
-                          <div className="h-8 w-8 ">
-                            <div className="bg-paleOrange w-full rounded-full flex justify-center items-center h-full text-darkRed font-semibold">
-                              <p className="">2</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center w-full">
-                          <div className="flex min-h-[2rem] flex-1 flex-col items-start justify-center gap-0 overflow-hidden">
-                            <h4 className="text-sm md:text-base text-slate-700">
-                              Pengenalan Design System
-                            </h4>
-                          </div>
-                          <FaCirclePlay className="text-xl text-darkMagenta" />
-                        </div>
-                      </Link>
-                    </li>
-                    <li className="flex gap-4 px-4 py-3">
-                      <Link to="/" className="flex space-x-3 w-full">
-                        <div className="self-center">
-                          <div className="h-8 w-8 ">
-                            <div className="bg-paleOrange w-full rounded-full flex justify-center items-center h-full text-darkRed font-semibold">
-                              <p className="">3</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center w-full">
-                          <div className="flex min-h-[2rem] flex-1 flex-col items-start justify-center gap-0 overflow-hidden">
-                            <h4 className="text-sm md:text-base text-slate-700">
-                              Contoh Dalam Membangun Design System
-                            </h4>
-                          </div>
-                          <FaCirclePlay className="text-xl text-pink" />
                         </div>
                       </Link>
                     </li>
@@ -155,41 +166,18 @@ const Detail = () => {
           </div>
           <div className="bg-paleWhite grid grid-cols-10 grid-rows-10">
             <div className="col-start-2 col-end-10 lg:col-end-7">
-              <div className="lg:px-5 py-5">
-                <iframe
-                  className="rounded-[25px] w-full aspect-video shadow-2xl"
-                  src="https://www.youtube.com/embed/1GHsinR-t3E?si=WFoKdMyEMboJoV21"
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
-                {/* <ReactPlayer
+              <div className="lg:-translate-x-3 my-5 overflow-hidden rounded-[25px] w-full aspect-auto shadow-2xl">
+                <ReactPlayer
+                  controls
                   width="100%"
                   className="border"
-                  url="https://www.youtube.com/embed/1GHsinR-t3E?si=WFoKdMyEMboJoV21"
-                /> */}
+                  url={materialIWant?.videoUrl}
+                />
               </div>
               <div className="p-5 text-justify">
                 <h1>Tentang Kelas</h1>
                 <p className="indent-8 text-sm leading-loose">
-                  Design system adalah kumpulan komponen design, code, ataupun
-                  dokumentasi yang dapat digunakan sebagai panduan utama yang
-                  memunginkan designer serta developer memiliki lebih banyak
-                  kontrol atas berbagai platform. Dengan hadirnya design system,
-                  dapat menjaga konsistensi tampilan user interface dan
-                  meningkatkan user experience menjadi lebih baik. Disisi
-                  bisnis, design system sangat berguna dalam menghemat waktu dan
-                  biaya ketika mengembangkan suatu produk. Bersama mentor XXX,
-                  kita akan mempelajari design system dari mulai manfaat, alur
-                  kerja pembuatannya, tools yang digunakan, hingga pada
-                  akhirnya, kita akan membuat MVP dari design system. Selain
-                  itu, mentor juga akan menjelaskan berbagai resource yang
-                  dibutuhkan untuk mencari inspirasi mengenai design system.
-                  Kelas ini sesuai untuk Anda yang ingin memahami apa itu design
-                  system. Tidak hanya ditujukan untuk UI/UX Designer ataupun
-                  Developer, kelas ini sangat sesuai untuk stakeholder lain agar
-                  dapat memudahkan tim dalam bekerja sama. Yuk segera daftar dan
-                  kami tunggu di kelas ya!
+                  {courseIWant.description}
                 </p>
               </div>
               <div className="ps-5">

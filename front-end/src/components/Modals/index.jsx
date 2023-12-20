@@ -1,10 +1,20 @@
+/* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
-// import CourseCard from "../CourseCard";
-// import kelas from "../../data/kelas.json";
-// import useTheme from "../../../../../.";
+import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
+import { IoIosStar } from "react-icons/io";
 
-const Modal = () => {
+const Modal = ({
+  title,
+  name,
+  author,
+  rating,
+  level,
+  modul,
+  price,
+  image,
+  duration,
+}) => {
   const [isShowing, setIsShowing] = useState(true);
 
   const wrapperRef = useRef(null);
@@ -111,7 +121,7 @@ const Modal = () => {
                   </h3>
                   <button
                     onClick={() => setIsShowing(false)}
-                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full px-5 text-sm font-medium tracking-wide  text-purple-500 transition duration-300 hover:bg-purple-100 hover:text-purple-600 focus:bg-purple-200 focus:text-purple-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-purple-300 disabled:shadow-none disabled:hover:bg-transparent"
+                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full px-5 text-sm font-medium tracking-wide  text-darkMagenta transition duration-300 hover:bg-darkGrayish/10 hover:text-darkGrayish/60 focus:bg-darkGrayish/200 focus:text-darkGrayish/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-darkGrayish/30 disabled:shadow-none disabled:hover:bg-transparent"
                     aria-label="close dialog"
                   >
                     <span className="relative only:-mx-5">
@@ -138,51 +148,60 @@ const Modal = () => {
                     </span>
                   </button>
                 </header>
-                {/*        <!-- Modal body --> */}
-                {/* <div id="content-1a" className=" overflow-auto w-full">
-                  <div className="">
-                    <CourseCard
-                      image={kelas[1].image}
-                      title={kelas[1].title}
-                      rating={kelas[1].rating}
-                      description={kelas[1].description}
-                      instructor={kelas[1].instructor}
-                      level={kelas[1].level}
-                      modules={kelas[1].modules}
-                      duration={kelas[1].duration}
-                      type={kelas[1].type}
-                      price={kelas[1].price}
+                <div className="flex w-full justify-center">
+                  <div className="flex flex-col justify-center rounded-2xl border-2 w-fit overflow-hidden">
+                    <img
+                      src={image}
+                      className=" aspect-video w-full object-cover h-[100px]"
                     />
-                  </div>
-                </div> */}
-                <div className="grid justify-center">
-                  <img
-                    src="/src/assets/images/gambarCourse.svg"
-                    height={70}
-                    width={323}
-                  />
-                  {/* TEXT KONTEN */}
-                  <div className="p-2">
-                    <h3 className="font-semibold md:text-[14px]  text-secret-pink">
-                      UI/UX Design
-                    </h3>
-                    <h3 className="font-semibold md:text-[12px] text-[11px]">
-                      Intro to Basic of User Interaction Design
-                    </h3>
-                    <p className="md:text-[10px] text-[8px]">By Simon Doe</p>
+
+                    {/* TEXT KONTEN */}
+                    <div className="px-3 py-2">
+                      <div className="flex jusify-between">
+                        <h3 className="font-semibold md:text-[14px] text-secret-pink">
+                          {title}
+                        </h3>
+                        <div className="ms-auto flex items-center text-xs">
+                          <IoIosStar className="text-yellow-400 pe-1 min-w-fit" />
+                          {rating}
+                        </div>
+                      </div>
+                      <h3 className="font-semibold md:text-[12px] text-[11px] pe-3">
+                        {name}
+                      </h3>
+                      <p className="md:text-[10px] text-[8px]">By {author}</p>
+                    </div>
+
+                    <div className="flex justify-between pb-3 text-[10px] px-3">
+                      <span className="text-center sm:flex sm:text-start items-center gap-1">
+                        <RiShieldStarLine className="text-darkGrayish w-full sm:w-fit text-center" />
+                        <p>{level}</p>
+                      </span>
+                      <span className="text-center sm:flex sm:text-start items-center gap-1">
+                        <RiBookLine className="text-darkGrayish w-full sm:w-fit text-center" />
+                        <p>{modul} Modul</p>
+                      </span>
+                      <span className="text-center sm:flex sm:text-start items-center gap-1">
+                        <RiTimeFill className="text-darkGrayish w-full sm:w-fit text-center" />
+                        <p>{duration}</p>
+                      </span>
+                    </div>
+                    <div className="pb-3 px-3 text-sm font-semibold">
+                      Rp. {price}k
+                    </div>
                   </div>
                 </div>
                 {/*        <!-- Modal actions --> */}
                 <div className="flex justify-start gap-2">
                   <button
                     onClick={() => setIsShowing(false)}
-                    className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-purple-500 px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-purple-600 focus:bg-purple-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-purple-300 disabled:bg-purple-300 disabled:shadow-none"
+                    className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-pinkTone px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pinkTone/60 focus:bg-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone/30 disabled:bg-pinkTone/30 disabled:shadow-none"
                   >
                     <span>Beli Sekarang</span>
                   </button>
                   <button
                     onClick={() => setIsShowing(false)}
-                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded px-5 text-sm font-medium tracking-wide text-purple-500 transition duration-300 hover:bg-purple-100 hover:text-purple-600 focus:bg-purple-200 focus:text-purple-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-purple-300 disabled:shadow-none disabled:hover:bg-transparent"
+                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded px-5 text-sm font-medium tracking-wide text-pinkTone transition duration-300 hover:bg-pinkTone/20 hover:text-pinkTone/60 focus:bg-pinkTone/20 focus:text-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-pinkTone/30 disabled:shadow-none disabled:hover:bg-transparent"
                   >
                     <span>Nanti</span>
                   </button>

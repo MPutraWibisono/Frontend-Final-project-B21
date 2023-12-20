@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { IoIosStar } from "react-icons/io";
 import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const CourseCard = ({
+  id,
   image,
   title,
   rating,
@@ -27,7 +29,7 @@ const CourseCard = ({
           />
         </figure>
         {/*  <!-- Body--> */}
-        <div className="p-4 sm:h-50 lg:h-56 h-56 grid content-between">
+        <div className="p-4 sm:h-38 lg:h-44 h-44 grid content-between">
           <header className="">
             <div className="flex">
               <h3 className="text-sm font-bold text-slate-700 w-4/5">
@@ -61,15 +63,17 @@ const CourseCard = ({
 
             {/*<!-- Component: Small primary button with leading icon  --> */}
             <button className="btn btn-xs sm:btn-sm inline-flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-pinkTone px-4 font-medium tracking-wide text-white transition duration-300 hover:bg-pink focus:bg-darkMagenta focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
-              {type == "Premium" ? (
-                <>
+              {type == "PREMIUM" ? (
+                <Link to={`/details/${id}`}>
                   {/* <span className="relative only:-mx-4">💎</span> */}
-                  <span className="text-xs">{type}</span>
-                  <span className=" ms-auto ps-3 text-xs">{price}</span>
-                </>
+                  <span className="text-xs">Premium</span>
+                  <span className=" ms-auto ps-3 text-xs">Rp. {price}k</span>
+                </Link>
               ) : (
                 <>
-                  <span className="text-xs">Mulai Kelas</span>
+                  <Link to={`/details/${id}`} className="text-xs">
+                    Mulai Kelas
+                  </Link>
                 </>
               )}
             </button>
