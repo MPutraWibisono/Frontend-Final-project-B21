@@ -25,31 +25,46 @@ const ChangePass = () => {
   });
 
   const handlePassLama = (event) => {
-    setPassLamaValue({ ...passLamaValue, password: event.target.value });
+    setPassLamaValue((prevState) => ({
+      ...prevState,
+      password: event.target.value,
+    }));
   };
 
   const handlePassBaru = (event) => {
-    setPassBaruValue({ ...passBaruValue, password: event.target.value });
+    setPassBaruValue((prevState) => ({
+      ...prevState,
+      password: event.target.value,
+    }));
   };
 
   const handlePass = (event) => {
-    setPassValue({ ...passValue, password: event.target.value });
+    setPassValue((prevState) => ({
+      ...prevState,
+      password: event.target.value,
+    }));
   };
 
-  const toggleVisibility1 = () => {
-    setPassLamaValue({ ...passLamaValue, showPass: !passLamaValue.showPass });
-  };
-
-  const toggleVisibility2 = () => {
-    setPassBaruValue({ ...passBaruValue, showPass: !passBaruValue.showPass });
-  };
-
-  const toggleVisibility3 = () => {
-    setPassValue({ ...passValue, showPass: !passValue.showPass });
+  const toggleVisibility = (field) => {
+    if (field === "passLama") {
+      setPassLamaValue((prevState) => ({
+        ...prevState,
+        showPass: !prevState.showPass,
+      }));
+    } else if (field === "passBaru") {
+      setPassBaruValue((prevState) => ({
+        ...prevState,
+        showPass: !prevState.showPass,
+      }));
+    } else if (field === "passValue") {
+      setPassValue((prevState) => ({
+        ...prevState,
+        showPass: !prevState.showPass,
+      }));
+    }
   };
 
   const showAlert = (message, type = "info", duration = 5000) => {
-    const tempatAlert = document.querySelector(".tempatAlert");
     const alertElement = document.createElement("div");
     alertElement.classList.add("custom-alert");
     alertElement.classList.add("text-white");
@@ -70,19 +85,21 @@ const ChangePass = () => {
     }
 
     alertElement.textContent = message;
-    tempatAlert.appendChild(alertElement);
+    document.body.appendChild(alertElement);
 
     setTimeout(() => {
       alertElement.style.display = "none";
-      tempatAlert.removeChild(alertElement);
+      document.body.removeChild(alertElement);
     }, duration);
   };
 
-  const validasi = () => {
-    if (passLamaValue.password !== passBaruValue.password) {
-      showAlert("Masukkan Password dengan Benar", "error");
-    } else if (passBaruValue.password === passValue.password) {
-      showAlert("Password Baru tidak boleh sama dengan Password Lama", "error");
+  const validasi = (event) => {
+    event.preventDefault();
+
+    if (passLamaValue.password === passBaruValue.password) {
+      showAlert("Password Lama tidak boleh sama dengan Password Baru", "error");
+    } else if (passBaruValue.password !== passValue.password) {
+      showAlert("Password Baru tidak cocok dengan konfirmasi", "error");
     } else {
       showAlert("Berhasil Reset Password", "success");
     }
@@ -109,7 +126,6 @@ const ChangePass = () => {
             </div>
             <div className="flex">
               <ul className="col-span-1 p-4 w-1/2">
-                {/* Konten Sidebar */}
                 <li
                   style={{ marginTop: "2rem" }}
                   className="text-1xl flex items-center justify-between  border-b"
@@ -162,100 +178,100 @@ const ChangePass = () => {
               {/* Content */}
               <div className="col-span-3 p-4 w-full mx-auto flex justify-center flex-col items-start">
                 <div className="text-left mx-auto max-w-7xl content-container">
-                  <div className="text-center">
-                    <div className="text-3xl font-semibold">Ubah Password</div>
-                  </div>
-                  <div className="mt-2 relative block mb-4 lg:mb-8">
-                    <br />
-                    <p className="float-left">Masukkan Password Lama</p>
-
-                    <br />
-                    <input
-                      type={passLamaValue.showPass ? "text" : "password"}
-                      name="passLama"
-                      id="passInputlama"
-                      placeholder="Password Lama"
-                      className="float-left border-2 rounded-2xl w-full p-2 text-black"
-                      value={passLamaValue.password}
-                      onChange={handlePassLama}
-                      required
-                    />
-
-                    <button
-                      className="absolute right-4 top-14"
-                      onClick={toggleVisibility1}
-                    >
-                      {!passLamaValue.showPass ? (
-                        <PiEye color="grey" size={30} />
-                      ) : (
-                        <PiEyeSlash color="grey" size={30} />
-                      )}
-                    </button>
-                  </div>
-
-                  {/* passbaru */}
-                  <div className="mt-2 relative block mb-4 lg:mb-8">
-                    <br />
-                    <p className="float-left">Masukkan Password Baru</p>
-                    <br />
-                    <input
-                      type={passBaruValue.showPass ? "text" : "password"}
-                      name="passwordBaru"
-                      id="passInputBaru"
-                      placeholder=" Password Baru"
-                      className="float-left border-2 rounded-2xl w-full p-2 text-black"
-                      value={passBaruValue.password}
-                      onChange={handlePassBaru}
-                      required
-                    />
-
-                    <button
-                      className="absolute right-4 top-14"
-                      onClick={toggleVisibility2}
-                    >
-                      {!passBaruValue.showPass ? (
-                        <PiEye color="grey" size={30} />
-                      ) : (
-                        <PiEyeSlash color="grey" size={30} />
-                      )}
-                    </button>
-                  </div>
-
-                  <div className="mt-2 relative block mb-4 lg:mb-8">
-                    <br />
-                    <p className="float-left">Ulangi Password</p>
-                    <br />
-                    <input
-                      type={passValue.showPass ? "text" : "password"}
-                      name="ulangiPassword"
-                      id="passInput"
-                      placeholder="Ulangi Password"
-                      className="float-left border-2 rounded-2xl w-full p-2 text-black"
-                      value={passValue.password}
-                      onChange={handlePass}
-                      required
-                    />
-
-                    <button
-                      className="absolute right-4 top-14"
-                      onClick={toggleVisibility3}
-                    >
-                      {!passValue.showPass ? (
-                        <PiEye color="grey" size={30} />
-                      ) : (
-                        <PiEyeSlash color="grey" size={30} />
-                      )}
-                    </button>
-                  </div>
-
-                  <div className="text-center">
-                    <button
-                      onClick={validasi}
-                      className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
-                    >
-                      Ubah Password
-                    </button>
-                  </div>
+                  <form onSubmit={validasi}>
+                    <div className="text-center">
+                      <div className="text-2xl font-semibold sm:text-left">
+                        Ubah Password
+                      </div>
+                    </div>
+                    <div className="mt-2 relative block mb-4 lg:mb-8">
+                      <br />
+                      <p className="float-left">Masukkan Password Lama</p>
+                      <br />
+                      <input
+                        type={passLamaValue.showPass ? "text" : "password"}
+                        name="passLama"
+                        id="passInputlama"
+                        placeholder="Password Lama"
+                        className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                        value={passLamaValue.password}
+                        onChange={handlePassLama}
+                        required
+                        autoComplete="current-password"
+                      />
+                      <button
+                        className="absolute right-4 top-14"
+                        onClick={() => toggleVisibility("passLama")}
+                      >
+                        {!passLamaValue.showPass ? (
+                          <PiEye color="grey" size={30} />
+                        ) : (
+                          <PiEyeSlash color="grey" size={30} />
+                        )}
+                      </button>
+                    </div>
+                    <div className="mt-2 relative block mb-4 lg:mb-8">
+                      <br />
+                      <p className="float-left">Masukkan Password Baru</p>
+                      <br />
+                      <input
+                        type={passBaruValue.showPass ? "text" : "password"}
+                        name="passwordBaru"
+                        id="passInputBaru"
+                        placeholder=" Password Baru"
+                        className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                        value={passBaruValue.password}
+                        onChange={handlePassBaru}
+                        required
+                        autoComplete="new-password"
+                      />
+                      <button
+                        className="absolute right-4 top-14"
+                        onClick={() => toggleVisibility("passBaru")}
+                      >
+                        {!passBaruValue.showPass ? (
+                          <PiEye color="grey" size={30} />
+                        ) : (
+                          <PiEyeSlash color="grey" size={30} />
+                        )}
+                      </button>
+                    </div>
+                    <div className="mt-2 relative block mb-4 lg:mb-8">
+                      <br />
+                      <p className="float-left">Ulangi Password</p>
+                      <br />
+                      <input
+                        type={passValue.showPass ? "text" : "password"}
+                        name="ulangiPassword"
+                        id="passInput"
+                        placeholder="Ulangi Password"
+                        className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                        value={passValue.password}
+                        onChange={handlePass}
+                        required
+                        autoComplete="new-password"
+                      />
+                      <button
+                        className="absolute right-4 top-14"
+                        onClick={() => toggleVisibility("passValue")}
+                      >
+                        {!passValue.showPass ? (
+                          <PiEye color="grey" size={30} />
+                        ) : (
+                          <PiEyeSlash color="grey" size={30} />
+                        )}
+                      </button>
+                    </div>
+                    <div className="text-center">
+                      <button
+                        onClick={validasi}
+                        type="submit"
+                        className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
+                      >
+                        Ubah Password
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
