@@ -30,6 +30,10 @@ const Detail = () => {
     dispatch(getChapter(setErrors));
   }, [dispatch]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
@@ -164,7 +168,7 @@ const Detail = () => {
               </div>
             </div>
           </div>
-          <div className="bg-paleWhite grid grid-cols-10 grid-rows-10">
+          <div className="bg-paleWhite grid grid-cols-10 grid-rows-10 pb-10">
             <div className="col-start-2 col-end-10 lg:col-end-7">
               <div className="lg:-translate-x-3 my-5 overflow-hidden rounded-[25px] w-full aspect-auto shadow-2xl">
                 <ReactPlayer

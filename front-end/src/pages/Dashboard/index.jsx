@@ -45,6 +45,10 @@ const Kelas = () => {
     dispatch(getCourse(setErrors));
   }, [dispatch]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleCheckboxChange = (sectionTitle, optionLabel) => {
     setFilterOptions((prevOptions) =>
       prevOptions.map((section) =>

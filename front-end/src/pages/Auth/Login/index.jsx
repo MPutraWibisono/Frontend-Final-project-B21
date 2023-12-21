@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PiEye } from "react-icons/pi";
 import { PiEyeSlash } from "react-icons/pi";
 import { Link } from "react-router-dom";
@@ -23,6 +23,10 @@ const LoginPage = () => {
   const toggleVisibility = () => {
     setPassValue({ ...passValue, showPass: !passValue.showPass });
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // buat nyobain alert validasi
   const Dummy = {
     Email: "coba1",

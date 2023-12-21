@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -14,6 +15,9 @@ import phoneRegExp from "../../../libs/phoneReg";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // const [passValue, setPassValue] = useState({
   //   password: "",
   //   showPass: false,

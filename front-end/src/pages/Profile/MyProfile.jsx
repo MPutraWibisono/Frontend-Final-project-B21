@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import {
@@ -28,80 +29,94 @@ function InputForm({ label, id, type, placeholder }) {
     </div>
   );
 }
+
 const MyProfile = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <div className="pt-20">
-        <Disclosure className="bg-cream06 h-20">
-          <div className="flex items-center">
+        {/* Header */}
+        <Disclosure className="bg-paleOrange w-full h-20">
+          <div className="flex items-center w-full">
             <IoArrowBackSharp className="h-6 w-6 text-pinkTone mt-1" />
-            <div className="text-1xl text-pinkTone mt-1 mr-2">
+            <div className="text-1xl text-pinkTone mt-1 ml-2">
               <Link to="/">Kembali ke Beranda</Link>
             </div>
           </div>
         </Disclosure>
-        <div className="bg-pinkTone shadow">
-          <div className="text-center mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-2xl tracking-tight text-white">Akun</h1>
-          </div>
-        </div>
 
-        <main className="flex">
-          {/* Sidebar */}
-          <div className="drawer lg:drawer-open">
-            <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content flex flex-col items-center justify-center">
-              {/* Page content here */}
+        {/* Main Container */}
+        <div className="flex pb-5 h-screen items-start justify-center relative">
+          <div className="absolute bg-white md:rounded-lg overflow-hidden shadow-md flex flex-col w-full md:w-3/4 border border-pinkTone">
+            <div className="bg-pinkTone text-white p-4 flex items-center justify-center rounded-t-lg">
+              <h1 className="text-2xl tracking-tight">Akun</h1>
             </div>
-            <div className="drawer-side">
-              <label
-                htmlFor="my-drawer-2"
-                aria-label="close sidebar"
-                className="drawer-overlay"
-              ></label>
-              <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content my-ul">
-                {/* Sidebar content here */}
-                <li className="mt-5">
+            <div className="flex">
+              <ul className="col-span-1 p-4 w-1/2">
+                {/* Konten Sidebar */}
+                <li
+                  style={{ marginTop: "2rem" }}
+                  className="text-1xl flex items-center justify-between  border-b"
+                >
                   <Link to="/profile">
-                    <IoPencilSharp className="text-pinkTone" />
-                    Profil Saya
+                    <div className="flex items-center">
+                      <IoPencilSharp className="text-pinkTone mr-2" />
+                      <span>Profil Saya</span>
+                    </div>
                   </Link>
                 </li>
-                <li className="mt-5">
+                <li
+                  style={{ marginTop: "2rem" }}
+                  className="text-1xl flex items-center justify-between  border-b"
+                >
                   <Link to="/changepassword">
-                    <IoSettingsOutline className="text-pinkTone" />
-                    Ubah Password
+                    <div className="flex items-center">
+                      <IoSettingsOutline className="text-pinkTone mr-2" />
+                      <span>Ubah Password</span>
+                    </div>
                   </Link>
                 </li>
-                <li className="mt-5">
+                <li
+                  style={{ marginTop: "2rem" }}
+                  className="text-1xl flex items-center justify-between  border-b"
+                >
                   <Link to="/purchasehistory">
-                    <IoCartOutline className="text-pinkTone" />
-                    Riwayat Pembayaran
+                    <div className="flex items-center">
+                      <IoCartOutline className="text-pinkTone mr-2" />
+                      <span>Riwayat Pembayaran</span>
+                    </div>
                   </Link>
                 </li>
-                <li className="mt-5">
-                  <Link to="/logout">
-                    <IoLogOutOutline className="text-pinkTone" />
-                    Keluar
+                <li
+                  style={{ marginTop: "2rem" }}
+                  className="text-1xl flex items-center justify-between border-b"
+                >
+                  <Link to="/">
+                    <div className="flex items-center ">
+                      <IoLogOutOutline className="text-pinkTone mr-2" />
+                      <span>Keluar</span>
+                    </div>
                   </Link>
                 </li>
+                <p className="text-sm text-gray-500 mt-5 p-5 text-center">
+                  Versi 1.0.0
+                </p>
               </ul>
-            </div>
-          </div>
 
-          {/* Content */}
-          <div className="container mx-auto">
-            <div className="flex border rounded-lg items-center">
-              <div className="container mx-auto mt-5">
-                <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+              {/* Content */}
+              <div className="col-span-3 p-4 w-full mx-auto flex justify-center flex-col items-start">
+                <div className="text-left mx-auto max-w-7xl">
                   <div className="text-center">
                     <img
                       src={profile}
-                      className="w-20 mx-auto block"
+                      className="w-20 mt-4 mx-auto block sm:w-10"
                       alt="profile"
                     />
                   </div>
-                  <form className="rounded-lg ">
+
+                  <form>
                     <InputForm
                       label="Nama"
                       id="nama"
@@ -133,10 +148,11 @@ const MyProfile = () => {
                       placeholder="Masukan Kota tempat tinggal"
                     />
                   </form>
+
                   <div className="text-center">
                     <button
                       // onClick={handleDeleteFilter}
-                      className=" text-sm rounded-3xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
+                      className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
                     >
                       Simpan Profil Saya
                     </button>
@@ -145,8 +161,9 @@ const MyProfile = () => {
               </div>
             </div>
           </div>
-        </main>
+        </div>
       </div>
+      {/* Header */}
     </>
   );
 };

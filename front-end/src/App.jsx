@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Homepage from "./pages/Home";
 import {
   ForgotOTP,
@@ -47,6 +48,7 @@ function App() {
           <Route path="/payment/success" element={<PaymentSucces />} />
           <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </Provider>
   );

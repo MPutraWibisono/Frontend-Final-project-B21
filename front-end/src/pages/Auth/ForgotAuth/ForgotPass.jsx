@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { PiEye } from "react-icons/pi";
 import { PiEyeSlash } from "react-icons/pi";
@@ -15,6 +15,10 @@ const ForgotPass = () => {
     password: "",
     showPass: false,
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   //handle onchange password
   const handlePass1 = (event) => {
