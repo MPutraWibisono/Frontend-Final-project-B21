@@ -33,7 +33,8 @@ function App() {
           <Route path="/auth/register" element={<RegisterPage />} />
           <Route path="/auth/register/otp" element={<RegisterOTP />} />
           <Route path="/auth/resetpassword" element={<ForgotPass />} />
-          <Route path="/auth/otp" element={<ForgotOTP />} />
+          <Route path="/auth/otp" element={<RegisterOTP />} />
+          <Route path="/auth/forgot/otp" element={<ForgotOTP />} />
           <Route path="/profile" element={<MyProfile />} />
           <Route path="/notifications" element={<Notification />} />
           <Route path="/changepassword" element={<ChangePass />} />
