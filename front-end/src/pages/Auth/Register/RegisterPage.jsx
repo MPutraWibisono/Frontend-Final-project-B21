@@ -54,36 +54,21 @@ const RegisterPage = () => {
           values.phone = values.phone.replace(/\s/g, "");
         }
 
-        const [response, responseOTP] = await Promise.all([
-          axiosInstance.post("/api/v1/auth/", {
-            name: values.name,
-            email: values.email,
-            phone: values.phone,
-            password: values.password,
-          }),
-          axiosInstance.post("/api/v1/auth/otp", {
-            email: values.email,
-          }),
-        ]);
+        const response = await axiosInstance.post("/api/v1/auth/", {
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          password: values.password,
+        });
 
         toastNotify({
           type: "success",
           message: response.data.message,
         });
 
-        if (responseOTP.data.error === false) {
-          toastNotify({
-            type: "success",
-            message: responseOTP.data.message,
-          });
-          setTimeout(() => {
-            toastNotify({
-              type: "info",
-              message: "Halaman akan diarahkan ke halaman OTP dalam 3 detik",
-            });
-            navigate("/auth/login");
-          }, 3000);
-        }
+        localStorage.setItem("email", values.email);
+
+        navigate("/auth/otp");
       } catch (error) {
         toastNotify({
           type: "error",
