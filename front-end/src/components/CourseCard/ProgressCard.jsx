@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { IoIosStar } from "react-icons/io";
 import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
-const CourseCard = ({
+const ProgressCard = ({
+  id,
   image,
   title,
   rating,
@@ -11,24 +13,22 @@ const CourseCard = ({
   level,
   modules,
   duration,
-  type,
-  price,
 }) => {
   return (
     <>
       {/*<!-- Component: Basic blog card --> */}
-      <div className=" overflow-hidden rounded-lg bg-white text-slate-500 shadow-md shadow-slate-200">
-        {/*  <!-- Image --> */}
-        <figure>
-          <img
-            src={image}
-            alt="card image"
-            className="aspect-video w-full object-cover h-[100px]"
-          />
-        </figure>
-        {/*  <!-- Body--> */}
-        <div className="p-6 sm:h-50 lg:h-56 h-56 grid content-between">
-          <header className="">
+      <Link to={`/details/${id}`}>
+        <div className=" overflow-hidden rounded-2xl bg-white text-slate-500 shadow-md shadow-slate-200 transition duration-100 hover:scale-105">
+          {/*  <!-- Image --> */}
+          <figure>
+            <img
+              src={image}
+              alt="card image"
+              className="aspect-video w-full object-cover h-[100px]"
+            />
+          </figure>
+          {/*  <!-- Body--> */}
+          <div className="px-4 py-2 sm:h-34 lg:h-36 h-36 flex flex-col content-start">
             <div className="flex">
               <h3 className="text-sm font-bold text-slate-700 w-4/5">
                 {title}
@@ -42,9 +42,7 @@ const CourseCard = ({
               {description}
             </p>
             <p className="text-xs text-slate-400">By {instructor}</p>
-          </header>
-          <div>
-            <div className="flex justify-between pb-3 text-[10px] ">
+            <div className="flex justify-between py-1 text-[10px] ">
               <span className="text-center sm:flex sm:text-start items-center gap-1">
                 <RiShieldStarLine className="text-darkGrayish w-full sm:w-fit text-center" />
                 <p>{level}</p>
@@ -58,28 +56,20 @@ const CourseCard = ({
                 <p>{duration}</p>
               </span>
             </div>
-
-            {/*<!-- Component: Small primary button with leading icon  --> */}
-            <button className="btn btn-xs sm:btn-sm inline-flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-pinkTone px-4 font-medium tracking-wide text-white transition duration-300 hover:bg-pink focus:bg-darkMagenta focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
-              {type == "Premium" ? (
-                <>
-                  {/* <span className="relative only:-mx-4">💎</span> */}
-                  <span className="text-xs">{type}</span>
-                  <span className=" ms-auto ps-3 text-xs">{price}</span>
-                </>
-              ) : (
-                <>
-                  <span className="text-xs">Mulai Kelas</span>
-                </>
-              )}
-            </button>
-            {/*<!-- End Small primary button with leading icon  --> */}
+            <div className="mt-auto">
+              <progress
+                className="progress progress-success w-full"
+                value="30"
+                max="100"
+              ></progress>
+            </div>
           </div>
         </div>
-      </div>
+      </Link>
+
       {/*<!-- End Basic blog card --> */}
     </>
   );
 };
 
-export default CourseCard;
+export default ProgressCard;

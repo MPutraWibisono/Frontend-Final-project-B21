@@ -7,24 +7,12 @@ import { toastNotify } from "../../../libs/utils";
 import logo4 from "../../../assets/images/logo4.png";
 import { PatternFormat } from "react-number-format";
 import phoneRegExp from "../../../libs/phoneReg";
-// import "react-phone-number-input/style.css";
-// import PhoneInput from "react-phone-number-input";
-// import { useState } from "react";
-// import { PiEye } from "react-icons/pi";
-// import { PiEyeSlash } from "react-icons/pi";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  // const [passValue, setPassValue] = useState({
-  //   password: "",
-  //   showPass: false,
-  // });
-  // const toggleVisibility = () => {
-  //   setPassValue({ ...passValue, showPass: !passValue.showPass });
-  // };
 
   const formik = useFormik({
     initialValues: {
@@ -61,7 +49,7 @@ const RegisterPage = () => {
 
   return (
     <div className="flex flex-col lg:flex-row w-full min-h-screen mx-auto max-w-7xl lg:max-w-[96rem]">
-      <div className="bg-white w-full p-8 lg:px-16 flex items-center justify-start overflow-hidden flex-col ">
+      <div className="bg-white w-full p-8 lg:px-16 flex items-center justify-center overflow-hidden flex-col ">
         <div className="w-full sm:w-2/3 lg:w-2/3">
           <h1 className="font-bold text-[28px] text-darkGrayish text-center">
             Daftar

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CourseCard from "../../components/CourseCard/Card";
+// import ProgressCard from "../../components/CourseCard/ProgressCard";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
 // import { Link, useParams } from "react-router-dom";
@@ -159,79 +160,90 @@ const Kelas = () => {
           
         </div> */}
         </div>
-        <div className="container mx-auto p-4 flex flex-col">
-          <div className="flex items-center justify-between mb-4 mx-auto md:mx-0 md:ms-auto">
-            <div className="relative flex items-center me-6">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="Cari Kelas..."
-                className="p-3 px-6 pr-14 rounded border border-pinkTone outline-0 text-black rounded-2xl text-sm"
-              />
-              <div className="absolute right-2 ">
-                <IoSearch className="h-6 w-6 text-pinkTone me-3" />
+        <div className="container flex flex-col justify-between">
+          <div>
+            <div className="flex items-center my-4 mx-auto md:mx-0 md:ms-auto justify-end">
+              <div className="relative flex items-center me-6">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  placeholder="Cari Kelas..."
+                  className="p-3 px-6 pr-14 rounded border border-pinkTone outline-0 text-black rounded-2xl text-sm"
+                />
+                <div className="absolute right-2 ">
+                  <IoSearch className="h-6 w-6 text-pinkTone me-3" />
+                </div>
+              </div>
+            </div>
+            <div className="mx-auto p-4 flex flex-col">
+              <div className="flex justify-center space-x-4 mb-4 overflow-x-auto py-3 ps-16">
+                <button
+                  value={"All"}
+                  onClick={(e) => handleClassType(e.currentTarget.value)}
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                    selectedFilter === "All"
+                      ? "w-64 bg-pink hover:bg-pink"
+                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                  }`}
+                >
+                  <span>All</span>
+                </button>
+                <button
+                  value={"Premium"}
+                  onClick={(e) => handleClassType(e.currentTarget.value)}
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                    selectedFilter === "Premium"
+                      ? "w-64 bg-pink hover:bg-pink"
+                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                  }`}
+                >
+                  <span>Kelas Premium</span>
+                </button>
+                <button
+                  value={"Gratis"}
+                  onClick={(e) => handleClassType(e.currentTarget.value)}
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                    selectedFilter === "Gratis"
+                      ? "w-64 bg-pink hover:bg-pink"
+                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                  }`}
+                >
+                  <span>Kelas Gratis</span>
+                </button>
+              </div>
+
+              <div className="flex flex-row flex-wrap justify-around gap-5 p-2">
+                {filteredClasses.map((course) => (
+                  <div
+                    className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
+                    key={course?.id}
+                  >
+                    <CourseCard
+                      id={course?.id}
+                      image={course?.imageUrl}
+                      title={course?.category?.name}
+                      rating={course?.rating}
+                      description={course?.name}
+                      instructor={course?.author}
+                      level={course?.level}
+                      modules={course?.modul}
+                      duration={course?.duration}
+                      type={course?.type}
+                      price={course?.price}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-
-          <div className="flex justify-center space-x-4 mb-4 overflow-x-auto py-3 ps-16">
-            <button
-              value={"All"}
-              onClick={(e) => handleClassType(e.currentTarget.value)}
-              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
-                selectedFilter === "All"
-                  ? "w-64 bg-pink hover:bg-pink"
-                  : "w-32 bg-pinkTone hover:bg-pink/60"
-              }`}
-            >
-              <span>All</span>
+          <div className="join self-center ">
+            <button className="join-item btn text-white bg-pinkTone col-start-3">
+              Previous
             </button>
-            <button
-              value={"Premium"}
-              onClick={(e) => handleClassType(e.currentTarget.value)}
-              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
-                selectedFilter === "Premium"
-                  ? "w-64 bg-pink hover:bg-pink"
-                  : "w-32 bg-pinkTone hover:bg-pink/60"
-              }`}
-            >
-              <span>Kelas Premium</span>
+            <button className="join-item btn text-white bg-pinkTone">
+              Next
             </button>
-            <button
-              value={"Gratis"}
-              onClick={(e) => handleClassType(e.currentTarget.value)}
-              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
-                selectedFilter === "Gratis"
-                  ? "w-64 bg-pink hover:bg-pink"
-                  : "w-32 bg-pinkTone hover:bg-pink/60"
-              }`}
-            >
-              <span>Kelas Gratis</span>
-            </button>
-          </div>
-
-          <div className="flex flex-row flex-wrap justify-around gap-5 p-2">
-            {filteredClasses.map((course) => (
-              <div
-                className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
-                key={course?.id}
-              >
-                <CourseCard
-                  id={course?.id}
-                  image={course?.imageUrl}
-                  title={course?.category?.name}
-                  rating={course?.rating}
-                  description={course?.name}
-                  instructor={course?.author}
-                  level={course?.level}
-                  modules={course?.modul}
-                  duration={course?.duration}
-                  type={course?.type}
-                  price={course?.price}
-                />
-              </div>
-            ))}
           </div>
         </div>
       </div>

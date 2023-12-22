@@ -130,22 +130,27 @@ const Homepage = () => {
               modules={[Autoplay, Pagination, Navigation]}
               className="mySwiper"
             >
-              {category.map((categories) => (
-                <SwiperSlide key={categories?.id}>
-                  <Link to={`/class/?category=${categories?.id}`}>
-                    <div className=" lg:max-h-80 overflow-hidden rounded-[25px] shadow-md shadow-slate-400 transition duration-200 hover:scale-95 active:scale-90 hover:opacity-90">
-                      <img
-                        src={categories?.imageUrl}
-                        alt={categories?.name}
-                        className="w-full object-cover object-center h-24 sm:h-20 lg:h-20 xl:h-32 2xl:h-44"
-                      />
-                    </div>
-                  </Link>
-                  <p className="text-center pt-3 pb-5 text-xs font-semibold">
-                    {categories?.name}
-                  </p>
-                </SwiperSlide>
-              ))}
+              {category ? (
+                category.map((categories) => (
+                  <SwiperSlide key={categories?.id}>
+                    <Link to={`/class/?category=${categories?.id}`}>
+                      <div className=" lg:max-h-80 overflow-hidden rounded-[25px] shadow-md shadow-slate-400 transition duration-200 hover:scale-95 active:scale-90 hover:opacity-90">
+                        <img
+                          src={categories?.imageUrl}
+                          alt={categories?.name}
+                          loading="lazy"
+                          className="w-full object-cover object-center h-24 sm:h-20 lg:h-24 xl:h-32 2xl:h-36"
+                        />
+                      </div>
+                    </Link>
+                    <p className="text-center pt-3 pb-5 text-xs font-semibold">
+                      {categories?.name}
+                    </p>
+                  </SwiperSlide>
+                ))
+              ) : (
+                <div className="skeleton w-32 h-32"></div>
+              )}
             </Swiper>
           </div>
         </div>
