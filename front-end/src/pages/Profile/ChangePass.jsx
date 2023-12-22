@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Disclosure } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import {
@@ -7,37 +8,64 @@ import {
   IoCartOutline,
   IoLogOutOutline,
 } from "react-icons/io5";
-import { useState } from "react";
 import { PiEye, PiEyeSlash } from "react-icons/pi";
 
 const ChangePass = () => {
-  const [newPassValue, setNewPassValue] = useState({
+  const [passLamaValue, setPassLamaValue] = useState({
     password: "",
-    showPass: false,
+    showPass: true,
+  });
+  const [passBaruValue, setPassBaruValue] = useState({
+    password: "",
+    showPass: true,
   });
   const [passValue, setPassValue] = useState({
     password: "",
-    showPass: false,
+    showPass: true,
   });
 
+  const handlePassLama = (event) => {
+    setPassLamaValue((prevState) => ({
+      ...prevState,
+      password: event.target.value,
+    }));
+  };
+
   const handlePassBaru = (event) => {
-    setNewPassValue({ ...newPassValue, password: event.target.value });
+    setPassBaruValue((prevState) => ({
+      ...prevState,
+      password: event.target.value,
+    }));
   };
 
-  const handleUlangiPass = (event) => {
-    setPassValue({ ...passValue, password: event.target.value });
+  const handlePass = (event) => {
+    setPassValue((prevState) => ({
+      ...prevState,
+      password: event.target.value,
+    }));
   };
 
-  const toggleVisibility2 = () => {
-    setNewPassValue({ ...newPassValue, showPass: !newPassValue.showPass });
-  };
-
-  const toggleVisibility3 = () => {
-    setPassValue({ ...passValue, showPass: !passValue.showPass });
+  const toggleVisibility = (field) => {
+    if (field === "passLama") {
+      setPassLamaValue((prevState) => ({
+        ...prevState,
+        showPass: !prevState.showPass,
+      }));
+    } else if (field === "passBaru") {
+      setPassBaruValue((prevState) => ({
+        ...prevState,
+        showPass: !prevState.showPass,
+      }));
+    } else if (field === "passValue") {
+      setPassValue((prevState) => ({
+        ...prevState,
+        showPass: !prevState.showPass,
+      }));
+    }
   };
 
   const showAlert = (message, type = "info", duration = 5000) => {
-    const tempatAlert = document.querySelector(".tempatAlert");
+    console.log(" ini showAlert ");
     const alertElement = document.createElement("div");
     alertElement.classList.add("custom-alert");
     alertElement.classList.add("text-white");
@@ -58,17 +86,21 @@ const ChangePass = () => {
     }
 
     alertElement.textContent = message;
-    tempatAlert.appendChild(alertElement);
+    document.body.appendChild(alertElement);
 
     setTimeout(() => {
       alertElement.style.display = "none";
-      tempatAlert.removeChild(alertElement);
+      document.body.removeChild(alertElement);
     }, duration);
   };
 
-  const validasi = () => {
-    if (newPassValue.password !== passValue.password) {
-      showAlert("Input Password Salah", "error");
+  const validasi = (event) => {
+    event.preventDefault();
+    console.log("ini validasi");
+    if (passLamaValue.password === passBaruValue.password) {
+      showAlert("Password Lama tidak boleh sama dengan Password Baru", "error");
+    } else if (passBaruValue.password !== passValue.password) {
+      showAlert("Password Baru tidak cocok dengan konfirmasi", "error");
     } else {
       showAlert("Berhasil Reset Password", "success");
     }
@@ -77,140 +109,174 @@ const ChangePass = () => {
   return (
     <>
       <div className="pt-20">
-        <Disclosure className="bg-cream06 h-20">
-          <div className="flex items-center">
-            <IoArrowBackSharp className="h-6 w-6 text-black mt-1" />
-            <div className="text-1xl text-black mt-1 mr-2">
+        {/* Header */}
+        <Disclosure className="bg-paleOrange h-20">
+          <div className="flex items-center w-full">
+            <IoArrowBackSharp className="h-6 w-6 text-pinkTone mt-1" />
+            <div className="text-1xl text-pinkTone mt-1 ml-2">
               <Link to="/">Kembali ke Beranda</Link>
             </div>
           </div>
         </Disclosure>
-        <div className="bg-pink01 shadow">
-          <div className="text-center mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-2xl tracking-tight text-white">Akun</h1>
+
+        {/* Main Container */}
+        <div className="flex pb-5 h-screen items-start justify-center">
+          <div className="relative bg-white rounded-lg overflow-hidden shadow-md flex flex-col w-3/4 border border-pinkTone">
+            <div className="bg-pinkTone text-white p-4 flex items-center justify-center rounded-t-lg">
+              <h1 className="text-2xl tracking-tight">Akun</h1>
+            </div>
+            <div className="flex">
+              <ul className=" col-span-1 p-4 w-1/2 ">
+                <li
+                  style={{ marginTop: "2rem" }}
+                  className="text-1xl flex items-center justify-between border-b "
+                >
+                  <Link to="/profile">
+                    <div className="flex items-center  ">
+                      <IoPencilSharp className="text-pinkTone mr-2" />
+                      <span>Profil Saya</span>
+                    </div>
+                  </Link>
+                </li>
+                <li
+                  style={{ marginTop: "2rem" }}
+                  className="text-1xl flex items-center justify-between  border-b"
+                >
+                  <Link to="/changepassword">
+                    <div className="flex items-center">
+                      <IoSettingsOutline className="text-pinkTone mr-2" />
+                      <span>Ubah Password</span>
+                    </div>
+                  </Link>
+                </li>
+                <li
+                  style={{ marginTop: "2rem" }}
+                  className="text-1xl flex items-center justify-between  border-b"
+                >
+                  <Link to="/purchasehistory">
+                    <div className="flex items-center">
+                      <IoCartOutline className="text-pinkTone mr-2" />
+                      <span>Riwayat Pembayaran</span>
+                    </div>
+                  </Link>
+                </li>
+                <li
+                  style={{ marginTop: "2rem" }}
+                  className="text-1xl flex items-center justify-between border-b"
+                >
+                  <Link to="/">
+                    <div className="flex items-center ">
+                      <IoLogOutOutline className="text-pinkTone mr-2" />
+                      <span>Keluar</span>
+                    </div>
+                  </Link>
+                </li>
+                <p className="text-sm text-gray-500 mt-5 p-5 text-center">
+                  Versi 1.0.0
+                </p>
+              </ul>
+
+              {/* Content */}
+              <div className="col-span-3 p-4 w-full mx-auto flex justify-center flex-col items-start">
+                <div className="text-left mx-auto max-w-7xl content-container">
+                  <form onSubmit={validasi}>
+                    <div className="text-center">
+                      <div className="text-2xl font-semibold sm:text-left">
+                        Ubah Password
+                      </div>
+                    </div>
+                    <div className="mt-2 relative block mb-4 lg:mb-8">
+                      <br />
+                      <p className="float-left">Masukkan Password Lama</p>
+                      <br />
+                      <input
+                        type={passLamaValue.showPass ? "text" : "password"}
+                        name="passLama"
+                        id="passInputlama"
+                        placeholder="Password Lama"
+                        className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                        value={passLamaValue.password}
+                        onChange={handlePassLama}
+                        required
+                        autoComplete="current-password"
+                      />
+                      <button
+                        className="absolute right-4 top-14"
+                        onClick={() => toggleVisibility("passLama")}
+                      >
+                        {!passLamaValue.showPass ? (
+                          <PiEye color="grey" size={30} />
+                        ) : (
+                          <PiEyeSlash color="grey" size={30} />
+                        )}
+                      </button>
+                    </div>
+                    <div className="mt-2 relative block mb-4 lg:mb-8">
+                      <br />
+                      <p className="float-left">Masukkan Password Baru</p>
+                      <br />
+                      <input
+                        type={passBaruValue.showPass ? "text" : "password"}
+                        name="passwordBaru"
+                        id="passInputBaru"
+                        placeholder=" Password Baru"
+                        className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                        value={passBaruValue.password}
+                        onChange={handlePassBaru}
+                        required
+                        autoComplete="new-password"
+                      />
+                      <button
+                        className="absolute right-4 top-14"
+                        onClick={() => toggleVisibility("passBaru")}
+                      >
+                        {!passBaruValue.showPass ? (
+                          <PiEye color="grey" size={30} />
+                        ) : (
+                          <PiEyeSlash color="grey" size={30} />
+                        )}
+                      </button>
+                    </div>
+                    <div className="mt-2 relative block mb-4 lg:mb-8">
+                      <br />
+                      <p className="float-left">Ulangi Password</p>
+                      <br />
+                      <input
+                        type={passValue.showPass ? "text" : "password"}
+                        name="ulangiPassword"
+                        id="passInput"
+                        placeholder="Ulangi Password"
+                        className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                        value={passValue.password}
+                        onChange={handlePass}
+                        required
+                        autoComplete="new-password"
+                      />
+                      <button
+                        className="absolute right-4 top-14"
+                        onClick={() => toggleVisibility("passValue")}
+                      >
+                        {!passValue.showPass ? (
+                          <PiEye color="grey" size={30} />
+                        ) : (
+                          <PiEyeSlash color="grey" size={30} />
+                        )}
+                      </button>
+                    </div>
+                    <div className="text-center">
+                      <button
+                        type="submit"
+                        className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
+                      >
+                        Ubah Password
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <main className="flex items-center justify-center">
-          {/* Sidebar */}
-          <div className="drawer lg:drawer-open">
-            <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content flex flex-col items-center justify-center">
-              {/* Page content here */}
-            </div>
-            <div className="drawer-side">
-              <label
-                htmlFor="my-drawer-2"
-                aria-label="close sidebar"
-                className="drawer-overlay"
-              ></label>
-              <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content my-ul">
-                {/* Sidebar content here */}
-                <li className="mt-5">
-                  <Link to="/profile">
-                    <IoPencilSharp className="text-brown01" />
-                    Profil Saya
-                  </Link>
-                </li>
-                <li className="mt-5">
-                  <Link to="/changepassword">
-                    <IoSettingsOutline className="text-brown01" />
-                    Ubah Password
-                  </Link>
-                </li>
-                <li className="mt-5">
-                  <Link to="/purchasehistory">
-                    <IoCartOutline className="text-brown01" />
-                    Riwayat Pembayaran
-                  </Link>
-                </li>
-                <li className="mt-5">
-                  <Link to="/logout">
-                    <IoLogOutOutline className="text-brown01" />
-                    Keluar
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="container mx-auto">
-            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-              <div className="text-center">
-                <div className="text-2xl">Ubah Password</div>
-              </div>
-              <div className="mt-2 relative block mb-4 lg:mb-8">
-                <br />
-                <p className="float-left">Masukkan Password Lama</p>
-
-                <br />
-              </div>
-              <div className="mt-2 relative block mb-4 lg:mb-8">
-                <br />
-                <p className="float-left">Masukkan Password Baru</p>
-
-                <br />
-                <input
-                  type={newPassValue.showPass ? "text" : "password"}
-                  name="password"
-                  id="passInput2"
-                  placeholder="Password Baru"
-                  className="float-left border-2 rounded-2xl w-full p-2 text-black"
-                  value={newPassValue.password}
-                  onChange={handlePassBaru}
-                  required
-                />
-
-                <button
-                  className="absolute right-4 top-14"
-                  onClick={toggleVisibility2}
-                >
-                  {!newPassValue.showPass ? (
-                    <PiEye color="grey" size={30} />
-                  ) : (
-                    <PiEyeSlash color="grey" size={30} />
-                  )}
-                </button>
-              </div>
-              <div className="mt-2 relative block mb-4 lg:mb-8">
-                <br />
-                <p className="float-left">Ulangi Password Baru</p>
-
-                <br />
-                <input
-                  type={passValue.showPass ? "text" : "password"}
-                  name="password"
-                  id="passInput3"
-                  placeholder="Ulangi Password"
-                  className="float-left border-2 rounded-2xl w-full p-2 text-black"
-                  value={passValue.password}
-                  onChange={handleUlangiPass}
-                  required
-                />
-
-                <button
-                  className="absolute right-4 top-14"
-                  onClick={toggleVisibility3}
-                >
-                  {!passValue.showPass ? (
-                    <PiEye color="grey" size={30} />
-                  ) : (
-                    <PiEyeSlash color="grey" size={30} />
-                  )}
-                </button>
-              </div>
-              <div className="text-center">
-                <button
-                  onClick={validasi}
-                  className="text-sm rounded-3xl font-semibold leading-6 bg-brown01 text-white border-4 border-brown01 m-10"
-                >
-                  Ubah Password
-                </button>
-              </div>
-            </div>
-          </div>
-        </main>
       </div>
     </>
   );

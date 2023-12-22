@@ -1,6 +1,6 @@
 import axios from "axios";
-import { setToken } from "../reducers/authReducer";
-// import { setUser } from "../reducers/profileReducer";
+import { setToken } from "../reducers/authReducers";
+
 
 export const login = (email, password, navigate) => async (dispatch) => {
   try {
@@ -14,7 +14,6 @@ export const login = (email, password, navigate) => async (dispatch) => {
 
     const data = response.data;
     const token = data.token;
-    // localStorage.setItem("token", token);
     console.log(token);
     dispatch(setToken(token));
     navigate("/");
