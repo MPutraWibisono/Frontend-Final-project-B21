@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CourseCard from "../../components/CourseCard/Card";
-import kelas from "../../data/kelas.json";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
+// import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCourse } from "../../redux/actions/courseActions";
+import Loading from "../../components/Loading";
 // import DropdownBasic from "../../components/Dropdown";
 
 const FilterSection = ({ title, options, handleCheckboxChange }) => (
@@ -30,6 +33,17 @@ const Kelas = () => {
   const [filterOptions, setFilterOptions] = useState(filtered);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
+  const dispatch = useDispatch();
+  const { course } = useSelector((state) => state.course);
+  // const { category } = useParams();
+  const [errors, setErrors] = useState({
+    isError: false,
+    message: null,
+  });
+
+  useEffect(() => {
+    dispatch(getCourse(setErrors));
+  }, [dispatch]);
 
   const handleCheckboxChange = (sectionTitle, optionLabel) => {
     setFilterOptions((prevOptions) =>
@@ -64,19 +78,11 @@ const Kelas = () => {
     resetFilters();
   };
 
-  const handleClassAll = () => {
-    setSelectedFilter("All");
+  const handleClassType = (e) => {
+    setSelectedFilter(e);
   };
 
-  const handleClassPremium = () => {
-    setSelectedFilter("Premium");
-  };
-
-  const handleClassFree = () => {
-    setSelectedFilter("Gratis");
-  };
-
-  const filteredClasses = kelas.filter((kelas) => {
+  const filteredClasses = course.filter((kelas) => {
     // filter by kelas & kategori yg dipilih
     const isCategorySelected = filterOptions[1].options.some(
       (category) => category.checked
@@ -88,7 +94,20 @@ const Kelas = () => {
         .filter((category) => category.checked)
         .map((category) => category.label.toLowerCase());
 
-      return selectedCategories.includes(kelas.title.toLowerCase());
+      return selectedCategories.includes(kelas?.category?.name.toLowerCase());
+    }
+    // filter by level kesulitan
+    const isLevelSelected = filterOptions.find(
+      (filter) => filter.title === "Level Kesulitan"
+    ).options.some((level) => level.checked);
+  
+    if (isLevelSelected && kelas.level && kelas.level.name) {
+      const selectedLevel = filterOptions
+        .find((filter) => filter.title === "Level Kesulitan")
+        .options.filter((level) => level.checked)
+        .map((level) => level.label.toLowerCase());
+  
+      return selectedLevel.includes(kelas.level.name.toLowerCase());
     }
 
     // filter by kelas Premium/Gratis sesuai selectedFilter
@@ -96,16 +115,24 @@ const Kelas = () => {
       return true;
     }
 
-    if (selectedFilter === "Premium" && kelas.type === "Premium") {
+    if (selectedFilter === "Premium" && kelas.type === "PREMIUM") {
       return true;
     }
 
-    if (selectedFilter === "Gratis" && kelas.type !== "Premium") {
+    if (selectedFilter === "Gratis" && kelas.type !== "PREMIUM") {
       return true;
     }
 
     return false;
   });
+
+  if (errors.isError) {
+    return <h1>{errors.message}</h1>;
+  }
+
+  if (course.length === 0) {
+    return <Loading />;
+  }
 
   return (
     <div className="bg-paleOrange text-white pt-20">
@@ -149,7 +176,7 @@ const Kelas = () => {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Cari Kelas..."
-                className="p-3 px-6 pr-14 rounded border border-pinkTone outline-0 text-black rounded-2xl text-sm"
+                className="p-3 px-6 pr-14 border border-pinkTone outline-0 text-black rounded-2xl text-sm"
               />
               <div className="absolute right-2 ">
                 <IoSearch className="h-6 w-6 text-pinkTone me-3" />
@@ -159,8 +186,9 @@ const Kelas = () => {
 
           <div className="flex justify-center space-x-4 mb-4 overflow-x-auto py-3 ps-16">
             <button
-              onClick={handleClassAll}
-              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+              value={"All"}
+              onClick={(e) => handleClassType(e.currentTarget.value)}
+              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
                 selectedFilter === "All"
                   ? "w-64 bg-pink hover:bg-pink"
                   : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -169,8 +197,9 @@ const Kelas = () => {
               <span>All</span>
             </button>
             <button
-              onClick={handleClassPremium}
-              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+              value={"Premium"}
+              onClick={(e) => handleClassType(e.currentTarget.value)}
+              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
                 selectedFilter === "Premium"
                   ? "w-64 bg-pink hover:bg-pink"
                   : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -179,8 +208,9 @@ const Kelas = () => {
               <span>Kelas Premium</span>
             </button>
             <button
-              onClick={handleClassFree}
-              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+              value={"Gratis"}
+              onClick={(e) => handleClassType(e.currentTarget.value)}
+              className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
                 selectedFilter === "Gratis"
                   ? "w-64 bg-pink hover:bg-pink"
                   : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -191,22 +221,23 @@ const Kelas = () => {
           </div>
 
           <div className="flex flex-row flex-wrap justify-around gap-5 p-2">
-            {filteredClasses.map((kelas, index) => (
+            {filteredClasses.map((course) => (
               <div
                 className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
-                key={index}
+                key={course?.id}
               >
                 <CourseCard
-                  image={kelas.image}
-                  title={kelas.title}
-                  rating={kelas.rating}
-                  description={kelas.description}
-                  instructor={kelas.instructor}
-                  level={kelas.level}
-                  modules={kelas.modules}
-                  duration={kelas.duration}
-                  type={kelas.type}
-                  price={kelas.price}
+                  id={course?.id}
+                  image={course?.imageUrl}
+                  title={course?.category?.name}
+                  rating={course?.rating}
+                  description={course?.name}
+                  instructor={course?.author}
+                  level={course?.level}
+                  modules={course?.modul}
+                  duration={course?.duration}
+                  type={course?.type}
+                  price={course?.price}
                 />
               </div>
             ))}

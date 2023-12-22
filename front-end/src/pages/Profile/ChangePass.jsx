@@ -13,15 +13,15 @@ import { PiEye, PiEyeSlash } from "react-icons/pi";
 const ChangePass = () => {
   const [passLamaValue, setPassLamaValue] = useState({
     password: "",
-    showPass: false,
+    showPass: true,
   });
   const [passBaruValue, setPassBaruValue] = useState({
     password: "",
-    showPass: false,
+    showPass: true,
   });
   const [passValue, setPassValue] = useState({
     password: "",
-    showPass: false,
+    showPass: true,
   });
 
   const handlePassLama = (event) => {
@@ -65,6 +65,7 @@ const ChangePass = () => {
   };
 
   const showAlert = (message, type = "info", duration = 5000) => {
+    console.log(" ini showAlert ");
     const alertElement = document.createElement("div");
     alertElement.classList.add("custom-alert");
     alertElement.classList.add("text-white");
@@ -95,7 +96,7 @@ const ChangePass = () => {
 
   const validasi = (event) => {
     event.preventDefault();
-
+    console.log("ini validasi");
     if (passLamaValue.password === passBaruValue.password) {
       showAlert("Password Lama tidak boleh sama dengan Password Baru", "error");
     } else if (passBaruValue.password !== passValue.password) {
@@ -125,13 +126,13 @@ const ChangePass = () => {
               <h1 className="text-2xl tracking-tight">Akun</h1>
             </div>
             <div className="flex">
-              <ul className="col-span-1 p-4 w-1/2">
+              <ul className=" col-span-1 p-4 w-1/2 ">
                 <li
                   style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between  border-b"
+                  className="text-1xl flex items-center justify-between border-b "
                 >
                   <Link to="/profile">
-                    <div className="flex items-center">
+                    <div className="flex items-center  ">
                       <IoPencilSharp className="text-pinkTone mr-2" />
                       <span>Profil Saya</span>
                     </div>
@@ -264,7 +265,6 @@ const ChangePass = () => {
                     </div>
                     <div className="text-center">
                       <button
-                        onClick={validasi}
                         type="submit"
                         className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
                       >

@@ -8,7 +8,10 @@ import {
   IoLogOutOutline,
 } from "react-icons/io5";
 import PropTypes from "prop-types";
-import profile from "../../assets/images/profile.png";
+import profileImg from "../../assets/images/profile.png";
+import { useDispatch } from "react-redux";
+import { getMe } from "../../redux/actions/profileActions";
+import { useEffect, useState } from "react";
 
 function InputForm({ label, id, type, placeholder }) {
   return (
@@ -30,11 +33,17 @@ function InputForm({ label, id, type, placeholder }) {
 }
 
 const MyProfile = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMe(name, email, city, nationality, profile_picture));
+  }, [dispatch]);
+
   return (
     <>
       <div className="pt-20">
         {/* Header */}
-        <Disclosure className="bg-paleOrange w-full h-20">
+        <Disclosure className="bg-paleOrange h-20">
           <div className="flex items-center w-full">
             <IoArrowBackSharp className="h-6 w-6 text-pinkTone mt-1" />
             <div className="text-1xl text-pinkTone mt-1 ml-2">
@@ -51,7 +60,6 @@ const MyProfile = () => {
             </div>
             <div className="flex">
               <ul className="col-span-1 p-4 w-1/2">
-                {/* Konten Sidebar */}
                 <li
                   style={{ marginTop: "2rem" }}
                   className="text-1xl flex items-center justify-between  border-b"
@@ -106,8 +114,8 @@ const MyProfile = () => {
                 <div className="text-left mx-auto max-w-7xl">
                   <div className="text-center">
                     <img
-                      src={profile}
-                      className="w-20 mt-4 mx-auto block"
+                      src={profileImg}
+                      className="w-20 mt-4 mx-auto block sm:w-10"
                       alt="profile"
                     />
                   </div>
@@ -147,7 +155,7 @@ const MyProfile = () => {
 
                   <div className="text-center">
                     <button
-                      // onClick={handleDeleteFilter}
+                      // onClick={handleSimpanFilter}
                       className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
                     >
                       Simpan Profil Saya
