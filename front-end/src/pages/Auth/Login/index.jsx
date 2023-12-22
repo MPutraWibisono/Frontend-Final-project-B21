@@ -1,97 +1,61 @@
 import { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 import { PiEye } from "react-icons/pi";
 import { PiEyeSlash } from "react-icons/pi";
 import { Link } from "react-router-dom";
+
 import logo4 from "../../../assets/images/logo4.png";
+import { axiosInstance } from "../../../libs/axios";
+import { toastNotify } from "../../../libs/utils";
 
 const LoginPage = () => {
-  //useState untuk password
-  const [passValue, setPassValue] = useState({
-    password: "",
-    showPass: false,
+  const navigate = useNavigate();
+  const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Email tidak valid")
+        .required("Email harus diisi"),
+      password: Yup.string().required("Password harus diisi"),
+    }),
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        const response = await axiosInstance.post("/api/v1/auth/login", values);
+
+        toastNotify({
+          type: "success",
+          message: response.data.message,
+        });
+
+        localStorage.setItem("token", response.data.token);
+
+        navigate("/");
+      } catch (error) {
+        toastNotify({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
   });
 
-  //useState untuk Email
-  const [Email, setEmail] = useState("");
-
-  //handle onchange password
-  const handlePass = (event) => {
-    setPassValue({ ...passValue, password: event.target.value });
+  const toogleShowPass = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowPass(!showPass);
   };
 
-  //buat ganti dari type password ke type text
-  const toggleVisibility = () => {
-    setPassValue({ ...passValue, showPass: !passValue.showPass });
-  };
-  // buat nyobain alert validasi
-  const Dummy = {
-    Email: "coba1",
-    password: "cobaan",
-  };
-  //function buat bikin alert
-  const showAlert = (message, type = "info", duration = 1500) => {
-    const tempatAlert = document.querySelector(".tempatAlert");
-    const alertElement = document.createElement("div");
-    alertElement.classList.add("custom-alert");
-    alertElement.classList.add("text-white");
-    alertElement.classList.add("rounded-xl");
-    alertElement.classList.add("w-[250px]");
-    alertElement.classList.add("text-center");
-    alertElement.classList.add("py-2");
-    alertElement.classList.add("px-5");
-    alertElement.classList.add("text-xs");
-    alertElement.classList.add("mx-auto");
-
-    if (type === "success") {
-      alertElement.classList.add("bg-alertGreen");
-    } else if (type === "error") {
-      alertElement.classList.add("bg-alertRed");
-    }
-
-    alertElement.textContent = message;
-    tempatAlert.appendChild(alertElement);
-
-    setTimeout(() => {
-      alertElement.style.display = "none";
-      tempatAlert.removeChild(alertElement);
-    }, duration);
-  };
-
-  const inputEmailMerah = () => {
-    const emailInput = document.querySelector("#emailInput");
-    emailInput.classList.add("border-red-500");
-
-    setTimeout(() => {
-      emailInput.classList.remove("border-red-500");
-    }, 3000);
-  };
-  const inputPassMerah = () => {
-    const passInput = document.querySelector("#passInput");
-    passInput.classList.add("border-red-500");
-
-    setTimeout(() => {
-      passInput.classList.remove("border-red-500");
-    }, 3000);
-  };
-  const validasi = () => {
-    if (Email === Dummy.Email && passValue.password !== Dummy.password) {
-      inputPassMerah();
-      showAlert("Password salah!", "error");
-    } else if (Email === Dummy.Email && passValue.password === Dummy.password) {
-      showAlert("Berhasil masuk", "success");
-    } else if (Email !== Dummy.Email && passValue.password === Dummy.password) {
-      inputEmailMerah();
-      showAlert("Email tidak terdaftar!", "error");
-    } else if (Email === "" && passValue.password === "") {
-      showAlert("Email dan Password tidak boleh kosong!", "error");
-      inputEmailMerah();
-      inputPassMerah();
-    } else {
-      showAlert("Email tidak terdaftar atau Password salah!", "error");
-      inputEmailMerah();
-      inputPassMerah();
-    }
-  };
   return (
     <div className=" flex flex-col lg:flex-row w-full min-h-screen mx-auto max-w-7xl lg:max-w-[96rem]">
       {/* Bagian Kiri */}
@@ -101,67 +65,92 @@ const LoginPage = () => {
             Masuk
           </h1>
 
-          {/* Email/No telp */}
-          <div className="flex flex-col">
-            <p className="float-left pb-2 font-medium">Email/No Telpon</p>
-            <input
-              type="text"
-              name="Email"
-              placeholder="Email atau Nomor telepon"
-              id="emailInput"
-              className="emailInput float-left border rounded-xl w-full p-2 text-black mb-4"
-              value={Email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              required
-            />
-          </div>
+          <form onSubmit={formik.handleSubmit}>
+            <label className="form-control w-full relative mb-3">
+              <div className="label">
+                <span
+                  className={`lg:text-base text-base font-medium ${
+                    formik.errors.email &&
+                    formik.touched.email &&
+                    "text-red-500"
+                  }`}
+                >
+                  Email/No Telpon
+                </span>
+              </div>
+              <input
+                type="text"
+                placeholder="Email atau Nomor telepon"
+                className={`input input-bordered w-full h-10 ${
+                  formik.errors.email && formik.touched.email && "input-error"
+                }`}
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+              />
+              {formik.errors.email && formik.touched.email && (
+                <div className="text-red-500">{formik.errors.email}</div>
+              )}
+            </label>
 
-          {/* PASSWORD */}
-          <div className="flex flex-col">
-            <div>
-              <p className="float-left pb-2 font-medium">Password</p>
-              <p className="float-right">
+            {/* PASSWORD */}
+            <label className="form-control w-full relative mb-8">
+              <div className="label">
+                <span
+                  className={`lg:text-base text-base font-medium ${
+                    formik.errors.password &&
+                    formik.touched.password &&
+                    "text-red-500"
+                  }`}
+                >
+                  Password
+                </span>
                 <Link
                   to="/auth/otp"
                   className="text-darkGrayish font-medium text-xs"
                 >
                   Lupa Password
                 </Link>
-              </p>
-            </div>
-            <div className="relative">
-              <input
-                type={passValue.showPass ? "text" : "password"}
-                name="password"
-                id="passInput"
-                placeholder="Password"
-                className="float-left border rounded-xl w-full p-2 text-black mb-6"
-                value={passValue.password}
-                onChange={handlePass}
-                required
-              />
-              <button
-                className="absolute right-3 top-1.5"
-                onClick={toggleVisibility}
-              >
-                {!passValue.showPass ? (
-                  <PiEye color="grey" size={30} />
+              </div>
+              <div className="relative">
+                <input
+                  type={showPass ? "text" : "password"}
+                  placeholder="password atau Nomor telepon"
+                  className={`input input-bordered w-full h-10 ${
+                    formik.errors.password &&
+                    formik.touched.password &&
+                    "input-error"
+                  }`}
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                />
+                {showPass ? (
+                  <PiEye
+                    className="absolute right-3 top-3 cursor-pointer"
+                    onClick={toogleShowPass}
+                  />
                 ) : (
-                  <PiEyeSlash color="grey" size={30} />
+                  <PiEyeSlash
+                    className="absolute right-3 top-3 cursor-pointer"
+                    onClick={toogleShowPass}
+                  />
                 )}
-              </button>
-            </div>
-          </div>
+              </div>
+              {formik.errors.password && formik.touched.password && (
+                <div className="text-red-500">{formik.errors.password}</div>
+              )}
+            </label>
 
-          {/* Login button */}
-          <button
-            className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full"
-            onClick={validasi}
-          >
-            Masuk
-          </button>
+            {/* Login button */}
+            <button
+              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Loading..." : "Masuk"}
+            </button>
+          </form>
           <br />
 
           <p className="text-black items-center text-center mt-6">
@@ -177,7 +166,7 @@ const LoginPage = () => {
       </div>
 
       {/* Bagian Kanan */}
-      <div className="bg-paleOrange w-10/12 flex items-center justify-center hidden lg:flex">
+      <div className="bg-paleOrange w-10/12  items-center justify-center hidden lg:flex">
         <Link to="/">
           <img
             src={logo4}
