@@ -9,7 +9,8 @@ import {
   RegisterPage,
   RegisterOTP,
 } from "./pages/Auth";
-import CourseClass from "./pages/Dashboard/";
+import CourseClass from "./pages/Dashboard/CourseClass";
+import MyClass from "./pages/Dashboard/MyClass";
 import { ChangePass, MyProfile, PurchaseHistory } from "./pages/Profile";
 import Detail from "./pages/DetailPage";
 import { Dashboard, KelolaKelas } from "./pages/DashboardAdmin";
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/class/" element={<CourseClass />} />
+          <Route path="/myclass/" element={<MyClass />} />
           <Route path="/class/:category" element={<CourseClass />} />
           <Route path="/details/:courseId" element={<Detail />} />
           <Route path="/auth/login" element={<LoginPage />} />

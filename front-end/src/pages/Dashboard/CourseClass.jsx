@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CourseCard from "../../components/CourseCard/Card";
-// import ProgressCard from "../../components/CourseCard/ProgressCard";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
 // import { Link, useParams } from "react-router-dom";
@@ -30,7 +29,7 @@ const FilterSection = ({ title, options, handleCheckboxChange }) => (
   </div>
 );
 
-const Kelas = () => {
+const CourseClass = () => {
   const [filterOptions, setFilterOptions] = useState(filtered);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
@@ -262,4 +261,4 @@ FilterSection.propTypes = {
   handleCheckboxChange: PropTypes.func.isRequired,
 };
 
-export default Kelas;
+export default CourseClass;
