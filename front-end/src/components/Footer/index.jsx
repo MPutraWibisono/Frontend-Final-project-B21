@@ -5,9 +5,10 @@ const Footer = () => {
   const noFooter = [
     "/auth/login",
     "/auth/register",
-    "/auth/register/otp",
-    "/auth/resetpassword",
     "/auth/otp",
+    "/auth/forgot-password",
+    "/auth/forgot-otp",
+    "/auth/reset-password",
     "/admin/dashboard",
     "/admin/dashboard/kelola-kelas",
   ];

@@ -1,49 +1,85 @@
-import { useEffect } from "react";
+/* eslint-disable no-useless-escape */
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+
+import { PatternFormat } from "react-number-format";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { toastNotify } from "../../../libs/utils";
 import logo4 from "../../../assets/images/logo4.png";
-import { PatternFormat } from "react-number-format";
 import phoneRegExp from "../../../libs/phoneReg";
+import { axiosInstance } from "../../../libs/axios";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const formik = useFormik({
     initialValues: {
-      nama: "",
+      name: "",
       email: "",
-      nomorTelepon: "",
+      phone: "",
       password: "",
       konfirmasiPassword: "",
     },
     validationSchema: Yup.object({
-      nama: Yup.string().required("Nama harus diisi").min(3, "Minimal 3 huruf"),
+      name: Yup.string().required("Nama harus diisi").min(3, "Minimal 3 huruf"),
       email: Yup.string()
         .email("Email tidak valid")
         .required("Email harus diisi"),
-      nomorTelepon: Yup.string()
+      phone: Yup.string()
         .required("Nomor Telepon harus diisi")
         .matches(phoneRegExp, "Nomor minimal 12 angka"),
       password: Yup.string()
         .required("Password harus diisi")
-        .min(8, "Password minimal 8 karakter"),
+        .min(8, "Password minimal 8 karakter")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          "Harus terdapat huruf besar, huruf kecil, angka, dan karakter spesial"
+        ),
       konfirmasiPassword: Yup.string()
         .required("Konfirmasi Password harus diisi")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          "Harus terdapat huruf besar, huruf kecil, angka, dan karakter spesial"
+        )
         .oneOf([Yup.ref("password"), null], "Password tidak sama"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
-      toastNotify({
-        type: "success",
-        message: "Tautan Verifikasi telah dikirim!",
-      });
-      navigate("/auth/register/otp");
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        if (values.phone.includes(" ")) {
+          values.phone = values.phone.replace(/\s/g, "");
+        }
+
+        const response = await axiosInstance.post("/api/v1/auth/", {
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          phone: values.phone,
+        });
+
+        toastNotify({
+          type: "success",
+          message: response.data.message,
+        });
+
+        localStorage.setItem("email", values.email);
+
+        navigate("/auth/otp");
+      } catch (error) {
+        toastNotify({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -62,7 +98,7 @@ const RegisterPage = () => {
               <div className="label">
                 <span
                   className={`lg:text-base text-base font-medium ${
-                    formik.errors.nama && formik.touched.nama && "text-red-500"
+                    formik.errors.name && formik.touched.name && "text-red-500"
                   }`}
                 >
                   Nama
@@ -72,15 +108,15 @@ const RegisterPage = () => {
                 type="text"
                 placeholder="Nama Lengkap"
                 className={`input input-bordered w-full h-10 ${
-                  formik.errors.nama && formik.touched.nama && "input-error"
+                  formik.errors.name && formik.touched.name && "input-error"
                 }`}
-                name="nama"
-                value={formik.values.nama}
+                name="name"
+                value={formik.values.name}
                 onChange={formik.handleChange}
               />
-              {formik.errors.nama && formik.touched.nama ? (
-                <div className="text-red-500">{formik.errors.nama}</div>
-              ) : formik.values.nama && !formik.errors.nama ? (
+              {formik.errors.name && formik.touched.name ? (
+                <div className="text-red-500">{formik.errors.name}</div>
+              ) : formik.values.name && !formik.errors.name ? (
                 <div className="text-green-500 absolute bottom-2 right-3">
                   <CheckCircleIcon className="h-6 w-6" />
                 </div>
@@ -122,8 +158,8 @@ const RegisterPage = () => {
               <div className="label">
                 <span
                   className={`lg:text-base text-base font-medium ${
-                    formik.errors.nomorTelepon &&
-                    formik.touched.nomorTelepon &&
+                    formik.errors.phone &&
+                    formik.touched.phone &&
                     "text-red-500"
                   }`}
                 >
@@ -132,20 +168,18 @@ const RegisterPage = () => {
               </div>
               <PatternFormat
                 placeholder="0812 3456 7891"
-                name="nomorTelepon"
+                name="phone"
                 format="#### #### ####"
                 className={`input input-bordered w-full h-10 ${
-                  formik.errors.nomorTelepon &&
-                  formik.touched.nomorTelepon &&
-                  "input-error"
+                  formik.errors.phone && formik.touched.phone && "input-error"
                 }`}
-                value={formik.values.nomorTelepon}
+                value={formik.values.phone}
                 onChange={formik.handleChange}
                 valueIsNumericString={true}
               />
-              {formik.errors.nomorTelepon && formik.touched.nomorTelepon ? (
-                <div className="text-red-500">{formik.errors.nomorTelepon}</div>
-              ) : formik.values.nomorTelepon && !formik.errors.nomorTelepon ? (
+              {formik.errors.phone && formik.touched.phone ? (
+                <div className="text-red-500">{formik.errors.phone}</div>
+              ) : formik.values.phone && !formik.errors.phone ? (
                 <div className="text-green-500 absolute bottom-2 right-3">
                   <CheckCircleIcon className="h-6 w-6" />
                 </div>
@@ -224,9 +258,10 @@ const RegisterPage = () => {
 
             <button
               type="submit"
+              disabled={loading}
               className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full"
             >
-              Daftar
+              {loading ? "Loading..." : "Daftar"}
             </button>
           </form>
           <p className="font-medium text-center w-full pt-3">
@@ -238,7 +273,7 @@ const RegisterPage = () => {
         </div>
       </div>
 
-      <div className=" bg-paleOrange w-10/12 flex items-center justify-center hidden lg:flex">
+      <div className=" bg-paleOrange w-10/12 items-center justify-center hidden lg:flex">
         <Link to="/">
           <img src={logo4} alt="DemyU Course" className="mx-auto w-full" />
         </Link>

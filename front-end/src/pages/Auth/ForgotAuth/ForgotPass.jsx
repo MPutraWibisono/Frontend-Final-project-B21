@@ -90,7 +90,7 @@ const ForgotPass = () => {
                 type={newPassValue.showPass ? "text" : "password"}
                 name="password"
                 id="passInput1"
-                placeholder="Password"
+                placeholder="Masukkan Password Baru"
                 className="float-left border rounded-xl w-full p-2 text-black "
                 value={newPassValue.password}
                 onChange={handlePass1}
@@ -111,13 +111,15 @@ const ForgotPass = () => {
 
           {/* PASSWORD */}
           <div className="flex flex-col">
-            <p className="float-left pb-2 font-medium">Password Baru</p>
+            <p className="float-left pb-2 font-medium">
+              Konfirmasi Password Baru
+            </p>
             <div className="relative mb-4">
               <input
                 type={passValue.showPass ? "text" : "password"}
                 name="password"
                 id="passInput1"
-                placeholder="Password"
+                placeholder="Konfirmasi Password Baru"
                 className="float-left border rounded-xl w-full p-2 text-black "
                 value={passValue.password}
                 onChange={handlePass2}

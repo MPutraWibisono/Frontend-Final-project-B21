@@ -1,5 +1,5 @@
 import { Disclosure } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   IoPencilSharp,
   IoArrowBackSharp,
@@ -10,8 +10,8 @@ import {
 import PropTypes from "prop-types";
 import profileImg from "../../assets/images/profile.png";
 import { useDispatch } from "react-redux";
-import { getMe } from "../../redux/actions/profileActions";
 import { useEffect, useState } from "react";
+import { logout } from "../../redux/actions/authActions";
 
 function InputForm({ label, id, type, placeholder }) {
   return (
@@ -37,10 +37,17 @@ const MyProfile = () => {
     window.scrollTo(0, 0);
   }, []);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const onLogout = () => {
+    dispatch(logout());
 
-  useEffect(() => {
-    dispatch(getMe(name, email, city, nationality, profile_picture));
-  }, [dispatch]);
+    // Redirect to id page
+    navigate("/");
+  };
+
+  // useEffect(() => {
+  //   dispatch(getMe(name, email, city, nationality, profile_picture));
+  // }, [dispatch]);
 
   return (
     <>
@@ -100,12 +107,13 @@ const MyProfile = () => {
                   style={{ marginTop: "2rem" }}
                   className="text-1xl flex items-center justify-between border-b"
                 >
-                  <Link to="/">
-                    <div className="flex items-center ">
-                      <IoLogOutOutline className="text-pinkTone mr-2" />
-                      <span>Keluar</span>
-                    </div>
-                  </Link>
+                  <div
+                    className="flex items-center cursor-pointer"
+                    onClick={onLogout}
+                  >
+                    <IoLogOutOutline className="text-pinkTone mr-2" />
+                    <span>Keluar</span>
+                  </div>
                 </li>
                 <p className="text-sm text-gray-500 mt-5 p-5 text-center">
                   Versi 1.0.0

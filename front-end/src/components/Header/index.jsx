@@ -1,27 +1,36 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaListUl, FaRegUser, FaRegBell } from "react-icons/fa6";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
+import { useSelector, useDispatch } from "react-redux";
+// import { logout } from "../../redux/actions/authActions";
 
 const Header = () => {
-  const [user, setUser] = useState(true);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [state, setState] = useState({
     "id-l16": "",
   });
   const location = useLocation();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  const [activeButton, setActiveButton] = useState("class");
+  const { user } = useSelector((state) => state.auth);
+  useEffect(() => {
+    user;
+  }, [user]);
+
   const noNavbar = [
     "/auth/login",
     "/auth/register",
-    "/auth/register/otp",
-    "/auth/resetpassword",
     "/auth/otp",
+    "/auth/forgot-password",
+    "/auth/forgot-otp",
+    "/auth/reset-password",
     "/admin/dashboard",
     "/admin/dashboard/kelola-kelas",
   ];
-
-  const [activeButton, setActiveButton] = useState("class");
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
@@ -133,26 +142,9 @@ const Header = () => {
               {/*    <!-- End Rounded large search input  --> */}
               {user ? (
                 <>
-                  <li
-                    role="none"
-                    className="flex justify-center md:justify-end"
-                  >
-                    <Link
-                      role="menuitem"
-                      aria-haspopup="false"
-                      className="flex text-pinkTone items-center gap-2 py-3 transition-colors duration-300 hover:text-paleWhite focus:text-black focus:outline-none focus-visible:outline-none lg:px-8"
-                      to="/auth/login"
-                    >
-                      <span>Masuk</span>
-                      <ArrowLeftOnRectangleIcon className="h-6 w-6" />
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <>
                   <div className="flex flex-col md:flex-row items-end md:items-center gap-5 md:gap-2 justify-end">
                     <Link
-                      to="/class"
+                      to="/myclass"
                       onClick={() => handleButtonClick("class")}
                       className={`relative inline-flex justify-center items-center gap-x-1.5 rounded-md py-2 text-base font-semibold text-white shadow-sm hover:ring-pinkTone transition-[padding] duration-300 ${
                         activeButton === "class"
@@ -160,7 +152,7 @@ const Header = () => {
                           : "hover:bg-pinkTone/60 px-3"
                       }`}
                     >
-                      <FaListUl className="" />
+                      <FaListUl />
                       <span
                         className={`absolute right-1 p-2 ${
                           activeButton === "class"
@@ -169,26 +161,6 @@ const Header = () => {
                         } transition duration-300`}
                       >
                         Kelas
-                      </span>
-                    </Link>
-                    <Link
-                      to="/profile"
-                      onClick={() => handleButtonClick("profile")}
-                      className={`relative inline-flex justify-center items-center gap-x-1.5 rounded-md py-2 text-base font-semibold text-white shadow-sm hover:ring-pinkTone transition-[padding] duration-300 ${
-                        activeButton === "profile"
-                          ? "bg-pinkTone hover:bg-pinkTone md:w-full px-3 pe-20"
-                          : "hover:bg-pinkTone/60 px-3"
-                      }`}
-                    >
-                      <FaRegUser />
-                      <span
-                        className={`absolute right-1 p-2 ${
-                          activeButton === "profile"
-                            ? "opacity-100 block"
-                            : "opacity-0 hidden "
-                        } transition duration-300`}
-                      >
-                        Profile
                       </span>
                     </Link>
                     <Link
@@ -211,7 +183,44 @@ const Header = () => {
                         Notifikasi
                       </span>
                     </Link>
+                    <Link
+                      to="/profile"
+                      onClick={() => handleButtonClick("profile")}
+                      className={`relative inline-flex justify-center items-center gap-x-1.5 rounded-md py-2 text-base font-semibold text-white shadow-sm hover:ring-pinkTone transition-[padding] duration-300 ${
+                        activeButton === "profile"
+                          ? "bg-pinkTone hover:bg-pinkTone md:w-full px-3 pe-16"
+                          : "hover:bg-pinkTone/60 px-3"
+                      }`}
+                    >
+                      <FaRegUser />
+                      <span
+                        className={`absolute right-1 p-2 ${
+                          activeButton === "profile"
+                            ? "opacity-100 block"
+                            : "opacity-0 hidden "
+                        } transition duration-300`}
+                      >
+                        Akun
+                      </span>
+                    </Link>
                   </div>
+                </>
+              ) : (
+                <>
+                  <li
+                    role="none"
+                    className="flex justify-center md:justify-end"
+                  >
+                    <Link
+                      role="menuitem"
+                      aria-haspopup="false"
+                      className="flex text-pinkTone items-center gap-2 py-3 transition-colors duration-300 hover:text-paleWhite focus:text-black focus:outline-none focus-visible:outline-none lg:px-8"
+                      to="/auth/login"
+                    >
+                      <span>Masuk</span>
+                      <ArrowLeftOnRectangleIcon className="h-6 w-6" />
+                    </Link>
+                  </li>
                 </>
               )}
             </ul>
