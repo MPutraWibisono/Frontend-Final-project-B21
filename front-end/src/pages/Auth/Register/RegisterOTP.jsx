@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useRef, useState } from "react";
@@ -55,10 +56,6 @@ const RegisterOTP = () => {
         });
       } finally {
         setLoading(false);
-        // toastNotify({
-        //   type: "success",
-        //   message: `Kode OTP ${otp}`,
-        // });
       }
     },
   });
@@ -69,8 +66,6 @@ const RegisterOTP = () => {
     if (e.target.value.length === 1) {
       if (index < otpRefs.length - 1) {
         otpRefs[index + 1].current.focus();
-      } else {
-        formik.handleSubmit();
       }
     }
   };
@@ -110,11 +105,11 @@ const RegisterOTP = () => {
       return;
     }
 
-    // getOTP();
+    getOTP();
   }, []);
 
   const [countEnd, setCountEnd] = useState(false);
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(380);
 
   useEffect(() => {
     const timer =
@@ -183,7 +178,7 @@ const RegisterOTP = () => {
               <button
                 onClick={() => {
                   getOTP();
-                  setCountdown(60);
+                  setCountdown(380);
                 }}
                 className="btn border-pinkTone border bg-white hover:bg-white text-slate-500 self-center w-1/2"
               >
@@ -194,6 +189,7 @@ const RegisterOTP = () => {
           <div className="flex justify-center">
             <button
               type="submit"
+              disabled={loading}
               className="btn bg-pinkTone text-slate-100 hover:bg-pinkTone/80 self-center w-1/2"
             >
               {loading ? "Loading..." : "Submit"}
