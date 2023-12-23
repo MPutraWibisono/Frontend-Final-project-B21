@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
 import { IoIosStar } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const Modal = ({
   title,
@@ -193,18 +194,19 @@ const Modal = ({
                 </div>
                 {/*        <!-- Modal actions --> */}
                 <div className="flex justify-start gap-2">
-                  <button
-                    onClick={() => setIsShowing(false)}
+                  <Link
+                    to="/payment"
                     className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-pinkTone px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pinkTone/60 focus:bg-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone/30 disabled:bg-pinkTone/30 disabled:shadow-none"
                   >
                     <span>Beli Sekarang</span>
-                  </button>
-                  <button
-                    onClick={() => setIsShowing(false)}
+                  </Link>
+                  <Link
+                    to="/class"
+                    // onClick={() => setIsShowing(false)}
                     className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded px-5 text-sm font-medium tracking-wide text-pinkTone transition duration-300 hover:bg-pinkTone/20 hover:text-pinkTone/60 focus:bg-pinkTone/20 focus:text-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-pinkTone/30 disabled:shadow-none disabled:hover:bg-transparent"
                   >
                     <span>Nanti</span>
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>,

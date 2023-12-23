@@ -1,50 +1,18 @@
 [
     {
-      "idUser": "johndoe123",
+      "kodeKelas": "UIUX0123",
       "category": "UI/UX Design",
-      "premiumClass": "Belajar Web Designer dengan Figma",
-      "status": "SUDAH BAYAR",
-      "paymentMethod": "Credit Card",
-      "date": "21 Sep, 2023 at 2:00 AM"
+      "namaKelas": "Belajar Web Designer dengan Figma",
+      "tipeKelas": "Premium",
+      "level": "Beginner",
+      "hargaKelas": "100000"
     },
     {
-      "idUser": "johndoe123",
-      "category": "UI/UX Design",
-      "premiumClass": "Belajar Web Designer dengan Figma",
-      "status": "SUDAH BAYAR",
-      "paymentMethod": "Credit Card",
-      "date": "21 Sep, 2023 at 2:00 AM"
-    },
-    {
-      "idUser": "johndoe123",
-      "category": "UI/UX Design",
-      "premiumClass": "Belajar Web Designer dengan Figma",
-      "status": "SUDAH BAYAR",
-      "paymentMethod": "Credit Card",
-      "date": "21 Sep, 2023 at 2:00 AM"
-    },
-    {
-      "idUser": "johndoe123",
-      "category": "UI/UX Design",
-      "premiumClass": "Belajar Web Designer dengan Figma",
-      "status": "SUDAH BAYAR",
-      "paymentMethod": "Credit Card",
-      "date": "21 Sep, 2023 at 2:00 AM"
-    },
-    {
-      "idUser": "johndoe123",
-      "category": "UI/UX Design",
-      "premiumClass": "Belajar Web Designer dengan Figma",
-      "status": "SUDAH BAYAR",
-      "paymentMethod": "Credit Card",
-      "date": "21 Sep, 2023 at 2:00 AM"
-    },
-    {
-      "idUser": "johndoe123",
-      "category": "UI/UX Design",
-      "premiumClass": "Belajar Web Designer dengan Figma",
-      "status": "BELUM BAYAR",
-      "paymentMethod": "Credit Card",
-      "date": "21 Sep, 2023 at 2:00 AM"
+      "kodeKelas": "DS0223",
+      "category": "Data Science",
+      "namaKelas": "Belajar Data Science dari Nol",
+      "tipeKelas": "Gratis",
+      "level": "Beginner",
+      "hargaKelas": "500000"
     }
   ]

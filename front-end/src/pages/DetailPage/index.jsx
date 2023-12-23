@@ -48,17 +48,19 @@ const Detail = () => {
 
   return (
     <>
-      <Modal
-        title={courseIWant?.category?.name}
-        name={courseIWant?.name}
-        author={courseIWant?.author}
-        rating={courseIWant?.rating}
-        level={courseIWant?.level}
-        modul={courseIWant?.modul}
-        price={courseIWant?.price}
-        image={courseIWant?.imageUrl}
-        duration={courseIWant?.durasi}
-      />
+      {courseIWant?.price != 0 && (
+        <Modal
+          title={courseIWant?.category?.name}
+          name={courseIWant?.name}
+          author={courseIWant?.author}
+          rating={courseIWant?.rating}
+          level={courseIWant?.level}
+          modul={courseIWant?.modul}
+          price={courseIWant?.price}
+          image={courseIWant?.imageUrl}
+          duration={courseIWant?.durasi}
+        />
+      )}
       <div className="bg-paleOrange pt-24">
         <div className="relative mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[96rem]">
           <div className="grid grid-cols-10 grid-rows-10">
@@ -87,18 +89,18 @@ const Detail = () => {
                 </h3>
                 <p className="text-sm md:text-md">by {courseIWant.author}</p>
                 <div className="flex space-x-5 text-sm text-center pt-2">
-                  <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
+                  <div className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
                     <RiShieldStarLine className="text-xl text-darkGrayish" />
                     <p className="font-semibold ">{courseIWant.level}</p>
-                  </p>
-                  <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
+                  </div>
+                  <div className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
                     <RiBookLine className="text-xl text-darkGrayish" />
                     <p className="font-semibold ">{courseIWant.modul} Modul</p>
-                  </p>
-                  <p className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
+                  </div>
+                  <div className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
                     <RiTimeFill className="text-xl text-darkGrayish" />
                     <p className="font-semibold ">{courseIWant.durasi} Menit</p>
-                  </p>
+                  </div>
                 </div>
                 <a href={`https://${courseIWant.groupUrl}`} target="blank">
                   <button className="btn inline-flex h-8 md:h-10 items-center justify-center gap-2 whitespace-nowrap rounded rounded-full bg-sky-500 px-4 md:px-6 text-xs md:text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-sky-600 focus:bg-sky-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300 disabled:shadow-none my-4">

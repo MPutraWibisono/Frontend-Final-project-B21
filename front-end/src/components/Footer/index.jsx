@@ -9,6 +9,7 @@ const Footer = () => {
     "/auth/forgot-password",
     "/auth/forgot-otp",
     "/auth/reset-password",
+    "/admin/login",
     "/admin/dashboard",
     "/admin/dashboard/kelola-kelas",
   ];

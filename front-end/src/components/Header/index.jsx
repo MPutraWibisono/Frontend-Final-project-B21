@@ -16,10 +16,7 @@ const Header = () => {
   // const dispatch = useDispatch();
   // const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState("class");
-  const { user } = useSelector((state) => state.auth);
-  useEffect(() => {
-    user;
-  }, [user]);
+  const { id } = useSelector((state) => state.auth);
 
   const noNavbar = [
     "/auth/login",
@@ -28,6 +25,7 @@ const Header = () => {
     "/auth/forgot-password",
     "/auth/forgot-otp",
     "/auth/reset-password",
+    "/admin/login",
     "/admin/dashboard",
     "/admin/dashboard/kelola-kelas",
   ];
@@ -140,7 +138,7 @@ const Header = () => {
                 </svg>
               </div>
               {/*    <!-- End Rounded large search input  --> */}
-              {user ? (
+              {id ? (
                 <>
                   <div className="flex flex-col md:flex-row items-end md:items-center gap-5 md:gap-2 justify-end">
                     <Link

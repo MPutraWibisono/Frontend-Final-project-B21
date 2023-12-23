@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import ProgressCard from "../../components/CourseCard/ProgressCard";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
@@ -7,27 +6,8 @@ import { IoSearch } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourse } from "../../redux/actions/courseActions";
 import Loading from "../../components/Loading";
+import FilterSection from "../../components/FilterSection";
 // import DropdownBasic from "../../components/Dropdown";
-
-const FilterSection = ({ title, options, handleCheckboxChange }) => (
-  <div className="container p-1 rounded" style={{ marginTop: "20px" }}>
-    <h4 className="text-lg font-semibold mb-2">{title}</h4>
-    {options.map((option) => (
-      <div key={option.label} className="flex items-center mb-2 p-2 rounded">
-        <input
-          type="checkbox"
-          className="form-checkbox text-blue-500 mr-2"
-          id={option.label}
-          checked={option.checked}
-          onChange={() => handleCheckboxChange(title, option.label)}
-        />
-        <label htmlFor={option.label} className="text-sm">
-          {option.label}
-        </label>
-      </div>
-    ))}
-  </div>
-);
 
 const MyClass = () => {
   const [filterOptions, setFilterOptions] = useState(filtered);
@@ -246,17 +226,6 @@ const MyClass = () => {
       </div>
     </div>
   );
-};
-
-FilterSection.propTypes = {
-  title: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      checked: PropTypes.bool.isRequired,
-    })
-  ).isRequired,
-  handleCheckboxChange: PropTypes.func.isRequired,
 };
 
 export default MyClass;

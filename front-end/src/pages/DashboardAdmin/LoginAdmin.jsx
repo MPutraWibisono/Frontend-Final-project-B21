@@ -1,21 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { PiEye } from "react-icons/pi";
 import { PiEyeSlash } from "react-icons/pi";
 import { Link } from "react-router-dom";
-// import { useSelector } from "react-redux";
-import logo4 from "../../../assets/images/logo4.png";
+import { useSelector } from "react-redux";
+import logo4 from "../../assets/images/logo4.png";
 import { useDispatch } from "react-redux";
-import { login } from "../../../redux/actions/authActions";
-// import { getMe } from "../../../redux/actions/authActions";
+import { login } from "../../redux/actions/authActions";
 
-const LoginPage = () => {
+const LoginAdmin = () => {
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: {
@@ -33,6 +33,12 @@ const LoginPage = () => {
     },
   });
 
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
+
   const toogleShowPass = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -40,7 +46,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className=" flex flex-col lg:flex-row w-full min-h-screen mx-auto max-w-7xl lg:max-w-[96rem]">
+    <div className=" flex flex-col lg:flex-row-reverse w-full min-h-screen mx-auto max-w-7xl lg:max-w-[96rem]">
       {/* Bagian Kiri */}
       <div className="bg-white w-full p-8 lg:p-16 flex items-center justify-center overflow-hidden">
         <div className="w-full sm:w-2/3 lg:w-2/3 text-black">
@@ -58,12 +64,12 @@ const LoginPage = () => {
                     "text-red-500"
                   }`}
                 >
-                  Email/No Telpon
+                  Email
                 </span>
               </div>
               <input
                 type="text"
-                placeholder="Email atau Nomor telepon"
+                placeholder="Email"
                 className={`input input-bordered w-full h-10 ${
                   formik.errors.email && formik.touched.email && "input-error"
                 }`}
@@ -164,4 +170,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default LoginAdmin;

@@ -1,41 +1,46 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { TbFilter } from "react-icons/tb";
 import { LuUsers2 } from "react-icons/lu";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import LayoutDashboard from "../../components/LayoutDashboard";
 import { Dialog, Transition } from "@headlessui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getCourse } from "../../redux/actions/courseActions";
+import Loading from "../../components/Loading";
+import tableHead from "../../data/tableHead.json";
 
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { course } = useSelector((state) => state.course);
+  const [errors, setErrors] = useState({
+    isError: false,
+    message: null,
+  });
 
-  const tableHead = [
-    "Kode Kelas",
-    "Kategori",
-    "Nama Kelas",
-    "Tipe Kelas",
-    "Level",
-    "Harga Kelas",
-  ];
+  useEffect(() => {
+    dispatch(getCourse(setErrors));
+  }, [dispatch]);
 
-  const tableBody = [
-    {
-      kodeKelas: "UIUX0123",
-      category: "UI/UX Design",
-      namaKelas: "Belajar Web Designer dengan Figma",
-      tipeKelas: "Premium",
-      level: "Beginner",
-      hargaKelas: "100000",
-    },
-    {
-      kodeKelas: "DS0223",
-      category: "Data Science",
-      namaKelas: "Belajar Data Science dari Nol",
-      tipeKelas: "Gratis",
-      level: "Beginner",
-      hargaKelas: "500000",
-    },
-  ];
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
+  // useEffect(() => {
+  //   if (token) {
+  //     navigate("/admin/login");
+  //   }
+  // }, [token, navigate]);
+
+  if (errors.isError) {
+    return <h1 className="h-screen w-full">{errors.message}</h1>;
+  }
+
+  if (course.length === 0) {
+    return <Loading />;
+  }
   return (
     <LayoutDashboard>
       <div className="grid grid-cols-3 gap-6 pt-3">
@@ -97,27 +102,27 @@ const KelolaKelas = () => {
             </tr>
           </thead>
           <tbody>
-            {tableBody.map((body, index) => {
+            {course.map((course, index) => {
               return (
                 <tr key={index} className="font-medium">
-                  <td>{body.kodeKelas}</td>
-                  <td>{body.category}</td>
-                  <td>{body.namaKelas}</td>
+                  <td>{course.id}</td>
+                  <td>{course.category.name}</td>
+                  <td>{course.name}</td>
                   <td
                     className={`${
-                      body.tipeKelas === "Premium"
+                      course.type === "PREMIUM"
                         ? "text-darkBlue05"
                         : "text-green-500"
                     }`}
                   >
-                    {body.tipeKelas}
+                    {course.type}
                   </td>
-                  <td>{body.level}</td>
-                  <td>{body.hargaKelas}</td>
+                  <td>{course.level}</td>
+                  <td>{course.price}</td>
                   <td className="flex gap-2">
                     <button
                       onClick={() => {
-                        alert(`Ubah ${body.kodeKelas}`);
+                        alert(`Ubah ${course.id}`);
                       }}
                       className="btn btn-sm btn-primary rounded-full text-white"
                     >
@@ -125,7 +130,7 @@ const KelolaKelas = () => {
                     </button>
                     <button
                       onClick={() => {
-                        alert(`Hapus ${body.kodeKelas}`);
+                        alert(`Hapus ${course.id}`);
                       }}
                       className="btn btn-sm btn-error rounded-full text-white"
                     >
