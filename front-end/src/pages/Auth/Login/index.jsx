@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/actions/authActions";
 
-
 const LoginPage = () => {
   //useState untuk password
   const [passValue, setPassValue] = useState({
@@ -197,7 +196,7 @@ const LoginPage = () => {
       </div>
 
       {/* Bagian Kanan */}
-      <div className="bg-paleOrange w-10/12 flex items-center justify-center hidden lg:flex">
+      <div className="bg-paleOrange w-10/12 items-center justify-center hidden lg:flex">
         <Link to="/">
           <img
             src={logo4}
