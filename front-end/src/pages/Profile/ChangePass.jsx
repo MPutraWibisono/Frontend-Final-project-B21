@@ -179,7 +179,7 @@ const ChangePass = () => {
               {/* Content */}
               <div className="col-span-3 p-4 w-full mx-auto flex justify-center flex-col items-start">
                 <div className="text-left mx-auto max-w-7xl content-container">
-                  <form onSubmit={validasi}>
+                  <form onSubmit={validasi} className="max-w-lg mx-auto">
                     <div className="text-center">
                       <div className="text-2xl font-semibold sm:text-left">
                         Ubah Password

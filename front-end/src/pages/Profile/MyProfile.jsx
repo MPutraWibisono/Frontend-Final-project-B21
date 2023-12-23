@@ -8,10 +8,10 @@ import {
   IoLogOutOutline,
 } from "react-icons/io5";
 import PropTypes from "prop-types";
-import profileImg from "../../assets/images/profile.png";
 import { useDispatch } from "react-redux";
-import { getMe } from "../../redux/actions/profileActions";
 import { useEffect, useState } from "react";
+import Alert from "../../pages/Profile/Alert";
+import defaultProfileImg from "../../assets/images/profile.png";
 
 function InputForm({ label, id, type, placeholder }) {
   return (
@@ -33,11 +33,47 @@ function InputForm({ label, id, type, placeholder }) {
 }
 
 const MyProfile = () => {
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+  const [currentProfileImage, setCurrentProfileImage] =
+    useState(defaultProfileImg);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMe(name, email, city, nationality, profile_picture));
+    // dispatch(getMe(name, email, city, nationality, profile_picture));
   }, [dispatch]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("submit");
+
+    const namaValue = document.getElementById("nama").value;
+    const emailValue = document.getElementById("email").value;
+    const teleponValue = document.getElementById("telepon").value;
+    const negaraValue = document.getElementById("negara").value;
+    const kotaValue = document.getElementById("kota").value;
+
+    if (
+      !namaValue ||
+      !emailValue ||
+      !teleponValue ||
+      !negaraValue ||
+      !kotaValue
+    ) {
+      alert("Harap isi semua kolom");
+      return;
+    }
+
+    if (profileImage) {
+      console.log("Selected profile image:", profileImage);
+    }
+
+    setShowSuccessAlert(true);
+    setTimeout(() => {
+      setShowSuccessAlert(false);
+    }, 3000);
+  };
 
   return (
     <>
@@ -59,10 +95,10 @@ const MyProfile = () => {
               <h1 className="text-2xl tracking-tight">Akun</h1>
             </div>
             <div className="flex">
-              <ul className="col-span-1 p-4 w-1/2">
+              <ul className="col-span-1 p-4 w-1/2 ">
                 <li
                   style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between  border-b"
+                  className="sm:text-xs md:text-sm lg:text-1xl xl:text-1xl flex items-center justify-between border-b"
                 >
                   <Link to="/profile">
                     <div className="flex items-center">
@@ -73,7 +109,7 @@ const MyProfile = () => {
                 </li>
                 <li
                   style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between  border-b"
+                  className="text-1xl flex items-center justify-between border-b"
                 >
                   <Link to="/changepassword">
                     <div className="flex items-center">
@@ -84,7 +120,7 @@ const MyProfile = () => {
                 </li>
                 <li
                   style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between  border-b"
+                  className="text-1xl flex items-center justify-between border-b"
                 >
                   <Link to="/purchasehistory">
                     <div className="flex items-center">
@@ -104,7 +140,7 @@ const MyProfile = () => {
                     </div>
                   </Link>
                 </li>
-                <p className="text-sm text-gray-500 mt-5 p-5 text-center">
+                <p className=" text-gray-500 mt-5 p-5 text-center sm:text-xs ">
                   Versi 1.0.0
                 </p>
               </ul>
@@ -113,14 +149,32 @@ const MyProfile = () => {
               <div className="col-span-3 p-4 w-full mx-auto flex justify-center flex-col items-start">
                 <div className="text-left mx-auto max-w-7xl">
                   <div className="text-center">
-                    <img
-                      src={profileImg}
-                      className="w-20 mt-4 mx-auto block sm:w-10"
-                      alt="profile"
-                    />
+                    <label htmlFor="profileImage" className="cursor-pointer">
+                      <div className="rounded-full overflow-hidden  border-gray-300"></div>
+                      <img
+                        src={currentProfileImage}
+                        className="w-20 h-20 mx-auto block sm:w-10"
+                        alt="profile"
+                      />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="profileImage"
+                        className="hidden"
+                        onChange={(e) => {
+                          setProfileImage(e.target.files[0]);
+                          setCurrentProfileImage(
+                            URL.createObjectURL(e.target.files[0])
+                          );
+                        }}
+                      />
+                      <div className="mt-2 text-sm text-gray-600 hover:text-gray-900 focus:outline-none">
+                        {/* <IoPencilSharp className="text-pinkTone mr-2 inline" /> */}
+                      </div>
+                    </label>
                   </div>
 
-                  <form>
+                  <form className="rounded-lg" onSubmit={handleSubmit}>
                     <InputForm
                       label="Nama"
                       id="nama"
@@ -151,16 +205,20 @@ const MyProfile = () => {
                       type="text"
                       placeholder="Masukan Kota tempat tinggal"
                     />
+                    <div className="text-center">
+                      <button className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10">
+                        Simpan Profil Saya
+                      </button>
+                    </div>
                   </form>
-
-                  <div className="text-center">
-                    <button
-                      // onClick={handleSimpanFilter}
-                      className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
-                    >
-                      Simpan Profil Saya
-                    </button>
-                  </div>
+                  {showSuccessAlert && (
+                    <div className="sm:absolute sm:top-1/2 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2">
+                      <Alert
+                        type="success"
+                        message="Profil berhasil diperbarui!"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
