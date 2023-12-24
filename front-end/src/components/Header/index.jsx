@@ -64,7 +64,11 @@ const Header = () => {
               aria-current="page"
               className="flex items-center gap-2 whitespace-nowrap py-3 text-lg focus:outline-none"
             >
-              <Link to="/" className="w-3/4 lg:w-full">
+              <Link
+                to="/"
+                onClick={() => handleButtonClick("class")}
+                className="w-3/4 lg:w-full"
+              >
                 <img src={logo} width="100" height="70" alt="DemyU Course" />
               </Link>
             </div>

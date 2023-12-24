@@ -23,7 +23,11 @@ const Detail = () => {
     isError: false,
     message: null,
   });
+  const [courseIWant, setCourse] = useState([]);
+  const [video, setVideo] = useState([]);
+  const [chapterIWant, setChapter] = useState([]);
 
+  // Use Effect
   useEffect(() => {
     dispatch(getCourse(setErrors));
     dispatch(getMaterial(setErrors));
@@ -34,6 +38,31 @@ const Detail = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    if (course.length > 0) {
+      setCourse(course.find((item) => item.id == courseId));
+    }
+  }, [course, courseId]);
+
+  useEffect(() => {
+    if (material.length > 0) {
+      setVideo(material.find((item) => item.id == courseId));
+    }
+  }, [material, courseId]);
+
+  useEffect(() => {
+    if (chapter.length > 0) {
+      setChapter(chapter.filter((item) => item.courseId == courseId));
+    }
+  }, [chapter, courseId]);
+  // ------------------------------------------------------------------
+
+  // Function Handling
+  const handleSetVideoURL = (e) => {
+    setVideo(material.find((item) => item.id == e));
+  };
+
+  // Error Handling
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
@@ -42,9 +71,8 @@ const Detail = () => {
     return <Loading />;
   }
 
-  const courseIWant = course.find((item) => item.id == courseId);
-  const materialIWant = material.find((item) => item.id == courseId);
-  const chapterIWant = chapter.find((item) => item.courseId == courseId);
+  // Indexing
+  let i = 0;
 
   return (
     <>
@@ -113,7 +141,10 @@ const Detail = () => {
               </div>
             </div>
             <div className="row-start-3 col-start-2 col-end-10 w-full lg:w-1/3 lg:justify-end lg:p-6 lg:absolute right-20">
-              <div className="rounded-md shadow-xl bg-paleWhite p-5 mb-4">
+              <div
+                className="rounded-md shadow-xl bg-paleWhite p-5 mb-4"
+                key={courseId}
+              >
                 <div className="flex truncate text-base md:text-lg">
                   <h1 className="pe-4">Materi Belajar</h1>
                   <div className="flex w-full space-x-2">
@@ -138,35 +169,47 @@ const Detail = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex w-full justify-between space-x-4 text-xs md:text-sm font-bold pt-2">
-                  <span className="text-pinkTone">{chapterIWant.name}</span>
-                  <span className="ms-auto text-blue-500 ">
-                    {chapterIWant.duration}
-                  </span>
-                </div>
-                <div className="flex">
-                  <ul className="divide-y w-full divide-slate-200">
-                    <li className="flex gap-4 px-4 py-3">
-                      <Link to="/" className="flex space-x-3 w-full">
-                        <div className="self-center">
-                          <div className="h-8 w-8 ">
-                            <div className="bg-paleOrange w-full rounded-full flex justify-center items-center h-full text-darkRed font-semibold">
-                              <p className="">1</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center w-full">
-                          <div className="flex min-h-[2rem] flex-1 flex-col items-start justify-center gap-0 overflow-hidden">
-                            <h4 className="text-sm md:text-base text-slate-700">
-                              {materialIWant.name}
-                            </h4>
-                          </div>
-                          <FaCirclePlay className="text-xl text-darkMagenta" />
-                        </div>
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
+                {chapterIWant.map((chap, index) => (
+                  <div key={index}>
+                    <div className="flex w-full justify-between space-x-4 text-xs md:text-sm font-bold pt-2">
+                      <span className="text-pinkTone">{chap.name}</span>
+                      <span className="ms-auto text-blue-500 ">
+                        {chap.duration}
+                      </span>
+                    </div>
+                    <div className="flex">
+                      <ul className="divide-y w-full divide-slate-200">
+                        {chapterIWant[index].material.map((mat) => (
+                          <li className="flex gap-4 px-4 py-3" key={mat.id}>
+                            <button
+                              value={mat.id}
+                              onClick={(e) =>
+                                handleSetVideoURL(e.currentTarget.value)
+                              }
+                              className="flex space-x-3 w-full"
+                            >
+                              <div className="self-center">
+                                <div className="h-8 w-8 ">
+                                  <div className="bg-paleOrange w-full rounded-full flex justify-center items-center h-full text-darkRed font-semibold">
+                                    <p className="">{++i}</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex items-center w-full">
+                                <div className="flex min-h-[2rem] flex-1 flex-col items-start justify-center gap-0 overflow-hidden pe-1">
+                                  <h4 className="text-sm md:text-base text-slate-700 text-start">
+                                    {mat.name}
+                                  </h4>
+                                </div>
+                                <FaCirclePlay className="text-xl text-darkMagenta" />
+                              </div>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -177,7 +220,7 @@ const Detail = () => {
                   controls
                   width="100%"
                   className="border"
-                  url={materialIWant?.videoUrl}
+                  url={video.videoUrl}
                 />
               </div>
               <div className="p-5 text-justify">

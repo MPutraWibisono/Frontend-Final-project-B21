@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import CourseCard from "../../components/CourseCard/Card";
 import { Link } from "react-router-dom";
 import belajar from "../../assets/images/belajar.jpg";
@@ -23,8 +23,8 @@ const Homepage = () => {
     isError: false,
     message: null,
   });
-  const { token } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
+  // const { token } = useSelector((state) => state.auth);
+  // const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getCategory(setErrors));
@@ -44,12 +44,6 @@ const Homepage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    if (token) {
-      navigate("/myclass");
-    }
-  }, [token, navigate]);
 
   const handleClassCat = (cat) => {
     setSelectedFilter(cat);

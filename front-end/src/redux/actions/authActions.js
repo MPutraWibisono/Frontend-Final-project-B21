@@ -39,8 +39,11 @@ export const getMe =
       const { token, id } = getState().auth;
 
       if (token == null || id == null) {
+        dispatch(setUser(null));
         throw new Error(); // Custom error
       }
+
+      if (navigatePathSucces) navigate(navigatePathSucces);
 
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/profile/${id}`,
@@ -51,18 +54,21 @@ export const getMe =
         }
       );
 
-      const { data } = response.data;
+      const data = response.data.getProfile;
       dispatch(setUser(data));
-
-      if (navigatePathSucces) navigate(navigatePathSucces);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response.status === 401) {
           dispatch(logout());
           if (navigateError) navigate(navigateError);
           return;
+        } else if (error.response.status === 403) {
+          dispatch(logout());
+          alert("Silakan Login Kembali");
+          if (navigateError) navigate(navigateError);
+          return;
         }
-        alert(error?.response?.data?.message);
+        // alert(error?.response?.data?.message);
         return;
       }
       if (navigateError) navigate(navigateError);

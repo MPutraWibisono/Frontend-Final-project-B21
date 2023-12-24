@@ -25,7 +25,7 @@ const Footer = () => {
         <aside className="items-center flex flex-col md:flex-row md:gap-5 md: w-full">
           <div className="w-fit ">
             <Link to={"/"}>
-              <img src="./logo.png" alt="Demyu" width="50" />
+              <img src="/logo.png" alt="Demyu" width="50" />
             </Link>
           </div>
           <p>Copyright © 2023 - All right reserved</p>

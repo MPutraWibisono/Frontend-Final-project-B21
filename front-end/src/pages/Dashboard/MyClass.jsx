@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import ProgressCard from "../../components/CourseCard/ProgressCard";
+// import ProgressCard from "../../components/CourseCard/ProgressCard";
+import CourseCard from "../../components/CourseCard/Card";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
 // import { Link, useParams } from "react-router-dom";
@@ -12,7 +13,7 @@ import FilterSection from "../../components/FilterSection";
 const MyClass = () => {
   const [filterOptions, setFilterOptions] = useState(filtered);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("All");
+  const [selectedFilter, setSelectedFilter] = useState("Progress");
   const dispatch = useDispatch();
   const { course } = useSelector((state) => state.course);
   // const { category } = useParams();
@@ -169,6 +170,28 @@ const MyClass = () => {
                   <span>All</span>
                 </button>
                 <button
+                  value={"Progress"}
+                  onClick={(e) => handleClassType(e.currentTarget.value)}
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                    selectedFilter === "Progress"
+                      ? "w-64 bg-pink hover:bg-pink"
+                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                  }`}
+                >
+                  <span>In Progress</span>
+                </button>
+                <button
+                  value={"Selesai"}
+                  onClick={(e) => handleClassType(e.currentTarget.value)}
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                    selectedFilter === "Selesai"
+                      ? "w-64 bg-pink hover:bg-pink"
+                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                  }`}
+                >
+                  <span>Selesai</span>
+                </button>
+                <button
                   value={"Premium"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
                   className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
@@ -193,7 +216,7 @@ const MyClass = () => {
               </div>
 
               <div className="flex flex-row flex-wrap justify-around gap-5 p-2">
-                {filteredClasses.map((course) => (
+                {/* {filteredClasses.map((course) => (
                   <div
                     className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
                     key={course?.id}
@@ -208,6 +231,26 @@ const MyClass = () => {
                       level={course?.level}
                       modules={course?.modul}
                       duration={course?.duration}
+                    />
+                  </div>
+                ))} */}
+                {filteredClasses.map((course) => (
+                  <div
+                    className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
+                    key={course?.id}
+                  >
+                    <CourseCard
+                      id={course?.id}
+                      image={course?.imageUrl}
+                      title={course?.category?.name}
+                      rating={course?.rating}
+                      description={course?.name}
+                      instructor={course?.author}
+                      level={course?.level}
+                      modules={course?.modul}
+                      duration={course?.duration}
+                      type={course?.type}
+                      price={course?.price}
                     />
                   </div>
                 ))}

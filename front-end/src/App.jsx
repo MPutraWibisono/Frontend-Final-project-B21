@@ -30,7 +30,14 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route
+            path="/"
+            element={
+              <NoAccessToken>
+                <Homepage />
+              </NoAccessToken>
+            }
+          />
           <Route
             path="/class"
             element={

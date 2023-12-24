@@ -3,13 +3,13 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
-const Pembayaran = () => {
+const PaymentDetail = () => {
   return (
     <div className="pt-20">
       {/* KEMBALI DAN NOTIFIKASI BATAS PEMBAYARAN */}
       <div className="md:px-[100px] px-5 py-6 shadow-md">
         {/* LINK KEMBALI */}
-        <Link href="#" className="flex gap-5">
+        <Link to="/" className="flex gap-5">
           <ArrowLeftIcon className="w-5 font-extrabold" />
           <h1 className="font-bold">Kembali</h1>
         </Link>
@@ -58,7 +58,7 @@ const Pembayaran = () => {
                     <div className="p-5 ">
                       {/* PAYMENT OPTIONS */}
                       <div className="flex gap-5 place-content-center  place-items-center">
-                        <Link href="#">
+                        <Link to="/">
                           <img
                             src="/src/assets/images/icon/mastercard logo.svg"
                             width={50}
@@ -66,7 +66,7 @@ const Pembayaran = () => {
                             alt="mastercard"
                           />
                         </Link>
-                        <Link href="#">
+                        <Link to="/">
                           <img
                             src="/src/assets/images/icon/visa logo.svg"
                             width={50}
@@ -74,7 +74,7 @@ const Pembayaran = () => {
                             alt="visa"
                           />
                         </Link>
-                        <Link href="#">
+                        <Link to="/">
                           <img
                             src="/src/assets/images/icon/amex logo.svg"
                             width={50}
@@ -82,7 +82,7 @@ const Pembayaran = () => {
                             alt="amex"
                           />
                         </Link>
-                        <Link href="#">
+                        <Link to="/">
                           <img
                             src="/src/assets/images/icon/paypal logo.svg"
                             width={50}
@@ -202,4 +202,4 @@ const Pembayaran = () => {
   );
 };
 
-export default Pembayaran;
+export default PaymentDetail;
