@@ -9,6 +9,7 @@ import {
   IoLogOutOutline,
 } from "react-icons/io5";
 import { PiEye, PiEyeSlash } from "react-icons/pi";
+import axios from "axios";
 
 const ChangePass = () => {
   const [passLamaValue, setPassLamaValue] = useState({
@@ -94,15 +95,31 @@ const ChangePass = () => {
     }, duration);
   };
 
-  const validasi = (event) => {
+  const validasi = async (event) => {
     event.preventDefault();
     console.log("ini validasi");
-    if (passLamaValue.password === passBaruValue.password) {
-      showAlert("Password Lama tidak boleh sama dengan Password Baru", "error");
-    } else if (passBaruValue.password !== passValue.password) {
-      showAlert("Password Baru tidak cocok dengan konfirmasi", "error");
-    } else {
-      showAlert("Berhasil Reset Password", "success");
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/v1/auth/profile`,
+        {
+          password_lama: passLamaValue.password,
+          password_baru: passBaruValue.password,
+          ulangi_password: passValue.password,
+        }
+      );
+      if (response.status !== 200) {
+        // Jika respons tidak berhasil, tampilkan pesan kesalahan
+        throw new Error("Gagal mengubah password. Silakan coba lagi.");
+      }
+      showAlert("Berhasil Mengubah Password", "success");
+
+      // reset
+      setPassLamaValue({ password: "", showPass: true });
+      setPassBaruValue({ password: "", showPass: true });
+      setPassValue({ password: "", showPass: true });
+    } catch (error) {
+      console.error("Error:", error.message);
+      showAlert("Gagal Mengubah Password. Silakan coba lagi.", "error");
     }
   };
 
@@ -120,13 +137,13 @@ const ChangePass = () => {
         </Disclosure>
 
         {/* Main Container */}
-        <div className="flex pb-5 h-screen items-start justify-center">
-          <div className="relative bg-white rounded-lg overflow-hidden shadow-md flex flex-col w-3/4 border border-pinkTone">
+        <div className="sm:flex pb-5 items-start justify-center">
+          <div className="relative bg-white rounded-lg overflow-hidden shadow-md flex flex-col w-full sm:w-3/4 border border-pinkTone">
             <div className="bg-pinkTone text-white p-4 flex items-center justify-center rounded-t-lg">
               <h1 className="text-2xl tracking-tight">Akun</h1>
             </div>
-            <div className="flex">
-              <ul className=" col-span-1 p-4 w-1/2 ">
+            <div className="sm:flex">
+              <ul className="col-span-1 p-4 w-full sm:w-1/2">
                 <li
                   style={{ marginTop: "2rem" }}
                   className="text-1xl flex items-center justify-between border-b "
@@ -266,7 +283,7 @@ const ChangePass = () => {
                     <div className="text-center">
                       <button
                         type="submit"
-                        className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
+                        className="sm:btn-sm md:btn-md lg:btn-sm text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
                       >
                         Ubah Password
                       </button>

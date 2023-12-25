@@ -29,13 +29,13 @@ const PurchaseHistory = () => {
         </Disclosure>
 
         {/* Main Container */}
-        <div className="flex pb-5 h-screen items-start justify-center">
-          <div className="relative bg-white rounded-lg overflow-hidden shadow-md flex flex-col w-3/4 border border-pinkTone">
+        <div className="sm:flex pb-5 items-start justify-center">
+          <div className="relative bg-white rounded-lg overflow-hidden shadow-md flex flex-col w-full sm:w-3/4 border border-pinkTone">
             <div className="bg-pinkTone text-white p-4 flex items-center justify-center rounded-t-lg">
               <h1 className="text-2xl tracking-tight">Akun</h1>
             </div>
-            <div className="flex">
-              <ul className="col-span-1 p-4 w-full sm:w-1/2">
+            <div className="sm:flex">
+            <ul className="col-span-1 p-4 w-full sm:w-1/2">
                 {/* Konten Sidebar */}
                 <li
                   style={{ marginTop: "2rem" }}

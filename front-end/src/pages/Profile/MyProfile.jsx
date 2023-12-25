@@ -89,13 +89,13 @@ const MyProfile = () => {
         </Disclosure>
 
         {/* Main Container */}
-        <div className="flex pb-5 h-screen items-start justify-center">
-          <div className="relative bg-white rounded-lg overflow-hidden shadow-md flex flex-col w-3/4 border border-pinkTone">
+        <div className="sm:flex pb-5 items-start justify-center">
+          <div className="relative bg-white rounded-lg overflow-hidden shadow-md flex flex-col w-full sm:w-3/4 border border-pinkTone">
             <div className="bg-pinkTone text-white p-4 flex items-center justify-center rounded-t-lg">
               <h1 className="text-2xl tracking-tight">Akun</h1>
             </div>
-            <div className="flex">
-              <ul className="col-span-1 p-4 w-1/2 ">
+            <div className="sm:flex">
+              <ul className="col-span-1 p-4 w-full sm:w-1/2">
                 <li
                   style={{ marginTop: "2rem" }}
                   className="sm:text-xs md:text-sm lg:text-1xl xl:text-1xl flex items-center justify-between border-b"
@@ -146,7 +146,7 @@ const MyProfile = () => {
               </ul>
 
               {/* Content */}
-              <div className="col-span-3 p-4 w-full mx-auto flex justify-center flex-col items-start">
+              <div className="sm:flex pb-5 items-start justify-center">
                 <div className="text-left mx-auto max-w-7xl">
                   <div className="text-center">
                     <label htmlFor="profileImage" className="cursor-pointer">
@@ -206,7 +206,7 @@ const MyProfile = () => {
                       placeholder="Masukan Kota tempat tinggal"
                     />
                     <div className="text-center">
-                      <button className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10">
+                      <button className="sm:btn-sm md:btn-md lg:btn-sm text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10">
                         Simpan Profil Saya
                       </button>
                     </div>
