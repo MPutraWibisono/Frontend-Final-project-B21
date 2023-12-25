@@ -27,8 +27,8 @@ const Homepage = () => {
   // const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getCategory(setErrors));
-    dispatch(getCourse(setErrors));
+    dispatch(getCategory(setErrors, errors));
+    dispatch(getCourse(setErrors, errors));
   }, [dispatch]);
 
   useEffect(() => {
@@ -56,7 +56,6 @@ const Homepage = () => {
   if (category.length === 0 && course.length === 0) {
     return <Loading />;
   }
-
   return (
     <>
       {/*<!-- Component: Two columns even layout --> */}
@@ -135,7 +134,7 @@ const Homepage = () => {
               {category ? (
                 category.map((categories) => (
                   <SwiperSlide key={categories?.id}>
-                    <Link to={`/class/?category=${categories?.id}`}>
+                    <Link to={`/class/${categories?.id}`}>
                       <div className=" lg:max-h-80 overflow-hidden rounded-[25px] shadow-md shadow-slate-400 transition duration-200 hover:scale-95 active:scale-90 hover:opacity-90">
                         <img
                           src={categories?.imageUrl}
@@ -160,7 +159,7 @@ const Homepage = () => {
           <div className="md:px-12 pb-3 pt-4 flex text-sm md:text-lg">
             <h2 className="font-bold text-black">Kelas Populer</h2>
             <Link
-              to="/class/?category=popular"
+              to="/class/"
               className="lg:text-sm text-xs font ms-auto text-pinkTone font-bold hover:text-pink flex items-center transition duration-200 active:text-darkMagenta"
             >
               Lihat semua

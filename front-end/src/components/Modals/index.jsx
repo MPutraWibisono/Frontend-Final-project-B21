@@ -46,9 +46,9 @@ const Modal = ({
                       Kelas Premium
                     </span>
                   </h3>
-                  <Link
-                    to="/class"
-                    // onClick={() => setIsShowing(false)}
+                  <button
+                    // to="/class"
+                    onClick={() => history.back()}
                     className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full px-5 text-sm font-medium tracking-wide  text-darkMagenta transition duration-300 hover:bg-darkGrayish/10 hover:text-darkGrayish/60 focus:bg-darkGrayish/200 focus:text-darkGrayish/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-darkGrayish/30 disabled:shadow-none disabled:hover:bg-transparent"
                     aria-label="close dialog"
                   >
@@ -74,7 +74,7 @@ const Modal = ({
                         />
                       </svg>
                     </span>
-                  </Link>
+                  </button>
                 </header>
                 <div className="flex w-full justify-center">
                   <div className="flex flex-col justify-center rounded-2xl border-2 w-fit overflow-hidden">
@@ -127,13 +127,13 @@ const Modal = ({
                   >
                     <span>Beli Sekarang</span>
                   </Link>
-                  <Link
-                    to="/class"
-                    // onClick={() => setIsShowing(false)}
+                  <button
+                    // to="/class"
+                    onClick={() => history.back()}
                     className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded px-5 text-sm font-medium tracking-wide text-pinkTone transition duration-300 hover:bg-pinkTone/20 hover:text-pinkTone/60 focus:bg-pinkTone/20 focus:text-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-pinkTone/30 disabled:shadow-none disabled:hover:bg-transparent"
                   >
                     <span>Nanti</span>
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>,

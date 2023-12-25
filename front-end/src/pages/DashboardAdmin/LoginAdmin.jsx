@@ -1,21 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { PiEye } from "react-icons/pi";
 import { PiEyeSlash } from "react-icons/pi";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import logo4 from "../../assets/images/logo4.png";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/actions/authActions";
+import { loginAdmin } from "../../redux/actions/authActions";
 
 const LoginAdmin = () => {
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: {
@@ -29,15 +28,9 @@ const LoginAdmin = () => {
       password: Yup.string().required("Password harus diisi"),
     }),
     onSubmit: async (values) => {
-      dispatch(login(values, setLoading, navigate));
+      dispatch(loginAdmin(values, setLoading, navigate));
     },
   });
-
-  useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
-  }, [token, navigate]);
 
   const toogleShowPass = (e) => {
     e.preventDefault();
@@ -51,7 +44,7 @@ const LoginAdmin = () => {
       <div className="bg-white w-full p-8 lg:p-16 flex items-center justify-center overflow-hidden">
         <div className="w-full sm:w-2/3 lg:w-2/3 text-black">
           <h1 className="font-bold text-[28px] text-darkGrayish lg:mb-12 text-center mb-6">
-            Masuk
+            Portal Admin
           </h1>
 
           <form onSubmit={formik.handleSubmit}>
@@ -94,12 +87,12 @@ const LoginAdmin = () => {
                 >
                   Password
                 </span>
-                <Link
+                {/* <Link
                   to="/auth/forgot-password"
                   className="text-darkGrayish font-medium text-xs"
                 >
                   Lupa Password
-                </Link>
+                </Link> */}
               </div>
               <div className="relative">
                 <input
@@ -141,13 +134,6 @@ const LoginAdmin = () => {
             </button>
           </form>
           <br />
-
-          <p className="text-black items-center text-center mt-6">
-            Belum punya akun?{" "}
-            <Link to="/auth/register" className="text-darkGrayish font-bold">
-              Daftar di sini
-            </Link>
-          </p>
 
           {/* div kosong buat tempat alert */}
           <div className="tempatAlert fixed bottom-6 lg:bottom-4 lg:left-[29%] left-1/2 transform -translate-x-1/2 flex justify-center items-center w-full lg:w-auto sm:bottom-2 "></div>

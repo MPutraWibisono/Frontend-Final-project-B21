@@ -48,7 +48,7 @@ const RegisterOTP = () => {
           message: response.data.message,
         });
 
-        navigate("/myclass");
+        navigate("/auth/login");
       } catch (error) {
         toastNotify({
           type: "error",

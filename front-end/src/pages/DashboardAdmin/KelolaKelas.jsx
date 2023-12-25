@@ -5,16 +5,21 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import LayoutDashboard from "../../components/LayoutDashboard";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { getCourse } from "../../redux/actions/courseActions";
 import Loading from "../../components/Loading";
-import tableHead from "../../data/tableHead.json";
+import tableHead from "../../data/tableHeadKelola.json";
+import { getCategory } from "../../redux/actions/courseActions";
+import CourseModal from "../../components/AdminModals/CourseModal";
+import MaterialModal from "../../components/AdminModals/MaterialModal";
+import ChapterModal from "../../components/AdminModals/ChapterModal";
 
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+  const [tambah, setTambah] = useState("");
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { course } = useSelector((state) => state.course);
+  const { course, category } = useSelector((state) => state.course);
   const [errors, setErrors] = useState({
     isError: false,
     message: null,
@@ -28,11 +33,14 @@ const KelolaKelas = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // useEffect(() => {
-  //   if (token) {
-  //     navigate("/admin/login");
-  //   }
-  // }, [token, navigate]);
+  useEffect(() => {
+    dispatch(getCategory(setErrors, errors));
+  }, [dispatch]);
+
+  const handleTambah = (e) => {
+    setTambah(e);
+    setIsOpen(true);
+  };
 
   if (errors.isError) {
     return <h1 className="h-screen w-full">{errors.message}</h1>;
@@ -77,15 +85,52 @@ const KelolaKelas = () => {
         <div className="flex items-center justify-between">
           <p className="text-xl font-semibold">Kelola Kelas</p>
           <div className="flex gap-3">
-            <button
-              onClick={() => {
-                setIsOpen(true);
-              }}
-              className="flex items-center btn btn-sm btn-primary rounded-full"
-            >
-              <AiOutlinePlusCircle className="h-5 w-5 " />
-              <p className="font-medium">Tambah</p>
-            </button>
+            <div className="dropdown">
+              <div
+                tabIndex={0}
+                role="button"
+                className="flex items-center btn btn-sm btn-primary rounded-full btn m-1"
+              >
+                <AiOutlinePlusCircle className="h-5 w-5 " />
+                <p className="font-medium">Tambah</p>
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <button
+                    value={"Course"}
+                    onClick={(e) => {
+                      handleTambah(e.currentTarget.value);
+                    }}
+                  >
+                    Course
+                  </button>
+                </li>
+                <li>
+                  <button
+                    value={"Material"}
+                    onClick={(e) => {
+                      handleTambah(e.currentTarget.value);
+                    }}
+                  >
+                    Material
+                  </button>
+                </li>
+                <li>
+                  <button
+                    value={"Chapter"}
+                    onClick={(e) => {
+                      handleTambah(e.currentTarget.value);
+                    }}
+                  >
+                    Chapter
+                  </button>
+                </li>
+              </ul>
+            </div>
+
             <button className="flex groupitems-center btn btn-sm btn-outline btn-primary rounded-full ">
               <TbFilter className="h-5 w-5 " />
               <p className="font-medium">Filter</p>
@@ -176,125 +221,42 @@ const KelolaKelas = () => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-xl font-bold text-center leading-6 text-darkBlue05"
-                  >
-                    Tambah Kelas
-                  </Dialog.Title>
-                  <form className="w-full flex flex-col gap-2 my-6">
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Nama Kelas</span>
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="Nama Kelas"
-                        className="input input-bordered w-full"
-                        name="namaKelas"
-                      />
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Kategori</span>
-                      </div>
-                      <select
-                        className="input input-bordered w-full"
-                        name="kategori"
+                  {tambah == "Course" && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
                       >
-                        <option value="UI/UX Design">UI/UX Design</option>
-                        <option value="Data Science">Data Science</option>
-                        <option value="Front-End Development">
-                          Front-End Development
-                        </option>
-                        <option value="Back-End Development">
-                          Back-End Development
-                        </option>
-                        <option value="Mobile Development">
-                          Mobile Development
-                        </option>
-                        <option value="Digital Marketing">
-                          Digital Marketing
-                        </option>
-                        <option value="Cyber Security">Cyber Security</option>
-                      </select>
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Tipe Kelas</span>
-                      </div>
-                      <select
-                        className="input input-bordered w-full"
-                        name="tipeKelas"
+                        Tambah Course
+                      </Dialog.Title>
+                      <CourseModal category={category} setIsOpen={setIsOpen} />
+                    </>
+                  )}
+                  {tambah == "Material" && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
                       >
-                        <option value="Gratis">Gratis</option>
-                        <option value="Premium">Premium</option>
-                      </select>
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Level</span>
-                      </div>
-                      <select
-                        className="input input-bordered w-full"
-                        name="level"
+                        Tambah Material
+                      </Dialog.Title>
+                      <MaterialModal
+                        category={category}
+                        setIsOpen={setIsOpen}
+                      />
+                    </>
+                  )}
+                  {tambah == "Chapter" && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
                       >
-                        <option value="Beginner">Beginner</option>
-                        <option value="Intermediate">Intermediate</option>
-                        <option value="Advance">Advance</option>
-                      </select>
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Harga</span>
-                      </div>
-                      <input
-                        type="number"
-                        placeholder="Harga"
-                        className="input input-bordered w-full"
-                        name="harga"
-                      />
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Materi</span>
-                      </div>
-                      <textarea
-                        type="number"
-                        placeholder="Materi"
-                        className="textarea textarea-bordered"
-                        name="materi"
-                      ></textarea>
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Upload Vidio</span>
-                      </div>
-                      <input
-                        type="file"
-                        className="file-input file-input-bordered w-full"
-                      />
-                    </label>
-                  </form>
-
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="btn btn-primary w-full"
-                      onClick={() => {
-                        alert("hello");
-                        setIsOpen(false);
-                      }}
-                    >
-                      Simpan
-                    </button>
-                  </div>
+                        Tambah Chapter
+                      </Dialog.Title>
+                      <ChapterModal category={category} setIsOpen={setIsOpen} />
+                    </>
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

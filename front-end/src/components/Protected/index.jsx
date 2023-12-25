@@ -3,14 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getMe } from "../../redux/actions/authActions";
 
-const Protected = ({ children }) => {
+export const Protected = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMe(navigate, null, "/"));
-  }, [dispatch, navigate]);
+  }, [dispatch]);
   return children;
 };
 
-export default Protected;
+export const ProtectedAdmin = ({ children }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMe(navigate, null, "/admin/login"));
+  }, [dispatch]);
+  return children;
+};

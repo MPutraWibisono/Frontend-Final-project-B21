@@ -67,9 +67,9 @@ const CourseCard = ({
                 </div>
               ) : (
                 <>
-                  <p to={`/details/${id}`} className="text-xs">
+                  <button to={`/details/${id}`} className="text-xs">
                     Mulai Kelas
-                  </p>
+                  </button>
                 </>
               )}
             </Link>

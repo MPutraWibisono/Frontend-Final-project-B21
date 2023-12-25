@@ -20,9 +20,10 @@ import PaymentSucces from "./pages/Payment/PaymentSucces";
 import Notification from "./pages/Payment/Notification";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import { Navigate } from "react-router-dom";
-import Protected from "./components/Protected";
-import NoAccessToken from "./components/NoAccessToken";
+// import { Navigate } from "react-router-dom";
+import { Protected, ProtectedAdmin } from "./components/Protected";
+import { NoAccessToken, NoAccessTokenAdmin } from "./components/NoAccessToken";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -143,11 +144,29 @@ function App() {
               </Protected>
             }
           />
-          <Route path="/admin/login" element={<LoginAdmin />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route
+            path="/admin/login"
+            element={
+              <NoAccessTokenAdmin>
+                <LoginAdmin />
+              </NoAccessTokenAdmin>
+            }
+          />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedAdmin>
+                <Dashboard />
+              </ProtectedAdmin>
+            }
+          />
           <Route
             path="/admin/dashboard/kelola-kelas"
-            element={<KelolaKelas />}
+            element={
+              <ProtectedAdmin>
+                <KelolaKelas />
+              </ProtectedAdmin>
+            }
           />
           <Route
             path="/payment"
@@ -165,7 +184,7 @@ function App() {
               </Protected>
             }
           />
-          <Route path="/*" element={<Navigate to="/" />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
         <Footer />
       </BrowserRouter>

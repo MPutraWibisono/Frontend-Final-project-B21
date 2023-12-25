@@ -3,6 +3,36 @@ import { axiosInstance } from "../../libs/axios";
 import { toastNotify } from "../../libs/utils";
 import { setToken, setId, setUser } from "../reducers/authReducers";
 
+export const loginAdmin =
+  (values, setLoading, navigate) => async (dispatch) => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post("/api/v1/auth/login", values);
+
+      if (response.data.user.role === "admin") {
+        toastNotify({
+          type: "success",
+          message: response.data.message,
+        });
+        dispatch(setToken(response.data.token));
+        dispatch(setId(response.data.user.id));
+        navigate("/admin/dashboard");
+      } else {
+        toastNotify({
+          type: "error",
+          message: "Anda bukan Admin",
+        });
+      }
+    } catch (error) {
+      toastNotify({
+        type: "error",
+        message: error.response.data.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
 export const login = (values, setLoading, navigate) => async (dispatch) => {
   setLoading(true);
   try {
@@ -64,13 +94,15 @@ export const getMe =
           return;
         } else if (error.response.status === 403) {
           dispatch(logout());
-          alert("Silakan Login Kembali");
+          alert("Silakan Login Dahulu");
           if (navigateError) navigate(navigateError);
           return;
         }
+
         // alert(error?.response?.data?.message);
         return;
       }
+      // alert(error?.response?.data?.message);
       if (navigateError) navigate(navigateError);
     }
   };

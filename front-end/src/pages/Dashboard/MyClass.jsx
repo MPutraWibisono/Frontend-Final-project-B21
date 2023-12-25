@@ -157,7 +157,7 @@ const MyClass = () => {
               </div>
             </div>
             <div className="mx-auto p-4 flex flex-col">
-              <div className="flex justify-center space-x-4 mb-4 overflow-x-auto py-3 ps-16">
+              <div className="flex justify-center gap-2 mb-4 overflow-x-auto py-3 flex-wrap">
                 <button
                   value={"All"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}

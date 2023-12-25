@@ -1,11 +1,9 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaListUl, FaRegUser, FaRegBell } from "react-icons/fa6";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
-import { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import logo from "../../assets/images/logo.png";
-import { useSelector, useDispatch } from "react-redux";
-// import { logout } from "../../redux/actions/authActions";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
@@ -13,22 +11,8 @@ const Header = () => {
     "id-l16": "",
   });
   const location = useLocation();
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState("class");
   const { id } = useSelector((state) => state.auth);
-
-  const noNavbar = [
-    "/auth/login",
-    "/auth/register",
-    "/auth/otp",
-    "/auth/forgot-password",
-    "/auth/forgot-otp",
-    "/auth/reset-password",
-    "/admin/login",
-    "/admin/dashboard",
-    "/admin/dashboard/kelola-kelas",
-  ];
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
@@ -42,6 +26,17 @@ const Header = () => {
     });
   };
 
+  const noNavbar = [
+    "/auth/login",
+    "/auth/register",
+    "/auth/otp",
+    "/auth/forgot-password",
+    "/auth/forgot-otp",
+    "/auth/reset-password",
+    "/admin/login",
+    "/admin/dashboard",
+    "/admin/dashboard/kelola-kelas",
+  ];
   const shouldShowNavbar = noNavbar.includes(location.pathname);
 
   if (shouldShowNavbar) {
