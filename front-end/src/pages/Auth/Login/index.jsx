@@ -58,12 +58,12 @@ const LoginPage = () => {
                     "text-red-500"
                   }`}
                 >
-                  Email/No Telpon
+                  Email
                 </span>
               </div>
               <input
                 type="text"
-                placeholder="Email atau Nomor telepon"
+                placeholder="Masukkan Email"
                 className={`input input-bordered w-full h-10 ${
                   formik.errors.email && formik.touched.email && "input-error"
                 }`}
@@ -98,7 +98,7 @@ const LoginPage = () => {
               <div className="relative">
                 <input
                   type={showPass ? "text" : "password"}
-                  placeholder="Password"
+                  placeholder="Masukkan Password"
                   className={`input input-bordered w-full h-10 ${
                     formik.errors.password &&
                     formik.touched.password &&

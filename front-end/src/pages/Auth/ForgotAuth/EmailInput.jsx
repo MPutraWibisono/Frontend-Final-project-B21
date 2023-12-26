@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logo4 from "../../../assets/images/logo4.png";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { IoMdMail } from "react-icons/io";
 import { toastNotify } from "../../../libs/utils";
 import { axiosInstance } from "../../../libs/axios";
@@ -27,18 +27,17 @@ const EmailInput = () => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const response = await axiosInstance.post("/api/v1/auth/otp", {
-          email: values.email,
-        });
+        const response = await axiosInstance.post(
+          "/api/v1/auth/forget-password",
+          {
+            email: values.email,
+          }
+        );
 
         toastNotify({
           type: "success",
           message: response.data.message,
         });
-
-        localStorage.setItem("email", values.email);
-
-        navigate("/auth/forgot-otp");
       } catch (error) {
         toastNotify({
           type: "error",

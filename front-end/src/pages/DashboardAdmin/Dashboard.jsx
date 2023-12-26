@@ -15,6 +15,12 @@ const Dashboard = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    if (!localStorage.getItem("role")) {
+      navigate("/");
+    }
+  }, []);
+
   // useEffect(() => {
   //   if (token) {
   //     navigate("/admin/login");

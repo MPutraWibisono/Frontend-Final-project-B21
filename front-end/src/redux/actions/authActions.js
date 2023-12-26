@@ -16,6 +16,7 @@ export const loginAdmin =
         });
         dispatch(setToken(response.data.token));
         dispatch(setId(response.data.user.id));
+        localStorage.setItem("role", "admin");
         navigate("/admin/dashboard");
       } else {
         toastNotify({
@@ -61,6 +62,37 @@ export const logout = () => (dispatch) => {
   dispatch(setToken(null));
   dispatch(setId(null));
 };
+
+export const reset =
+  (passbaru, konfirpassbaru, setLoading, navigate, tokenId) => async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post(
+        "/api/v1/auth/insert-password",
+        {
+          newPassword: passbaru,
+          confirmPassword: konfirpassbaru,
+        },
+        {
+          headers: {
+            token: tokenId,
+          },
+        }
+      );
+      toastNotify({
+        type: "success",
+        message: response.data.message,
+      });
+      navigate("/auth/login");
+    } catch (error) {
+      toastNotify({
+        type: "error",
+        message: error.response.data.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
 export const getMe =
   (navigate, navigatePathSucces, navigateError) =>

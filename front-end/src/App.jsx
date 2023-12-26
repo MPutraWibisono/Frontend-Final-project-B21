@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Homepage from "./pages/Home";
 import {
-  ForgotOTP,
   ForgotPass,
   LoginPage,
   RegisterPage,
@@ -25,45 +25,69 @@ import { Protected, ProtectedAdmin } from "./components/Protected";
 import { NoAccessToken, NoAccessTokenAdmin } from "./components/NoAccessToken";
 import NotFound from "./pages/NotFound";
 
+const NavFoot = ({ children }) => {
+  return (
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  );
+};
+
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Header />
         <Routes>
           <Route
             path="/"
             element={
-              <NoAccessToken>
-                <Homepage />
-              </NoAccessToken>
+              <NavFoot>
+                <NoAccessToken>
+                  <Homepage />
+                </NoAccessToken>
+              </NavFoot>
             }
           />
           <Route
             path="/class"
             element={
-              <NoAccessToken>
-                <CourseClass />
-              </NoAccessToken>
+              <NavFoot>
+                <NoAccessToken>
+                  <CourseClass />
+                </NoAccessToken>
+              </NavFoot>
             }
           />
           <Route
             path="/myclass"
             element={
-              <Protected>
-                <MyClass />
-              </Protected>
+              <NavFoot>
+                <Protected>
+                  <MyClass />
+                </Protected>
+              </NavFoot>
             }
           />
           <Route
             path="/class/:category"
             element={
-              <NoAccessToken>
-                <CourseClass />
-              </NoAccessToken>
+              <NavFoot>
+                <NoAccessToken>
+                  <CourseClass />
+                </NoAccessToken>
+              </NavFoot>
             }
           />
-          <Route path="/details/:courseId" element={<Detail />} />
+          <Route
+            path="/details/:courseId"
+            element={
+              <NavFoot>
+                <Detail />
+              </NavFoot>
+            }
+          />
           <Route
             path="/auth/login"
             element={
@@ -97,15 +121,7 @@ function App() {
             }
           />
           <Route
-            path="/auth/forgot-otp"
-            element={
-              <NoAccessToken>
-                <ForgotOTP />
-              </NoAccessToken>
-            }
-          />
-          <Route
-            path="/auth/reset-password"
+            path="/auth/resetpassword"
             element={
               <NoAccessToken>
                 <ForgotPass />
@@ -115,33 +131,41 @@ function App() {
           <Route
             path="/profile"
             element={
-              <Protected>
-                <MyProfile />
-              </Protected>
+              <NavFoot>
+                <Protected>
+                  <MyProfile />
+                </Protected>
+              </NavFoot>
             }
           />
           <Route
             path="/notifications"
             element={
-              <Protected>
-                <Notification />
-              </Protected>
+              <NavFoot>
+                <Protected>
+                  <Notification />
+                </Protected>
+              </NavFoot>
             }
           />
           <Route
             path="/changepassword"
             element={
-              <Protected>
-                <ChangePass />
-              </Protected>
+              <NavFoot>
+                <Protected>
+                  <ChangePass />
+                </Protected>
+              </NavFoot>
             }
           />
           <Route
             path="/purchasehistory"
             element={
-              <Protected>
-                <PurchaseHistory />
-              </Protected>
+              <NavFoot>
+                <Protected>
+                  <PurchaseHistory />
+                </Protected>
+              </NavFoot>
             }
           />
           <Route
@@ -171,22 +195,25 @@ function App() {
           <Route
             path="/payment"
             element={
-              <Protected>
-                <Payment />
-              </Protected>
+              <NavFoot>
+                <Protected>
+                  <Payment />
+                </Protected>
+              </NavFoot>
             }
           />
           <Route
             path="/payment/success"
             element={
-              <Protected>
-                <PaymentSucces />
-              </Protected>
+              <NavFoot>
+                <Protected>
+                  <PaymentSucces />
+                </Protected>
+              </NavFoot>
             }
           />
           <Route path="/*" element={<NotFound />} />
         </Routes>
-        <Footer />
       </BrowserRouter>
     </Provider>
   );

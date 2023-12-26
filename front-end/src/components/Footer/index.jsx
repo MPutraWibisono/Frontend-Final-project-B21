@@ -1,24 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const location = useLocation();
-  const noFooter = [
-    "/auth/login",
-    "/auth/register",
-    "/auth/otp",
-    "/auth/forgot-password",
-    "/auth/forgot-otp",
-    "/auth/reset-password",
-    "/admin/login",
-    "/admin/dashboard",
-    "/admin/dashboard/kelola-kelas",
-  ];
-
-  const shouldShowFooter = noFooter.includes(location.pathname);
-  if (shouldShowFooter) {
-    return null; // Tidak menampilkan footer untuk path tertentu
-  }
-
   return (
     <>
       <footer className="footer items-center p-4 bg-darkGrayish text-neutral-content px-6">

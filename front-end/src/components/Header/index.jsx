@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaListUl, FaRegUser, FaRegBell } from "react-icons/fa6";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
@@ -10,7 +10,7 @@ const Header = () => {
   const [state, setState] = useState({
     "id-l16": "",
   });
-  const location = useLocation();
+  // const location = useLocation();
   const [activeButton, setActiveButton] = useState("class");
   const { id } = useSelector((state) => state.auth);
 
@@ -25,23 +25,6 @@ const Header = () => {
       [evt.target.name]: value,
     });
   };
-
-  const noNavbar = [
-    "/auth/login",
-    "/auth/register",
-    "/auth/otp",
-    "/auth/forgot-password",
-    "/auth/forgot-otp",
-    "/auth/reset-password",
-    "/admin/login",
-    "/admin/dashboard",
-    "/admin/dashboard/kelola-kelas",
-  ];
-  const shouldShowNavbar = noNavbar.includes(location.pathname);
-
-  if (shouldShowNavbar) {
-    return null; // Tidak menampilkan navbar untuk path tertentu
-  }
 
   return (
     <>

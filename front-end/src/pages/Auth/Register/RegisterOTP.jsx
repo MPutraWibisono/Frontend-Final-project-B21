@@ -48,6 +48,7 @@ const RegisterOTP = () => {
           message: response.data.message,
         });
 
+        localStorage.removeItem("email");
         navigate("/auth/login");
       } catch (error) {
         toastNotify({
@@ -99,14 +100,14 @@ const RegisterOTP = () => {
     email;
   }, [email]);
 
-  useEffect(() => {
-    if (!localStorage.getItem("email")) {
-      navigate("/auth/register");
-      return;
-    }
+  // useEffect(() => {
+  //   if (!localStorage.getItem("email")) {
+  //     navigate("/auth/register");
+  //     return;
+  //   }
 
-    getOTP();
-  }, []);
+  //   getOTP();
+  // }, []);
 
   const [countEnd, setCountEnd] = useState(false);
   const [countdown, setCountdown] = useState(380);

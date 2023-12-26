@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import { PiEye } from "react-icons/pi";
+import { PiEyeSlash } from "react-icons/pi";
 import { PatternFormat } from "react-number-format";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { toastNotify } from "../../../libs/utils";
@@ -14,6 +15,20 @@ import { axiosInstance } from "../../../libs/axios";
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [passShow1, setPassShow1] = useState(false);
+  const [passShow2, setPassShow2] = useState(false);
+
+  const toogleShowPass1 = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPassShow1(!passShow1);
+  };
+
+  const toogleShowPass2 = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPassShow2(!passShow2);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -199,7 +214,7 @@ const RegisterPage = () => {
                 </span>
               </div>
               <input
-                type="password"
+                type={passShow1 ? "text" : "password"}
                 placeholder="Masukkan Password"
                 className={`input input-bordered w-full h-10 ${
                   formik.errors.password &&
@@ -210,10 +225,21 @@ const RegisterPage = () => {
                 value={formik.values.password}
                 onChange={formik.handleChange}
               />
+              {passShow1 ? (
+                <PiEye
+                  className="absolute right-3 bottom-3 cursor-pointer"
+                  onClick={toogleShowPass1}
+                />
+              ) : (
+                <PiEyeSlash
+                  className="absolute right-3 bottom-3 cursor-pointer"
+                  onClick={toogleShowPass1}
+                />
+              )}
               {formik.errors.password && formik.touched.password ? (
                 <div className="text-red-500">{formik.errors.password}</div>
               ) : formik.values.password && !formik.errors.password ? (
-                <div className="text-green-500 absolute bottom-2 right-3">
+                <div className="text-green-500 absolute bottom-2 right-10">
                   <CheckCircleIcon className="h-6 w-6" />
                 </div>
               ) : null}
@@ -232,7 +258,7 @@ const RegisterPage = () => {
                 </span>
               </div>
               <input
-                type="password"
+                type={passShow2 ? "text" : "password"}
                 placeholder="Konfirmasi Password"
                 className={`input input-bordered w-full h-10 ${
                   formik.errors.konfirmasiPassword &&
@@ -243,6 +269,17 @@ const RegisterPage = () => {
                 value={formik.values.konfirmasiPassword}
                 onChange={formik.handleChange}
               />
+              {passShow2 ? (
+                <PiEye
+                  className="absolute right-3 bottom-3 cursor-pointer"
+                  onClick={toogleShowPass2}
+                />
+              ) : (
+                <PiEyeSlash
+                  className="absolute right-3 bottom-3 cursor-pointer"
+                  onClick={toogleShowPass2}
+                />
+              )}
               {formik.errors.konfirmasiPassword &&
               formik.touched.konfirmasiPassword ? (
                 <div className="text-red-500">
@@ -250,7 +287,7 @@ const RegisterPage = () => {
                 </div>
               ) : formik.values.konfirmasiPassword &&
                 !formik.errors.konfirmasiPassword ? (
-                <div className="text-green-500 absolute bottom-2 right-3">
+                <div className="text-green-500 absolute bottom-2 right-10">
                   <CheckCircleIcon className="h-6 w-6" />
                 </div>
               ) : null}

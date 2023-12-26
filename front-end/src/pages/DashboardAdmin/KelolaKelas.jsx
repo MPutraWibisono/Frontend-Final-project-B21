@@ -5,7 +5,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import LayoutDashboard from "../../components/LayoutDashboard";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getCourse } from "../../redux/actions/courseActions";
 import Loading from "../../components/Loading";
 import tableHead from "../../data/tableHeadKelola.json";
@@ -17,13 +17,19 @@ import ChapterModal from "../../components/AdminModals/ChapterModal";
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [tambah, setTambah] = useState("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { course, category } = useSelector((state) => state.course);
   const [errors, setErrors] = useState({
     isError: false,
     message: null,
   });
+
+  useEffect(() => {
+    if (!localStorage.getItem("role")) {
+      navigate("/");
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(getCourse(setErrors));
