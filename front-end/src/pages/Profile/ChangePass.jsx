@@ -11,6 +11,61 @@ import {
 import { PiEye, PiEyeSlash } from "react-icons/pi";
 import axios from "axios";
 
+const Sidebar = () => {
+  return (
+    <ul className="col-span-1 p-4 w-full sm:w-1/2">
+      {/* Konten Sidebar */}
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <Link to="/profile">
+          <div className="flex items-center">
+            <IoPencilSharp className="text-pinkTone mr-2" />
+            <span>Profil Saya</span>
+          </div>
+        </Link>
+      </li>
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <Link to="/changepassword">
+          <div className="flex items-center">
+            <IoSettingsOutline className="text-pinkTone mr-2" />
+            <span>Ubah Password</span>
+          </div>
+        </Link>
+      </li>
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <Link to="/purchasehistory">
+          <div className="flex items-center">
+            <IoCartOutline className="text-pinkTone mr-2" />
+            <span>Riwayat Pembayaran</span>
+          </div>
+        </Link>
+      </li>
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between border-b"
+      >
+        <Link to="/">
+          <div className="flex items-center ">
+            <IoLogOutOutline className="text-pinkTone mr-2" />
+            <span>Keluar</span>
+          </div>
+        </Link>
+      </li>
+      <p className="text-xs sm:text-sm text-gray-500 mt-5 p-5 text-center">
+        Versi 1.0.0
+      </p>
+    </ul>
+  );
+};
+
 const ChangePass = () => {
   const [passLamaValue, setPassLamaValue] = useState({
     password: "",
@@ -143,55 +198,8 @@ const ChangePass = () => {
               <h1 className="text-2xl tracking-tight">Akun</h1>
             </div>
             <div className="sm:flex">
-              <ul className="col-span-1 p-4 w-full sm:w-1/2">
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between border-b "
-                >
-                  <Link to="/profile">
-                    <div className="flex items-center  ">
-                      <IoPencilSharp className="text-pinkTone mr-2" />
-                      <span>Profil Saya</span>
-                    </div>
-                  </Link>
-                </li>
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between  border-b"
-                >
-                  <Link to="/changepassword">
-                    <div className="flex items-center">
-                      <IoSettingsOutline className="text-pinkTone mr-2" />
-                      <span>Ubah Password</span>
-                    </div>
-                  </Link>
-                </li>
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between  border-b"
-                >
-                  <Link to="/purchasehistory">
-                    <div className="flex items-center">
-                      <IoCartOutline className="text-pinkTone mr-2" />
-                      <span>Riwayat Pembayaran</span>
-                    </div>
-                  </Link>
-                </li>
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between border-b"
-                >
-                  <Link to="/">
-                    <div className="flex items-center ">
-                      <IoLogOutOutline className="text-pinkTone mr-2" />
-                      <span>Keluar</span>
-                    </div>
-                  </Link>
-                </li>
-                <p className="text-sm text-gray-500 mt-5 p-5 text-center">
-                  Versi 1.0.0
-                </p>
-              </ul>
+              {/* Sidebar */}
+              <Sidebar />
 
               {/* Content */}
               <div className="col-span-3 p-4 w-full mx-auto flex justify-center flex-col items-start">

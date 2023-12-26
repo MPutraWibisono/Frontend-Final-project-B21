@@ -32,6 +32,61 @@ function InputForm({ label, id, type, placeholder }) {
   );
 }
 
+const Sidebar = () => {
+  return (
+    <ul className="col-span-1 p-4 w-full sm:w-1/2">
+      {/* Konten Sidebar */}
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <Link to="/profile">
+          <div className="flex items-center">
+            <IoPencilSharp className="text-pinkTone mr-2" />
+            <span>Profil Saya</span>
+          </div>
+        </Link>
+      </li>
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <Link to="/changepassword">
+          <div className="flex items-center">
+            <IoSettingsOutline className="text-pinkTone mr-2" />
+            <span>Ubah Password</span>
+          </div>
+        </Link>
+      </li>
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <Link to="/purchasehistory">
+          <div className="flex items-center">
+            <IoCartOutline className="text-pinkTone mr-2" />
+            <span>Riwayat Pembayaran</span>
+          </div>
+        </Link>
+      </li>
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between border-b"
+      >
+        <Link to="/">
+          <div className="flex items-center ">
+            <IoLogOutOutline className="text-pinkTone mr-2" />
+            <span>Keluar</span>
+          </div>
+        </Link>
+      </li>
+      <p className="text-xs sm:text-sm text-gray-500 mt-5 p-5 text-center">
+        Versi 1.0.0
+      </p>
+    </ul>
+  );
+};
+
 const MyProfile = () => {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
@@ -95,59 +150,12 @@ const MyProfile = () => {
               <h1 className="text-2xl tracking-tight">Akun</h1>
             </div>
             <div className="sm:flex">
-              <ul className="col-span-1 p-4 w-full sm:w-1/2">
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="sm:text-xs md:text-sm lg:text-1xl xl:text-1xl flex items-center justify-between border-b"
-                >
-                  <Link to="/profile">
-                    <div className="flex items-center">
-                      <IoPencilSharp className="text-pinkTone mr-2" />
-                      <span>Profil Saya</span>
-                    </div>
-                  </Link>
-                </li>
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between border-b"
-                >
-                  <Link to="/changepassword">
-                    <div className="flex items-center">
-                      <IoSettingsOutline className="text-pinkTone mr-2" />
-                      <span>Ubah Password</span>
-                    </div>
-                  </Link>
-                </li>
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between border-b"
-                >
-                  <Link to="/purchasehistory">
-                    <div className="flex items-center">
-                      <IoCartOutline className="text-pinkTone mr-2" />
-                      <span>Riwayat Pembayaran</span>
-                    </div>
-                  </Link>
-                </li>
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between border-b"
-                >
-                  <Link to="/">
-                    <div className="flex items-center ">
-                      <IoLogOutOutline className="text-pinkTone mr-2" />
-                      <span>Keluar</span>
-                    </div>
-                  </Link>
-                </li>
-                <p className=" text-gray-500 mt-5 p-5 text-center sm:text-xs ">
-                  Versi 1.0.0
-                </p>
-              </ul>
+              {/* Sidebar */}
+              <Sidebar />
 
               {/* Content */}
-              <div className="sm:flex pb-5 items-start justify-center">
-                <div className="text-left mx-auto max-w-7xl">
+              <div className="col-span-3 p-4 w-full mx-auto flex justify-center flex-col items-start">
+                <div className="text-left mx-auto max-w-7xl p-4 sm:p-0">
                   <div className="text-center">
                     <label htmlFor="profileImage" className="cursor-pointer">
                       <div className="rounded-full overflow-hidden  border-gray-300"></div>
@@ -212,7 +220,7 @@ const MyProfile = () => {
                     </div>
                   </form>
                   {showSuccessAlert && (
-                    <div className="sm:absolute sm:top-1/2 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2">
+                    <div className="sm:absolute sm:top-1/2 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 mx-auto">
                       <Alert
                         type="success"
                         message="Profil berhasil diperbarui!"
