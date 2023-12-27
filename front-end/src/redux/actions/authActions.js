@@ -1,92 +1,204 @@
 import axios from "axios";
-import { setToken, setUser } from "../reducers/profileReducers";
+import { axiosInstance } from "../../libs/axios";
+import { toastNotify } from "../../libs/utils";
+import { setToken, setId, setUser, setProfile } from "../reducers/authReducers";
 
-export const registerLoginWithGoogleAction =
-  (accessToken, navigate) => async (dispatch) => {
+export const loginAdmin =
+  (values, setLoading, navigate) => async (dispatch) => {
+    setLoading(true);
     try {
-      let data = JSON.stringify({
-        access_token: accessToken,
-      });
+      const response = await axiosInstance.post("/api/v1/auth/login", values);
 
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: `${import.meta.env.VITE_API_URL}/google`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      const response = await axios.request(config);
-      const { token } = response.data.data;
-      // save token
-      dispatch(setToken(token));
-
-      navigate("/");
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        console.error(error.response.data.message);
-        return;
+      if (response.data.user.role === "admin") {
+        toastNotify({
+          type: "success",
+          message: response.data.message,
+        });
+        dispatch(setToken(response.data.token));
+        dispatch(setId(response.data.user.id));
+        localStorage.setItem("role", "admin");
+        navigate("/admin/dashboard");
+      } else {
+        toastNotify({
+          type: "error",
+          message: "Anda bukan Admin",
+        });
       }
-      console.error(error.message);
+    } catch (error) {
+      toastNotify({
+        type: "error",
+        message: error.response.data.message,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-export const login = (email, password, navigate) => async (dispatch) => {
+export const login = (values, setLoading, navigate) => async (dispatch) => {
+  setLoading(true);
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/v1/auth/login`,
-      {
-        email,
-        password,
-      }
-    );
+    const response = await axiosInstance.post("/api/v1/auth/login", values);
 
-    const data = response.data;
-    const token = data.token;
-    console.log(token);
-    dispatch(setToken(token));
+    toastNotify({
+      type: "success",
+      message: response.data.message,
+    });
+
+    dispatch(setToken(response.data.token));
+    dispatch(setId(response.data.user.id));
+
     navigate("/");
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      return;
-    }
-    alert(error?.message);
+    toastNotify({
+      type: "error",
+      message: error.response.data.message,
+    });
+  } finally {
+    setLoading(false);
   }
 };
 
-export const logout = (navigate) => (dispatch) => {
+export const logout = () => (dispatch) => {
   dispatch(setToken(null));
-  dispatch(setUser(null));
-  navigate("/login");
+  dispatch(setId(null));
+  if (localStorage.getItem("role")) {
+    localStorage.removeItem("role");
+  }
 };
-// export const changePassword = (passLama, passBaru, passValue) => async (dispatch) => {
-//   try {
-//     const response = await axios.put(
-//       `${import.meta.env.VITE_API_URL}/api/v1/auth/profile`,
-//       {
-//         password_lama: passLama,
-//         password_baru: passBaru,
-//         ulangi_password: passValue,
-//       }
-//     );
 
-//     const data = response.data;
-//     const token = data.token;
-//     console.log(token);
-//     dispatch(setToken(token));
+export const reset =
+  (passbaru, konfirpassbaru, setLoading, navigate, tokenId) => async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post(
+        "/api/v1/auth/insert-password",
+        {
+          newPassword: passbaru,
+          confirmPassword: konfirpassbaru,
+        },
+        {
+          params: {
+            token: tokenId,
+          },
+        }
+      );
+      toastNotify({
+        type: "success",
+        message: response.data.message,
+      });
+      navigate("/auth/login");
+    } catch (error) {
+      toastNotify({
+        type: "error",
+        message: error.response.data.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-//     if (response.status !== 200) {
-//       throw new Error('Gagal mengubah password. Silakan coba lagi.');
-//     }
+export const getMe =
+  (navigate, navigatePathSucces, navigateError) =>
+  async (dispatch, getState) => {
+    try {
+      const { token, id } = getState().auth;
 
-//     showAlert('Berhasil Mengubah Password', 'success');
+      if (token == null || id == null) {
+        dispatch(setUser(null));
+        throw new Error(); // Custom error
+      }
 
-//     // Reset nilai-nilai formulir
-//     dispatch(resetPasswords());
-//   } catch (error) {
-//     console.error('Error:', error.message);
-//     showAlert('Gagal Mengubah Password. Silakan coba lagi.', 'error');
-//   }
-// };
+      if (navigatePathSucces) navigate(navigatePathSucces);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/v1/profile/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = response.data.getProfile;
+      dispatch(setUser(data));
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response.status === 401) {
+          dispatch(logout());
+          if (navigateError) navigate(navigateError);
+          return;
+        } else if (error.response.status === 403) {
+          dispatch(logout());
+          // console.log("Silakan Login Kembali");
+          if (localStorage.getItem("role")) {
+            localStorage.removeItem("role");
+          }
+          if (navigateError) navigate(navigateError);
+          return;
+        }
+
+        // alert(error?.response?.data?.message);
+        return;
+      }
+      // alert(error?.response?.data?.message);
+      if (navigateError) navigate(navigateError);
+    }
+  };
+
+export const getProfile = () => async (dispatch) => {
+  // setLoading(true);
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axiosInstance.get("/api/v1/profile/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // toastNotify({
+    //   type: "success",
+    //   message: response.data.message,
+    // });
+
+    dispatch(setProfile(response.data.getProfile));
+  } catch (error) {
+    toastNotify({
+      type: "error",
+      message: error.response.data.message,
+    });
+  } finally {
+    // setLoading(false);
+  }
+};
+
+export const changeProfile =
+  (kota, negara, picture, setLoading) => async (dispatch) => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axiosInstance.put(
+        "/api/v1/auth/update-password",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        {
+          city: kota,
+          nationality: negara,
+          profile_picture: picture,
+        }
+      );
+      toastNotify({
+        type: "success",
+        message: "Berhasil Memperbarui",
+      });
+
+      dispatch(setProfile(response.data.getProfile));
+    } catch (error) {
+      toastNotify({
+        type: "error",
+        message: error.response.data.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
