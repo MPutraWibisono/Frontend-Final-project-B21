@@ -1,13 +1,22 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toastNotify } from "../../../libs/utils";
 import logo4 from "../../../assets/images/logo4.png";
+import { axiosInstance } from "../../../libs/axios";
 
 const RegisterOTP = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const otpRefs = Array.from({ length: 6 }).map(() => useRef());
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -26,12 +35,29 @@ const RegisterOTP = () => {
       otp5: Yup.string().required("OTP harus diisi"),
       otp6: Yup.string().required("OTP harus diisi"),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const otp = Object.values(values).join("");
-      toastNotify({
-        type: "success",
-        message: `Kode OTP ${otp}`,
-      });
+      setLoading(true);
+      try {
+        const response = await axiosInstance.post("/api/v1/auth/verify", {
+          otp,
+        });
+
+        toastNotify({
+          type: "success",
+          message: response.data.message,
+        });
+
+        localStorage.removeItem("email");
+        navigate("/auth/login");
+      } catch (error) {
+        toastNotify({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -41,11 +67,64 @@ const RegisterOTP = () => {
     if (e.target.value.length === 1) {
       if (index < otpRefs.length - 1) {
         otpRefs[index + 1].current.focus();
-      } else {
-        formik.handleSubmit();
       }
     }
   };
+
+  const [email, setEmail] = useState(
+    localStorage
+      .getItem("email")
+      .replace(/(.{1})(.*)(?=@)/, function (g1, g2, g3) {
+        return g2 + g3.replace(/./g, "*");
+      })
+  );
+
+  const getOTP = async () => {
+    const response = await axiosInstance.post("/api/v1/auth/otp", {
+      email: localStorage.getItem("email"),
+    });
+
+    if (response.data.error === false) {
+      toastNotify({
+        type: "success",
+        message: response.data.message,
+      });
+    } else {
+      toastNotify({
+        type: "error",
+        message: response.data.message,
+      });
+    }
+  };
+  useEffect(() => {
+    email;
+  }, [email]);
+
+  // useEffect(() => {
+  //   if (!localStorage.getItem("email")) {
+  //     navigate("/auth/register");
+  //     return;
+  //   }
+
+  //   getOTP();
+  // }, []);
+
+  const [countEnd, setCountEnd] = useState(false);
+  const [countdown, setCountdown] = useState(380);
+
+  useEffect(() => {
+    const timer =
+      countdown > 0 &&
+      setInterval(
+        () => setCountdown((prevCountdown) => prevCountdown - 1),
+        1000
+      );
+
+    if (countdown === 0) {
+      setCountEnd(true);
+    }
+    return () => clearInterval(timer);
+  }, [countdown]);
 
   return (
     <section className="h-[100vh] w-full grid lg:grid-cols-2 grid-cols-1 ">
@@ -61,7 +140,7 @@ const RegisterOTP = () => {
             <div className="label py-12 text-center">
               <span className="text-sm text-center w-full font-medium">
                 Ketik 6 digit kode yang dikirimkan ke{" "}
-                <span className="font-bold">J*****@gmail.com</span>
+                <span className="font-bold">{email}</span>
               </span>
             </div>
             <div className="w-full flex justify-center">
@@ -92,15 +171,29 @@ const RegisterOTP = () => {
             </div>
           )}
 
-          <p className="text-sm w-full text-center font-medium mt-6 mb-12">
-            Kirim Ulang OTP dalam 60 detik
-          </p>
+          <div className="flex flex-col mt-6 mb-12 gap-5">
+            <p className="text-sm w-full text-center font-medium ">
+              Kirim Ulang OTP dalam {countdown} detik secara otomatis
+            </p>
+            {countEnd && (
+              <button
+                onClick={() => {
+                  getOTP();
+                  setCountdown(380);
+                }}
+                className="btn border-pinkTone border bg-white hover:bg-white text-slate-500 self-center w-1/2"
+              >
+                Kirim Ulang OTP
+              </button>
+            )}
+          </div>
           <div className="flex justify-center">
             <button
               type="submit"
-              className="btn bg-pinkTone text-slate-100 self-center w-1/2"
+              disabled={loading}
+              className="btn bg-pinkTone text-slate-100 hover:bg-pinkTone/80 self-center w-1/2"
             >
-              Simpan
+              {loading ? "Loading..." : "Submit"}
             </button>
           </div>
         </form>

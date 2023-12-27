@@ -1,90 +1,41 @@
-import { useState, useRef, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import { useState, useRef } from "react";
 import ReactDOM from "react-dom";
-// import CourseCard from "../CourseCard";
-// import kelas from "../../data/kelas.json";
-// import useTheme from "../../../../../.";
+import { useNavigate } from "react-router-dom";
+import { toastNotify } from "../../libs/utils";
+import CardNoButton from "../CourseCard/CardNoButton";
 
-const Modal = () => {
+const Modal = ({
+  id,
+  title,
+  name,
+  author,
+  rating,
+  level,
+  modul,
+  price,
+  image,
+  duration,
+}) => {
   const [isShowing, setIsShowing] = useState(true);
-
+  const navigate = useNavigate();
   const wrapperRef = useRef(null);
 
-  //   useTheme();
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setIsShowing(false);
-      }
+  const isLog = () => {
+    if (!localStorage.getItem("id")) {
+      toastNotify({
+        type: "success",
+        message: "Login Dahulu Ya!",
+      });
+      navigate("/auth/login");
+    } else {
+      navigate(`/payment/?courseId=${id}`);
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [wrapperRef]);
-
-  useEffect(() => {
-    let html = document.querySelector("html");
-
-    if (html) {
-      if (isShowing && html) {
-        html.style.overflowY = "hidden";
-
-        const focusableElements =
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-
-        const modal = document.querySelector("#modal"); // select the modal by it's id
-
-        const firstFocusableElement =
-          modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
-
-        const focusableContent = modal.querySelectorAll(focusableElements);
-
-        const lastFocusableElement =
-          focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
-
-        document.addEventListener("keydown", function (e) {
-          if (e.keyCode === 27) {
-            setIsShowing(false);
-          }
-
-          let isTabPressed = e.key === "Tab" || e.keyCode === 9;
-
-          if (!isTabPressed) {
-            return;
-          }
-
-          if (e.shiftKey) {
-            // if shift key pressed for shift + tab combination
-            if (document.activeElement === firstFocusableElement) {
-              lastFocusableElement.focus(); // add focus for the last focusable element
-              e.preventDefault();
-            }
-          } else {
-            // if tab key is pressed
-            if (document.activeElement === lastFocusableElement) {
-              // if focused has reached to last focusable element then focus first focusable element after pressing tab
-              firstFocusableElement.focus(); // add focus for the first focusable element
-              e.preventDefault();
-            }
-          }
-        });
-
-        firstFocusableElement.focus();
-      } else {
-        html.style.overflowY = "visible";
-      }
-    }
-  }, [isShowing]);
+  };
 
   return (
     <>
-      {/* <button
-        onClick={() => setIsShowing(true)}
-        className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-purple-500 px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-purple-600 focus:bg-purple-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-purple-300 disabled:bg-purple-300 disabled:shadow-none"
-      >
-        <span>Open Modal</span>
-      </button> */}
       {isShowing && typeof document !== "undefined"
         ? ReactDOM.createPortal(
             <div
@@ -96,7 +47,7 @@ const Modal = () => {
             >
               {/*    <!-- Modal --> */}
               <div
-                className="flex max-h-[90vh] w-1/3 max-w-2xl flex-col gap-6 overflow-hidden rounded bg-white p-6 text-slate-500 shadow-xl shadow-slate-700/10"
+                className="flex max-h-[90vh] lg:w-1/3 w-full sm:w-1/2 max-w-2xl flex-col gap-6 overflow-hidden rounded bg-white p-6 text-slate-500 shadow-xl shadow-slate-700/10"
                 ref={wrapperRef}
                 id="modal"
                 role="document"
@@ -110,8 +61,9 @@ const Modal = () => {
                     </span>
                   </h3>
                   <button
-                    onClick={() => setIsShowing(false)}
-                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full px-5 text-sm font-medium tracking-wide  text-purple-500 transition duration-300 hover:bg-purple-100 hover:text-purple-600 focus:bg-purple-200 focus:text-purple-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-purple-300 disabled:shadow-none disabled:hover:bg-transparent"
+                    // to="/class"
+                    onClick={() => history.back()}
+                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full px-5 text-sm font-medium tracking-wide  text-darkMagenta transition duration-300 hover:bg-darkGrayish/10 hover:text-darkGrayish/60 focus:bg-darkGrayish/200 focus:text-darkGrayish/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-darkGrayish/30 disabled:shadow-none disabled:hover:bg-transparent"
                     aria-label="close dialog"
                   >
                     <span className="relative only:-mx-5">
@@ -138,51 +90,34 @@ const Modal = () => {
                     </span>
                   </button>
                 </header>
-                {/*        <!-- Modal body --> */}
-                {/* <div id="content-1a" className=" overflow-auto w-full">
-                  <div className="">
-                    <CourseCard
-                      image={kelas[1].image}
-                      title={kelas[1].title}
-                      rating={kelas[1].rating}
-                      description={kelas[1].description}
-                      instructor={kelas[1].instructor}
-                      level={kelas[1].level}
-                      modules={kelas[1].modules}
-                      duration={kelas[1].duration}
-                      type={kelas[1].type}
-                      price={kelas[1].price}
-                    />
-                  </div>
-                </div> */}
-                <div className="grid justify-center">
-                  <img
-                    src="/src/assets/images/gambarCourse.svg"
-                    height={70}
-                    width={323}
-                  />
-                  {/* TEXT KONTEN */}
-                  <div className="p-2">
-                    <h3 className="font-semibold md:text-[14px]  text-secret-pink">
-                      UI/UX Design
-                    </h3>
-                    <h3 className="font-semibold md:text-[12px] text-[11px]">
-                      Intro to Basic of User Interaction Design
-                    </h3>
-                    <p className="md:text-[10px] text-[8px]">By Simon Doe</p>
+                <CardNoButton
+                  title={title}
+                  name={name}
+                  author={author}
+                  rating={rating}
+                  image={image}
+                  // level={level}
+                  // modul={modul}
+                  // price={price}
+                  // duration={duration}
+                />
+                <div className="flex justify-center">
+                  <div className="py-2 text-sm font-semibold border rounded-2xl w-56 text-center bg-pink text-white">
+                    Rp. {price}k
                   </div>
                 </div>
                 {/*        <!-- Modal actions --> */}
                 <div className="flex justify-start gap-2">
                   <button
-                    onClick={() => setIsShowing(false)}
-                    className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-purple-500 px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-purple-600 focus:bg-purple-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-purple-300 disabled:bg-purple-300 disabled:shadow-none"
+                    onClick={() => isLog()}
+                    className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-pinkTone px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pinkTone/60 focus:bg-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone/30 disabled:bg-pinkTone/30 disabled:shadow-none"
                   >
                     <span>Beli Sekarang</span>
                   </button>
                   <button
-                    onClick={() => setIsShowing(false)}
-                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded px-5 text-sm font-medium tracking-wide text-purple-500 transition duration-300 hover:bg-purple-100 hover:text-purple-600 focus:bg-purple-200 focus:text-purple-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-purple-300 disabled:shadow-none disabled:hover:bg-transparent"
+                    // to="/class"
+                    onClick={() => history.back()}
+                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded px-5 text-sm font-medium tracking-wide text-pinkTone transition duration-300 hover:bg-pinkTone/20 hover:text-pinkTone/60 focus:bg-pinkTone/20 focus:text-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-pinkTone/30 disabled:shadow-none disabled:hover:bg-transparent"
                   >
                     <span>Nanti</span>
                   </button>

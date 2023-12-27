@@ -1,10 +1,11 @@
 import { combineReducers } from "redux";
-import authReducer from "./authReducers";
 import courseReducers from "./courseReducers";
 import profileReducers from "./profileReducers";
+import authReducers from "./authReducers";
+
 
 export default combineReducers({
-  auth: authReducer,
+  auth: authReducers,
   course: courseReducers,
   profile: profileReducers,
 });

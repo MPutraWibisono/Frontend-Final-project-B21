@@ -1,10 +1,31 @@
+import { useEffect } from "react";
 import { TbFilter } from "react-icons/tb";
 import { LuUsers2 } from "react-icons/lu";
 import LayoutDashboard from "../../components/LayoutDashboard";
 import tableHead from "../../data/tableHead.json";
 import tableBody from "../../data/tableBody.json";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const { token } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (!localStorage.getItem("role")) {
+      navigate("/");
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   if (token) {
+  //     navigate("/admin/login");
+  //   }
+  // }, [token, navigate]);
   return (
     <LayoutDashboard>
       <div className="grid grid-cols-3 gap-6 pt-3">

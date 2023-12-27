@@ -1,40 +1,140 @@
-import { Fragment, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Fragment, useState, useEffect } from "react";
+import { useFormik } from "formik";
 import { TbFilter } from "react-icons/tb";
 import { LuUsers2 } from "react-icons/lu";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import LayoutDashboard from "../../components/LayoutDashboard";
 import { Dialog, Transition } from "@headlessui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getCourse } from "../../redux/actions/courseActions";
+import Loading from "../../components/Loading";
+import tableHead from "../../data/tableHeadKelola.json";
+import { getCategory } from "../../redux/actions/courseActions";
+import CourseModal from "../../components/AdminModals/CourseModal";
+import MaterialModal from "../../components/AdminModals/MaterialModal";
+import ChapterModal from "../../components/AdminModals/ChapterModal";
+import { toastNotify } from "../../libs/utils";
+import { axiosInstance } from "../../libs/axios";
+import ChapterChoose from "../../components/AdminModals/ChapterChoose";
 
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen2, setIsOpen2] = useState("1");
+  const [tambah, setTambah] = useState("");
+  const [id, setId] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { course, category } = useSelector((state) => state.course);
+  const [errors, setErrors] = useState({
+    isError: false,
+    message: null,
+  });
 
-  const tableHead = [
-    "Kode Kelas",
-    "Kategori",
-    "Nama Kelas",
-    "Tipe Kelas",
-    "Level",
-    "Harga Kelas",
-  ];
+  useEffect(() => {
+    if (!localStorage.getItem("role")) {
+      navigate("/");
+    }
+  }, []);
 
-  const tableBody = [
-    {
-      kodeKelas: "UIUX0123",
-      category: "UI/UX Design",
-      namaKelas: "Belajar Web Designer dengan Figma",
-      tipeKelas: "Premium",
-      level: "Beginner",
-      hargaKelas: "100000",
+  useEffect(() => {
+    dispatch(getCourse(setErrors));
+  }, [dispatch]);
+
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCategory(setErrors, errors));
+  }, [dispatch]);
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      price: "",
+      modul: "",
+      duration: "",
+      description: "",
+      author: "",
+      group_url: "",
+      level: "",
+      type: "",
+      category_id: "",
     },
-    {
-      kodeKelas: "DS0223",
-      category: "Data Science",
-      namaKelas: "Belajar Data Science dari Nol",
-      tipeKelas: "Gratis",
-      level: "Beginner",
-      hargaKelas: "500000",
+    onSubmit: async (values) => {
+      setLoading(true);
+      let formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("price", values.price);
+      formData.append("modul", values.modul);
+      formData.append("duration", values.duration);
+      formData.append("description", values.description);
+      formData.append("author", values.author);
+      formData.append("group_url", values.group_url);
+      formData.append("level", values.level);
+      formData.append("type", values.type);
+      formData.append("category_id", values.category_id);
+      formData.append("image", image);
+
+      try {
+        const res = await axiosInstance.post("/api/v1/course/create", formData);
+        toastNotify({
+          type: "success",
+          message: "Berhasil menambahkan kelas",
+        });
+        return res.data;
+      } catch (error) {
+        toastNotify({
+          type: "error",
+          message: error.response?.data?.error || "Gagal menambahkan kelas",
+        });
+      } finally {
+        setIsOpen(false);
+        setLoading(false);
+      }
     },
-  ];
+  });
+
+  useEffect(() => {
+    dispatch(getCourse(setErrors));
+  }, [dispatch]);
+
+  const handleTambah = (e) => {
+    setTambah(e);
+    setIsOpen(true);
+  };
+
+  const handleTambah2 = (e) => {
+    setIsOpen2(e);
+  };
+
+  const handleDeleteCourse = async (id) => {
+    const res = await axiosInstance.delete(`/api/v1/course/${id}`);
+    toastNotify({
+      type: "info",
+      message: "Berhasil menghapus kelas",
+    });
+
+    dispatch(getCourse(setErrors));
+    return res.data;
+  };
+
+  const handleSetId = (value) => {
+    setId(value);
+  };
+
+  if (errors.isError) {
+    return <h1 className="h-screen w-full">{errors.message}</h1>;
+  }
+
+  if (course.length === 0 || category.length === 0) {
+    return <Loading />;
+  }
 
   return (
     <LayoutDashboard>
@@ -72,16 +172,53 @@ const KelolaKelas = () => {
         <div className="flex items-center justify-between">
           <p className="text-xl font-semibold">Kelola Kelas</p>
           <div className="flex gap-3">
-            <button
-              onClick={() => {
-                setIsOpen(true);
-              }}
-              className="flex items-center btn btn-sm btn-primary rounded-full"
-            >
-              <AiOutlinePlusCircle className="h-5 w-5 " />
-              <p className="font-medium">Tambah</p>
-            </button>
-            <button className="flex groupitems-center btn btn-sm btn-outline btn-primary rounded-full ">
+            <div className="dropdown">
+              <div
+                tabIndex={0}
+                role="button"
+                className="flex items-center btn btn-sm btn-primary rounded-full m-1"
+              >
+                <AiOutlinePlusCircle className="h-5 w-5 " />
+                <p className="font-medium">Tambah</p>
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <button
+                    value={"Course"}
+                    onClick={(e) => {
+                      handleTambah(e.currentTarget.value);
+                    }}
+                  >
+                    Course
+                  </button>
+                </li>
+                <li>
+                  <button
+                    value={"Chapter"}
+                    onClick={(e) => {
+                      handleTambah(e.currentTarget.value);
+                    }}
+                  >
+                    Chapter
+                  </button>
+                </li>
+                <li>
+                  <button
+                    value={"Material"}
+                    onClick={(e) => {
+                      handleTambah(e.currentTarget.value);
+                    }}
+                  >
+                    Material
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <button className="flex groupitems-center btn btn-sm btn-outline btn-primary rounded-full m-1">
               <TbFilter className="h-5 w-5 " />
               <p className="font-medium">Filter</p>
             </button>
@@ -97,27 +234,27 @@ const KelolaKelas = () => {
             </tr>
           </thead>
           <tbody>
-            {tableBody.map((body, index) => {
+            {course.map((course, index) => {
               return (
                 <tr key={index} className="font-medium">
-                  <td>{body.kodeKelas}</td>
-                  <td>{body.category}</td>
-                  <td>{body.namaKelas}</td>
+                  <td>{course.id}</td>
+                  <td>{course.category.name}</td>
+                  <td>{course.name}</td>
                   <td
                     className={`${
-                      body.tipeKelas === "Premium"
+                      course.type === "PREMIUM"
                         ? "text-darkBlue05"
                         : "text-green-500"
                     }`}
                   >
-                    {body.tipeKelas}
+                    {course.type}
                   </td>
-                  <td>{body.level}</td>
-                  <td>{body.hargaKelas}</td>
+                  <td>{course.level}</td>
+                  <td>{course.price}</td>
                   <td className="flex gap-2">
                     <button
                       onClick={() => {
-                        alert(`Ubah ${body.kodeKelas}`);
+                        alert(`Ubah ${course.id}`);
                       }}
                       className="btn btn-sm btn-primary rounded-full text-white"
                     >
@@ -125,7 +262,7 @@ const KelolaKelas = () => {
                     </button>
                     <button
                       onClick={() => {
-                        alert(`Hapus ${body.kodeKelas}`);
+                        handleDeleteCourse(course.id);
                       }}
                       className="btn btn-sm btn-error rounded-full text-white"
                     >
@@ -145,6 +282,7 @@ const KelolaKelas = () => {
           className="relative z-10"
           onClose={() => {
             setIsOpen(false);
+            setIsOpen2("1");
           }}
         >
           <Transition.Child
@@ -171,125 +309,61 @@ const KelolaKelas = () => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-xl font-bold text-center leading-6 text-darkBlue05"
-                  >
-                    Tambah Kelas
-                  </Dialog.Title>
-                  <form className="w-full flex flex-col gap-2 my-6">
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Nama Kelas</span>
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="Nama Kelas"
-                        className="input input-bordered w-full"
-                        name="namaKelas"
-                      />
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Kategori</span>
-                      </div>
-                      <select
-                        className="input input-bordered w-full"
-                        name="kategori"
+                  {tambah == "Course" && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
                       >
-                        <option value="UI/UX Design">UI/UX Design</option>
-                        <option value="Data Science">Data Science</option>
-                        <option value="Front-End Development">
-                          Front-End Development
-                        </option>
-                        <option value="Back-End Development">
-                          Back-End Development
-                        </option>
-                        <option value="Mobile Development">
-                          Mobile Development
-                        </option>
-                        <option value="Digital Marketing">
-                          Digital Marketing
-                        </option>
-                        <option value="Cyber Security">Cyber Security</option>
-                      </select>
-                    </label>
+                        Tambah Course
+                      </Dialog.Title>
 
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Tipe Kelas</span>
-                      </div>
-                      <select
-                        className="input input-bordered w-full"
-                        name="tipeKelas"
-                      >
-                        <option value="Gratis">Gratis</option>
-                        <option value="Premium">Premium</option>
-                      </select>
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Level</span>
-                      </div>
-                      <select
-                        className="input input-bordered w-full"
-                        name="level"
-                      >
-                        <option value="Beginner">Beginner</option>
-                        <option value="Intermediate">Intermediate</option>
-                        <option value="Advance">Advance</option>
-                      </select>
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Harga</span>
-                      </div>
-                      <input
-                        type="number"
-                        placeholder="Harga"
-                        className="input input-bordered w-full"
-                        name="harga"
+                      <CourseModal
+                        formik={formik}
+                        loading={loading}
+                        category={category}
+                        setImage={setImage}
                       />
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Materi</span>
-                      </div>
-                      <textarea
-                        type="number"
-                        placeholder="Materi"
-                        className="textarea textarea-bordered"
-                        name="materi"
-                      ></textarea>
-                    </label>
-
-                    <label className="form-control w-full relative">
-                      <div className="label">
-                        <span className="font-medium">Upload Vidio</span>
-                      </div>
-                      <input
-                        type="file"
-                        className="file-input file-input-bordered w-full"
+                    </>
+                  )}
+                  {tambah == "Chapter" && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
+                      >
+                        Tambah Chapter
+                      </Dialog.Title>
+                      {isOpen2 == "1" && (
+                        <ChapterChoose
+                          onSetId={handleSetId}
+                          course={course}
+                          setIsOpen2={handleTambah2}
+                        />
+                      )}
+                      {isOpen2 == "2" && (
+                        <ChapterModal
+                          setIsOpen2={handleTambah2}
+                          id={id}
+                          setIsOpen={setIsOpen}
+                        />
+                      )}
+                    </>
+                  )}
+                  {tambah == "Material" && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
+                      >
+                        Tambah Material
+                      </Dialog.Title>
+                      <MaterialModal
+                        category={category}
+                        setIsOpen={setIsOpen}
                       />
-                    </label>
-                  </form>
-
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="btn btn-primary w-full"
-                      onClick={() => {
-                        alert("hello");
-                        setIsOpen(false);
-                      }}
-                    >
-                      Simpan
-                    </button>
-                  </div>
+                    </>
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

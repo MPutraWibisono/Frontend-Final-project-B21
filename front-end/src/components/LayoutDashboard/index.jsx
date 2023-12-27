@@ -2,9 +2,14 @@
 import { Link, useLocation } from "react-router-dom";
 import { BiSearchAlt } from "react-icons/bi";
 import logo from "../../assets/images/logo.png";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../redux/actions/authActions";
 
 const LayoutDashboard = ({ children }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const sidebar = [
     {
@@ -16,6 +21,13 @@ const LayoutDashboard = ({ children }) => {
       path: "/admin/dashboard/kelola-kelas",
     },
   ];
+
+  const onLogout = () => {
+    dispatch(logout());
+
+    // Redirect to login admin
+    navigate("/admin/login");
+  };
 
   const isActive = (path) => {
     return location.pathname === path;
@@ -39,7 +51,7 @@ const LayoutDashboard = ({ children }) => {
           </Link>
         ))}
         <button
-          onClick={() => alert("hello")}
+          onClick={() => onLogout()}
           className="w-full py-3 px-10 hover:bg-darkBlue03 transition-all"
         >
           <p className="font-semibold text-white text-start">Logout</p>

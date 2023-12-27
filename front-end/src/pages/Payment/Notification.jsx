@@ -1,8 +1,12 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { BellIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Notifikasi = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="pt-20">
       <div className="md:px-[100px] px-5 py-16 shadow-md  bg-paleOrange relative">

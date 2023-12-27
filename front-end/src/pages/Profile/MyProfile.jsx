@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Disclosure } from "@headlessui/react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -7,16 +8,15 @@ import {
   IoCartOutline,
   IoLogOutOutline,
 } from "react-icons/io5";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Alert from "../../pages/Profile/Alert";
 import defaultProfileImg from "../../assets/images/profile.png";
-import { getProfile } from "../../redux/actions/profileActions";
-// import Loading from "../../components/Loading";
+import { getProfile, changeProfile } from "../../redux/actions/profileActions";
+import Loading from "../../components/Loading";
 import { logout } from "../../redux/actions/authActions";
 
-function InputForm({ label, id, type, placeholder, disable, value }) {
+function InputForm({ label, id, type, placeholder, disable, value, onChange }) {
   return (
     <div className="mb-4">
       <label
@@ -32,6 +32,7 @@ function InputForm({ label, id, type, placeholder, disable, value }) {
         placeholder={placeholder}
         disabled={disable}
         value={value}
+        onChange={onChange}
       />
     </div>
   );
@@ -101,36 +102,39 @@ const Sidebar = () => {
 };
 
 const MyProfile = () => {
+  const [loading, setLoading] = useState(false);
+  const [kota, setKota] = useState("");
+  const [negara, setNegara] = useState("");
+  const [picture, setPicture] = useState("testing");
+  const { profile } = useSelector((state) => state.auth);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [currentProfileImage, setCurrentProfileImage] =
     useState(defaultProfileImg);
-
-  const { profile } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getProfile());
   }, [dispatch]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // dispatch(changeProfile(newProfileData, setLoading));
+
+    console.log(kota, negara, picture);
+    await dispatch(changeProfile(kota, negara, picture, setLoading));
+    setShowSuccessAlert(true);
+    setTimeout(() => {
+      setShowSuccessAlert(false);
+    }, 3000);
   };
-
-  if (!profile) {
-    // return <Loading />;
-  }
-
-  setShowSuccessAlert(true);
-  setTimeout(() => {
-    setShowSuccessAlert(false);
-  }, 3000);
 
   if (profileImage) {
     console.log("Selected profile image:", profileImage);
+  }
+
+  if (profile.length === 0) {
+    return <Loading />;
   }
 
   return (
@@ -179,9 +183,6 @@ const MyProfile = () => {
                           );
                         }}
                       />
-                      <div className="mt-2 text-sm text-gray-600 hover:text-gray-900 focus:outline-none">
-                        {/* <IoPencilSharp className="text-pinkTone mr-2 inline" /> */}
-                      </div>
                     </label>
                   </div>
 
@@ -216,6 +217,7 @@ const MyProfile = () => {
                       type="text"
                       placeholder={profile.nationality}
                       disable={false}
+                      onChange={(e) => setNegara(e.target.value)}
                     />
                     <InputForm
                       label="Kota"
@@ -223,9 +225,14 @@ const MyProfile = () => {
                       type="text"
                       placeholder={profile.city}
                       disable={false}
+                      onChange={(e) => setKota(e.target.value)}
                     />
                     <div className="text-center">
-                      <button className="sm:btn-sm md:btn-md lg:btn-sm text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10">
+                      <button
+                        type="submit"
+                        className="sm:btn-sm md:btn-md lg:btn-sm text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
+                      >
+                        {loading ? "Loading..." : ""}
                         Simpan Profil Saya
                       </button>
                     </div>
@@ -244,18 +251,8 @@ const MyProfile = () => {
           </div>
         </div>
       </div>
-      {/* Header */}
     </>
   );
-};
-
-InputForm.propTypes = {
-  label: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  disable: PropTypes.bool,
-  value: PropTypes.string,
 };
 
 export default MyProfile;

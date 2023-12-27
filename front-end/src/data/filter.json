@@ -14,15 +14,17 @@
         { "label": "Web Development", "checked": false },
         { "label": "Android Development", "checked": false },
         { "label": "Data Science", "checked": false },
-        { "label": "Business Intelligence", "checked": false }
+        { "label": "Business Intelligence", "checked": false },
+        { "label": "Product Management", "checked": false },
+        { "label": "iOS Development", "checked": false }
     ]
     },
     {
     "title": "Level Kesulitan",
     "options": [
-        { "label": "Beginner Level", "checked": false },
-        { "label": "Intermediate Level 1", "checked": false },
-        { "label": "Advance Level", "checked": false }
+        { "label": "Beginner", "checked": false },
+        { "label": "Intermediate", "checked": false },
+        { "label": "Advance", "checked": false }
     ]
     }
 ]
