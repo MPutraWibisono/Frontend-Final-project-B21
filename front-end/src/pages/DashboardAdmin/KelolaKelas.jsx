@@ -8,15 +8,19 @@ import LayoutDashboard from "../../components/LayoutDashboard";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCourse } from "../../redux/actions/courseActions";
+import {
+  getCourse,
+  getCategory,
+  getChapter,
+} from "../../redux/actions/courseActions";
 import Loading from "../../components/Loading";
 import tableHead from "../../data/tableHeadKelola.json";
-import { getCategory } from "../../redux/actions/courseActions";
 import CourseModal from "../../components/AdminModals/CourseModal";
 import MaterialModal from "../../components/AdminModals/MaterialModal";
 import ChapterModal from "../../components/AdminModals/ChapterModal";
 import { toastNotify } from "../../libs/utils";
 import { axiosInstance } from "../../libs/axios";
+import CourseChoose from "../../components/AdminModals/CourseChoose";
 import ChapterChoose from "../../components/AdminModals/ChapterChoose";
 
 const KelolaKelas = () => {
@@ -24,13 +28,16 @@ const KelolaKelas = () => {
   const [isOpen2, setIsOpen2] = useState("1");
   const [tambah, setTambah] = useState("");
   const [id, setId] = useState("");
+  const [idChapter, setIdChapter] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { course, category } = useSelector((state) => state.course);
+  const { course, category, chapter } = useSelector((state) => state.course);
   const [errors, setErrors] = useState({
     isError: false,
     message: null,
   });
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     if (!localStorage.getItem("role")) {
@@ -40,18 +47,13 @@ const KelolaKelas = () => {
 
   useEffect(() => {
     dispatch(getCourse(setErrors));
+    dispatch(getCategory(setErrors, errors));
+    dispatch(getChapter(setErrors, errors));
   }, [dispatch]);
-
-  const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    dispatch(getCategory(setErrors, errors));
-  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -100,10 +102,6 @@ const KelolaKelas = () => {
     },
   });
 
-  useEffect(() => {
-    dispatch(getCourse(setErrors));
-  }, [dispatch]);
-
   const handleTambah = (e) => {
     setTambah(e);
     setIsOpen(true);
@@ -126,6 +124,10 @@ const KelolaKelas = () => {
 
   const handleSetId = (value) => {
     setId(value);
+  };
+
+  const handleSetIdChap = (value) => {
+    setIdChapter(value);
   };
 
   if (errors.isError) {
@@ -335,7 +337,7 @@ const KelolaKelas = () => {
                         Tambah Chapter
                       </Dialog.Title>
                       {isOpen2 == "1" && (
-                        <ChapterChoose
+                        <CourseChoose
                           onSetId={handleSetId}
                           course={course}
                           setIsOpen2={handleTambah2}
@@ -358,10 +360,28 @@ const KelolaKelas = () => {
                       >
                         Tambah Material
                       </Dialog.Title>
-                      <MaterialModal
-                        category={category}
-                        setIsOpen={setIsOpen}
-                      />
+                      {isOpen2 == "1" && (
+                        <CourseChoose
+                          onSetId={handleSetId}
+                          course={course}
+                          setIsOpen2={handleTambah2}
+                        />
+                      )}
+                      {isOpen2 == "2" && (
+                        <ChapterChoose
+                          onSetIdChap={handleSetIdChap}
+                          id={id}
+                          chapter={chapter}
+                          setIsOpen2={handleTambah2}
+                        />
+                      )}
+                      {isOpen2 == "3" && (
+                        <MaterialModal
+                          setIsOpen2={handleTambah2}
+                          idChapter={idChapter}
+                          setIsOpen={setIsOpen}
+                        />
+                      )}
                     </>
                   )}
                 </Dialog.Panel>

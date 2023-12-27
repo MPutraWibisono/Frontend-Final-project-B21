@@ -1,98 +1,117 @@
 /* eslint-disable react/prop-types */
-const MaterialModals = ({ category, setIsOpen }) => {
+import { useFormik } from "formik";
+import { useState } from "react";
+import { toastNotify } from "../../libs/utils";
+import { axiosInstance } from "../../libs/axios";
+
+const MaterialModals = ({ setIsOpen2, idChapter, setIsOpen }) => {
+  const [loading, setLoading] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      chapterId: "",
+      videoUrl: "",
+      name: "",
+      description: "",
+      title: "",
+    },
+    onSubmit: async (values) => {
+      setLoading(true);
+
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axiosInstance.post(
+          "/api/v1/material",
+          {
+            chapterId: idChapter,
+            videoUrl: values.videoUrl,
+            name: values.name,
+            description: values.description,
+            title: "null",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        toastNotify({
+          type: "success",
+          message: "Berhasil menambahkan material",
+        });
+
+        return res.data;
+      } catch (error) {
+        toastNotify({
+          type: "error",
+          message: error.response?.data?.error || "Gagal menambahkan material",
+        });
+      } finally {
+        setIsOpen(false);
+        setLoading(false);
+        setIsOpen2("1");
+      }
+    },
+  });
+
   return (
     <>
-      <form className="w-full flex flex-col gap-2 my-6">
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Nama Kelas</span>
-          </div>
-          <input
-            type="text"
-            placeholder="Nama Kelas"
-            className="input input-bordered w-full"
-            name="namaKelas"
-          />
-        </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Kategori</span>
-          </div>
-          <select className="input input-bordered w-full" name="kategori">
-            {category.map((cat, index) => (
-              <option value={cat.name} key={index}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Tipe Kelas</span>
-          </div>
-          <select className="input input-bordered w-full" name="tipeKelas">
-            <option value="Gratis">Gratis</option>
-            <option value="Premium">Premium</option>
-          </select>
-        </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Level</span>
-          </div>
-          <select className="input input-bordered w-full" name="level">
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advance">Advance</option>
-          </select>
-        </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Harga</span>
-          </div>
-          <input
-            type="number"
-            placeholder="Harga"
-            className="input input-bordered w-full"
-            name="harga"
-          />
-        </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Materi</span>
-          </div>
-          <textarea
-            type="number"
-            placeholder="Materi"
-            className="textarea textarea-bordered"
-            name="materi"
-          ></textarea>
-        </label>
-
+      <form
+        className="w-full flex flex-col gap-2 my-6"
+        onSubmit={formik.handleSubmit}
+      >
         <label className="form-control w-full relative">
           <div className="label">
             <span className="font-medium">Link Video</span>
           </div>
-          <input type="text" className="input input-bordered w-full" />
+          <input
+            type="text"
+            placeholder="Link Video Course"
+            className="input input-bordered w-full"
+            name="videoUrl"
+            value={formik.values.videoUrl}
+            onChange={formik.handleChange}
+          />
         </label>
-      </form>
 
-      <div className="mt-4">
-        <button
-          type="button"
-          className="btn btn-primary w-full"
-          onClick={() => {
-            alert("hello");
-            setIsOpen(false);
-          }}
-        >
-          Simpan
-        </button>
-      </div>
+        <label className="form-control w-full relative">
+          <div className="label">
+            <span className="font-medium">Nama Material</span>
+          </div>
+          <input
+            type="text"
+            placeholder="Nama Material"
+            className="input input-bordered w-full"
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+          />
+        </label>
+
+        <label className="form-control w-full relative">
+          <div className="label">
+            <span className="font-medium">Deskripsi</span>
+          </div>
+          <textarea
+            type="text"
+            placeholder="Deskripsi"
+            className="textarea textarea-bordered"
+            name="description"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+          ></textarea>
+        </label>
+
+        <div className="mt-4">
+          <button
+            type="submit"
+            className="btn btn-primary w-full"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Simpan"}
+          </button>
+        </div>
+      </form>
     </>
   );
 };

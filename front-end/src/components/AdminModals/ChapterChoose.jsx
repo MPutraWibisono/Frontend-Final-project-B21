@@ -1,25 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-// import { getCourse } from "../../redux/actions/courseActions";
-// import { useState, useEffect } from "react";
-// import { useDispatch } from "react-redux";
-// import Loading from "../Loading";
+import { useEffect, useState } from "react";
 
-const ChapterChoose = ({ onSetId, course, setIsOpen2 }) => {
-  //   const dispatch = useDispatch();
-  //   const [errors, setErrors] = useState({
-  //     isError: false,
-  //     message: null,
-  //   });
-  //   useEffect(() => {
-  //     dispatch(getCourse(setErrors));
-  //   }, [dispatch]);
+const ChapterChoose = ({ onSetIdChap, id, chapter, setIsOpen2 }) => {
+  const [chapterIWant, setChapterIWant] = useState([]);
+
+  useEffect(() => {
+    const chapterEffect = chapter.filter((item) => item.courseId == id);
+    setChapterIWant(chapterEffect);
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const id = event.target.courseId.value;
-    onSetId(id);
-    setIsOpen2("2");
+    const idChap = event.target.chapterId.value;
+    onSetIdChap(idChap);
+    setIsOpen2("3");
   };
 
   return (
@@ -27,16 +23,16 @@ const ChapterChoose = ({ onSetId, course, setIsOpen2 }) => {
       <form className="w-full flex flex-col gap-2 my-6" onSubmit={handleSubmit}>
         <label className="form-control w-full relative">
           <div className="label">
-            <span className="font-medium">Pilih Course</span>
+            <span className="font-medium">Pilih Chapter</span>
           </div>
           <select
             className="input input-bordered w-full"
-            id="courseId"
-            name="courseId"
+            id="chapterId"
+            name="chapterId"
           >
-            {course.map((course, index) => (
-              <option value={course.id} key={index}>
-                {`${course.name} (${course.category.name})`}
+            {chapterIWant.map((chapter, index) => (
+              <option value={chapter.id} key={index}>
+                {chapter.name}
               </option>
             ))}
           </select>
