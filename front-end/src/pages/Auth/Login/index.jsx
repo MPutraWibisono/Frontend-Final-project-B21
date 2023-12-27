@@ -6,6 +6,7 @@ import logo4 from "../../../assets/images/logo4.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/actions/authActions";
+import GoogleLogin from "../../Auth/GoogleLogin";
 
 const LoginPage = () => {
   //useState untuk password
@@ -189,6 +190,9 @@ const LoginPage = () => {
               Daftar di sini
             </Link>
           </p>
+          <div className="d-flex gap-3 justify-content-evenly flex-wrap">
+            <GoogleLogin buttonText={"Login with Google"} />
+          </div>
 
           {/* div kosong buat tempat alert */}
           <div className="tempatAlert fixed bottom-6 lg:bottom-4 lg:left-[29%] left-1/2 transform -translate-x-1/2 flex justify-center items-center w-full lg:w-auto sm:bottom-2 "></div>

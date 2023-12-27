@@ -1,43 +1,56 @@
-import axios from "axios";
-import { setUser } from "../reducers/profileReducer";
+import Alert from "../../pages/Profile/Alert";
+import { axiosInstance } from "../../libs/axios";
 
-export const getMe =
-  (name, email, city, nationality, profile_picture) => async (dispatch) => {
+// import { toastNotify } from "../../libs/utils";
+
+export const setProfile = (profile) => ({
+  type: "SET_PROFILE",
+  payload: profile,
+});
+
+export const getProfile = () => async (dispatch) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axiosInstance.get("/api/v1/profile/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch(setProfile(response.data.getProfile));
+  } catch (error) {
+    alert(error?.message);
+  }
+};
+
+export const changeProfile =
+  (kota, negara, picture, setLoading) => async (dispatch) => {
+    setLoading(true);
     try {
-      // ambil token
       const token = localStorage.getItem("token");
-
-      if (!token) {
-        // token tidak ada
-        return;
-      }
-
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/v1/profile/`,
-        {},
+      const response = await axiosInstance.put(
+        "/api/v1/auth/update-password",
+        {
+          city: kota,
+          nationality: negara,
+          profile_picture: picture,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          body: {
-            name,
-            email,
-            city,
-            nationality,
-            profile_picture,
-          },
         }
       );
 
-      const data = response.data;
+      Alert({
+        type: "success",
+        message: "Berhasil Memperbarui",
+      });
 
-      dispatch(setUser(data));
+      dispatch(setProfile(response.data.getProfile));
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return;
-      }
       alert(error?.message);
+    } finally {
+      setLoading(false);
     }
   };
-
-  

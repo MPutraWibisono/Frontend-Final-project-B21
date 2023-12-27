@@ -4,10 +4,11 @@ const initialState = {
   token: localStorage.getItem("token") || null,
   id: localStorage.getItem("id") || null,
   user: null,
+  profile: [],
 };
 
-const authSlice = createSlice({
-  name: "auth",
+const profileSlice = createSlice({
+  name: "profile",
   initialState,
   reducers: {
     setToken: (state, action) => {
@@ -32,5 +33,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setToken, setUser, setId } = authSlice.actions;
-export default authSlice.reducer;
+export const { setToken, setId, setUser, setProfile } = profileSlice.actions;
+export default profileSlice.reducer;

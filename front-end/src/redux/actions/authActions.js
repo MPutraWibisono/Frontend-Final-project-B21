@@ -1,5 +1,37 @@
 import axios from "axios";
-import { setToken } from "../reducers/authReducers";
+import { setToken, setUser } from "../reducers/profileReducers";
+
+export const registerLoginWithGoogleAction =
+  (accessToken, navigate) => async (dispatch) => {
+    try {
+      let data = JSON.stringify({
+        access_token: accessToken,
+      });
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_API_URL}/google`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      const { token } = response.data.data;
+      // save token
+      dispatch(setToken(token));
+
+      navigate("/");
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.error(error.response.data.message);
+        return;
+      }
+      console.error(error.message);
+    }
+  };
 
 export const login = (email, password, navigate) => async (dispatch) => {
   try {
@@ -22,6 +54,12 @@ export const login = (email, password, navigate) => async (dispatch) => {
     }
     alert(error?.message);
   }
+};
+
+export const logout = (navigate) => (dispatch) => {
+  dispatch(setToken(null));
+  dispatch(setUser(null));
+  navigate("/login");
 };
 // export const changePassword = (passLama, passBaru, passValue) => async (dispatch) => {
 //   try {

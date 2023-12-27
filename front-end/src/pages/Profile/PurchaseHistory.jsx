@@ -9,13 +9,25 @@ import {
 } from "react-icons/io5";
 import Card from "../../components/CourseCard/Card";
 import kelas from "../../data/kelas.json";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/authActions";
+import { useNavigate } from "react-router-dom";
 
 const filteredClasses = kelas.filter(() => {
   return true;
 });
 
-
 const Sidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onLogout = () => {
+    dispatch(logout());
+
+    // Redirect to home page
+    navigate("/");
+  };
+
   return (
     <ul className="col-span-1 p-4 w-full sm:w-1/2">
       {/* Konten Sidebar */}
@@ -54,14 +66,12 @@ const Sidebar = () => {
       </li>
       <li
         style={{ marginTop: "2rem" }}
-        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between border-b"
+        className="text-1xl flex items-center justify-between border-b"
       >
-        <Link to="/">
-          <div className="flex items-center ">
-            <IoLogOutOutline className="text-pinkTone mr-2" />
-            <span>Keluar</span>
-          </div>
-        </Link>
+        <div className="flex items-center cursor-pointer" onClick={onLogout}>
+          <IoLogOutOutline className="text-pinkTone mr-2" />
+          <span>Keluar</span>
+        </div>
       </li>
       <p className="text-xs sm:text-sm text-gray-500 mt-5 p-5 text-center">
         Versi 1.0.0
