@@ -1,73 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import { useFormik } from "formik";
-// import * as Yup from "yup";
-// import { useDispatch } from "react-redux";
-// import { login } from "../../../redux/actions/authActions";
-// import { axiosInstance } from "../../libs/axios";
-import { toastNotify } from "../../libs/utils";
 
-const CourseModal = ({ category, setIsOpen }) => {
-  const [loading, setLoading] = useState(false);
-  //   const dispatch = useDispatch();
+const CourseModal = (props) => {
+  const { formik, loading, category, setImage } = props;
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      price: "",
-      modul: "",
-      duration: "",
-      description: "",
-      author: "",
-      group_url: "",
-      level: "",
-      type: "",
-      category_id: "",
-      image: "",
-    },
-    onSubmit: async (values) => {
-      setLoading(true);
-      try {
-        console.log(`name: ${values.name},
-          price: ${values.price},
-          modul: ${values.modul},
-          duration: ${values.duration},
-          description: ${values.description},
-          author: ${values.author},
-          group_url: ${values.group_url},
-          level: ${values.level},
-          type: ${values.type},
-          category_id: ${values.category_id},
-          image: ${values.image}`);
-        // const response = await axiosInstance.post("/api/v1/course/create", {
-        //   name: values.name,
-        //   price: values.price,
-        //   modul: values.modul,
-        //   duration: values.duration,
-        //   description: values.description,
-        //   author: values.author,
-        //   group_url: values.group_url,
-        //   level: values.level,
-        //   type: values.type,
-        //   category_id: values.category_id,
-        //   image: values.image,
-        // });
-
-        toastNotify({
-          type: "success",
-          message: "response.data.message",
-        });
-      } catch (error) {
-        toastNotify({
-          type: "error",
-          message: error.response.data.message,
-        });
-      } finally {
-        setLoading(false);
-        setIsOpen(false);
-      }
-    },
-  });
   return (
     <>
       <form
@@ -182,6 +117,9 @@ const CourseModal = ({ category, setIsOpen }) => {
             value={formik.values.level}
             onChange={formik.handleChange}
           >
+            <option value="" disabled>
+              Pilih Level
+            </option>
             <option value="BEGINNER">Beginner</option>
             <option value="INTERMEDIATE">Intermediate</option>
             <option value="ADVANCE">Advance</option>
@@ -198,6 +136,9 @@ const CourseModal = ({ category, setIsOpen }) => {
             value={formik.values.type}
             onChange={formik.handleChange}
           >
+            <option value="" disabled>
+              Pilih Type
+            </option>
             <option value="FREE">Gratis</option>
             <option value="PREMIUM">Premium</option>
           </select>
@@ -213,6 +154,9 @@ const CourseModal = ({ category, setIsOpen }) => {
             value={formik.values.category_id}
             onChange={formik.handleChange}
           >
+            <option value="" disabled>
+              Pilih Kategori
+            </option>
             {category.map((cat, index) => (
               <option value={cat.id} key={index}>
                 {cat.name}
@@ -226,24 +170,22 @@ const CourseModal = ({ category, setIsOpen }) => {
             <span className="font-medium">Link Gambar</span>
           </div>
           <input
-            type="text"
+            type="file"
             className="input input-bordered w-full"
             name="image"
-            value={formik.values.image}
-            onChange={formik.handleChange}
+            onChange={(e) => setImage(e.target.files[0])}
           />
         </label>
+        <div className="mt-4">
+          <button
+            type="submit"
+            className="btn btn-primary w-full"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Simpan"}
+          </button>
+        </div>
       </form>
-
-      <div className="mt-4">
-        <button
-          type="submit"
-          className="btn btn-primary w-full"
-          disabled={loading}
-        >
-          {loading ? "Loading..." : "Simpan"}
-        </button>
-      </div>
     </>
   );
 };
