@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Disclosure } from "@headlessui/react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -12,8 +13,11 @@ import profileImg from "../../assets/images/profile.png";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { logout } from "../../redux/actions/authActions";
+import { useSelector } from "react-redux";
+import { getProfile, changeProfile } from "../../redux/actions/authActions";
+import Loading from "../../components/Loading";
 
-function InputForm({ label, id, type, placeholder }) {
+function InputForm({ label, id, type, placeholder, disable, value, onchange }) {
   return (
     <div className="mb-4">
       <label
@@ -27,12 +31,21 @@ function InputForm({ label, id, type, placeholder }) {
         id={id}
         type={type}
         placeholder={placeholder}
+        disabled={disable}
+        value={value}
+        onChange={onchange}
       />
     </div>
   );
 }
 
 const MyProfile = () => {
+  const [loading, setLoading] = useState(false);
+  const [kota, setKota] = useState("");
+  const [negara, setNegara] = useState("");
+  const [picture, setPicture] = useState("testing");
+  const { profile } = useSelector((state) => state.auth);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -45,10 +58,20 @@ const MyProfile = () => {
     navigate("/");
   };
 
-  // useEffect(() => {
-  //   dispatch(getMe(name, email, city, nationality, profile_picture));
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    console.log(kota, negara, picture);
+    // dispatch(changeProfile(kota, negara, picture, setLoading));
+  };
+
+  if (profile.length === 0) {
+    return <Loading />;
+  }
   return (
     <>
       <div className="pt-20">
@@ -131,47 +154,58 @@ const MyProfile = () => {
                     />
                   </div>
 
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <InputForm
                       label="Nama"
                       id="nama"
                       type="text"
                       placeholder="Nama"
+                      disable={true}
+                      value={profile.name}
                     />
                     <InputForm
                       label="Email"
                       id="email"
                       type="email"
                       placeholder="Email"
+                      disable={true}
+                      value={profile.user.email}
                     />
                     <InputForm
                       label="Telepon"
                       id="telepon"
                       type="text"
                       placeholder="Nomor Telepon"
+                      disable={true}
+                      value={profile.phone}
                     />
                     <InputForm
                       label="Negara"
                       id="negara"
                       type="text"
-                      placeholder="Masukan Negara tempat tinggal"
+                      placeholder={profile.nationality}
+                      disable={false}
+                      onchange={(e) => setNegara(e.currentTarget.value)}
                     />
                     <InputForm
                       label="Kota"
                       id="kota"
                       type="text"
-                      placeholder="Masukan Kota tempat tinggal"
+                      placeholder={profile.city}
+                      disable={false}
+                      onchange={(e) => setKota(e.currentTarget.value)}
                     />
+                    <div className="text-center">
+                      <button
+                        type="submit"
+                        // onClick={handleSimpanFilter}
+                        className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10 p-2"
+                      >
+                        {loading ? "Loading..." : "Simpan"}
+                        Simpan
+                      </button>
+                    </div>
                   </form>
-
-                  <div className="text-center">
-                    <button
-                      // onClick={handleSimpanFilter}
-                      className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
-                    >
-                      Simpan Profil Saya
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>

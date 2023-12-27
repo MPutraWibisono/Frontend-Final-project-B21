@@ -1,18 +1,49 @@
+/* eslint-disable no-undef */
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCourse } from "../../redux/actions/courseActions";
+import CardNoButton from "../../components/CourseCard/CardNoButton";
 
 const PaymentDetail = () => {
+  const [searchParams] = useSearchParams();
+  const courseId = searchParams.get("courseId");
+  const dispatch = useDispatch();
+  const { course } = useSelector((state) => state.course);
+  const [courseIWant, setCourse] = useState([]);
+  const [errors, setErrors] = useState({
+    isError: false,
+    message: null,
+  });
+
+  useEffect(() => {
+    dispatch(getCourse(setErrors));
+  }, [dispatch]);
+  useEffect(() => {
+    if (course.length > 0) {
+      setCourse(course.find((item) => item.id == courseId));
+    }
+  }, [course, courseId]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="pt-20">
       {/* KEMBALI DAN NOTIFIKASI BATAS PEMBAYARAN */}
       <div className="md:px-[100px] px-5 py-6 shadow-md">
         {/* LINK KEMBALI */}
-        <Link to="/" className="flex gap-5">
+        <button
+          onClick={() => history.back()}
+          className="flex gap-5 items-center"
+        >
           <ArrowLeftIcon className="w-5 font-extrabold" />
           <h1 className="font-bold">Kembali</h1>
-        </Link>
+        </button>
 
         <div className="bg-alertRed mx-auto px-5 py-3 rounded-xl md:w-[800px] mt-2">
           <h1 className="text-center text-white font-bold md:text-[16px] text-[12px]">
@@ -33,7 +64,7 @@ const PaymentDetail = () => {
                     <span>Bank Transfer</span>
                     <ChevronUpIcon
                       className={`${
-                        open ? "rotate-180 transform" : ""
+                        !open ? "rotate-180 transform" : ""
                       } h-5 w-5 text-white`}
                     />
                   </Disclosure.Button>
@@ -50,7 +81,7 @@ const PaymentDetail = () => {
                     <span>Credit Card</span>
                     <ChevronUpIcon
                       className={`${
-                        open ? "rotate-180 transform" : ""
+                        !open ? "rotate-180 transform" : ""
                       } h-5 w-5 text-white`}
                     />
                   </Disclosure.Button>
@@ -142,60 +173,58 @@ const PaymentDetail = () => {
         <div className="md:w-[600px] ">{/* BANK TRANSFER */}</div>
         {/* KANAN */}
         {/* PEMBAYARAN KELAS */}
-        <div className="md:w-[400px] w-[300px] rounded-[16px] shadow-xl p-5 flex-grow-0 flex-shrink-0 h-[372px] mt-[50px]">
-          <h1 className="font-bold">Pembayaran Kelas</h1>
+        <div className="md:w-[400px] w-[300px] rounded-[16px] shadow-xl p-5 flex-grow-0 flex-shrink-0 h-[384px] mt-[50px]">
+          <h1 className="font-bold pb-3">Pembayaran Kelas</h1>
           {/* KOTAK COURSE */}
-          <div className="md:w-[323px] h-[150px] shadow-md rounded-[15px] mx-auto mt-3 bg-secret-background">
-            <div className="">
-              <img
-                src="/src/assets/images/gambarCourse.svg"
-                height={60}
-                width={323}
-              />
-              {/* TEXT KONTEN */}
-              <div className="p-2">
-                <h3 className="font-semibold md:text-[14px]  text-secret-pink">
-                  UI/UX Design
-                </h3>
-                <h3 className="font-semibold md:text-[12px] text-[11px]">
-                  Intro to Basic of User Interaction Design
-                </h3>
-                <p className="md:text-[10px] text-[8px]">By Simon Doe</p>
-              </div>
+          <CardNoButton
+            title={courseIWant?.category?.name}
+            name={courseIWant?.name}
+            author={courseIWant?.author}
+            rating={courseIWant?.rating}
+            image={courseIWant?.imageUrl}
+            // level={courseIWant?.level}
+            // modul={courseIWant?.modul}
+            // price={courseIWant?.price}
+            // duration={courseIWant?.duration}
+          />
+          <div className="flex mt-5 justify-between">
+            {/* HARGA */}
+            <div className="flex flex-col gap-2">
+              <h4 className="font-bold md:text-[16px]">Harga</h4>
+              <p className="md:text-[14px] text-[12px]">
+                Rp. {courseIWant?.price} k
+              </p>
             </div>
-            <div className="flex mt-5 justify-between">
-              {/* HARGA */}
-              <div className="flex flex-col gap-2">
-                <h4 className="font-bold md:text-[16px]">Harga</h4>
-                <p className="md:text-[14px] text-[12px]">Rp 349,000</p>
-              </div>
-              {/* PPN */}
-              <div className="flex flex-col gap-2">
-                <h4 className="font-bold">PPN 11%</h4>
-                <p className="md:text-[14px] text-[12px]">Rp 38,390</p>
-              </div>
-              {/* TOTAL BAYAR */}
-              <div className="flex flex-col gap-2">
-                <h4 className="font-bold">Total Bayar</h4>
-                <p className="font-bold text-darkGrayish md:text-[14px] text-[12px]">
-                  Rp 387,390
-                </p>
-              </div>
+            {/* PPN */}
+            <div className="flex flex-col gap-2">
+              <h4 className="font-bold">PPN 11%</h4>
+              <p className="md:text-[14px] text-[12px]">
+                Rp. {(courseIWant?.price * 11) / 100} k
+              </p>
             </div>
-            {/* TOMBOL BAYAR */}
-            <button className=" justify-between flex w-full bg-pinkTone px-5 py-3 rounded-[15px] mt-5 ">
-              <h2 className="font-bold text-white md:text-[14px] text-[12px] ">
-                Bayar dan Ikuti Kelas Selamanya
-              </h2>
-              <img
-                src="/src/assets/images/icon/carbon_next-filled.svg"
-                height={20}
-                width={20}
-                alt="next"
-                className="md:w-[20px] md:h-[20px] "
-              />
-            </button>
+            {/* TOTAL BAYAR */}
+            <div className="flex flex-col gap-2">
+              <h4 className="font-bold">Total Bayar</h4>
+              <p className="font-bold text-darkGrayish md:text-[14px] text-[12px]">
+                Rp.{" "}
+                {(courseIWant?.price * 11) / 100 + parseInt(courseIWant?.price)}{" "}
+                k
+              </p>
+            </div>
           </div>
+          {/* TOMBOL BAYAR */}
+          <button className=" justify-between flex w-full bg-pinkTone px-5 py-3 rounded-[15px] mt-5 ">
+            <h2 className="font-bold text-white md:text-[14px] text-[12px] ">
+              Bayar dan Ikuti Kelas Selamanya
+            </h2>
+            <img
+              src="/src/assets/images/icon/carbon_next-filled.svg"
+              height={20}
+              width={20}
+              alt="next"
+              className="md:w-[20px] md:h-[20px] "
+            />
+          </button>
         </div>
       </div>
     </div>

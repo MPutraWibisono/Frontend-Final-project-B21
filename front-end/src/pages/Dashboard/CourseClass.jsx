@@ -86,11 +86,19 @@ const CourseClass = () => {
       return true;
     }
 
-    if (selectedFilter === "Premium" && kelas.type === "PREMIUM") {
+    if (
+      selectedFilter === "Premium" &&
+      // kelas.type === "PREMIUM" &&
+      kelas.price != 0
+    ) {
       return true;
     }
 
-    if (selectedFilter === "Gratis" && kelas.type !== "PREMIUM") {
+    if (
+      selectedFilter === "Gratis" &&
+      kelas.type !== "PREMIUM" &&
+      kelas.price == 0
+    ) {
       return true;
     }
 
@@ -216,14 +224,14 @@ const CourseClass = () => {
               </div>
             </div>
           </div>
-          <div className="join self-center ">
+          {/* <div className="join self-center ">
             <button className="join-item btn text-white bg-pinkTone col-start-3">
               Previous
             </button>
             <button className="join-item btn text-white bg-pinkTone">
               Next
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

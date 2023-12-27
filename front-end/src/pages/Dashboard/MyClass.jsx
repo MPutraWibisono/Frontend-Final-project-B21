@@ -13,7 +13,7 @@ import FilterSection from "../../components/FilterSection";
 const MyClass = () => {
   const [filterOptions, setFilterOptions] = useState(filtered);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("Progress");
+  const [selectedFilter, setSelectedFilter] = useState("All");
   const dispatch = useDispatch();
   const { course } = useSelector((state) => state.course);
   // const { category } = useParams();
@@ -87,11 +87,19 @@ const MyClass = () => {
       return true;
     }
 
-    if (selectedFilter === "Premium" && kelas.type === "PREMIUM") {
+    if (
+      selectedFilter === "Premium" &&
+      // kelas.type === "PREMIUM" &&
+      kelas.price != 0
+    ) {
       return true;
     }
 
-    if (selectedFilter === "Gratis" && kelas.type !== "PREMIUM") {
+    if (
+      selectedFilter === "Gratis" &&
+      kelas.type !== "PREMIUM" &&
+      kelas.price == 0
+    ) {
       return true;
     }
 
@@ -257,14 +265,14 @@ const MyClass = () => {
               </div>
             </div>
           </div>
-          <div className="join self-center ">
+          {/* <div className="join self-center ">
             <button className="join-item btn text-white bg-pinkTone col-start-3">
               Previous
             </button>
             <button className="join-item btn text-white bg-pinkTone">
               Next
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

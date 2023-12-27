@@ -23,8 +23,6 @@ const Homepage = () => {
     isError: false,
     message: null,
   });
-  // const { token } = useSelector((state) => state.auth);
-  // const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getCategory(setErrors, errors));
@@ -134,7 +132,7 @@ const Homepage = () => {
               {category ? (
                 category.map((categories) => (
                   <SwiperSlide key={categories?.id}>
-                    <Link to={`/class/${categories?.id}`}>
+                    <Link to={`/class/?categoryId=${categories?.id}`}>
                       <div className=" lg:max-h-80 overflow-hidden rounded-[25px] shadow-md shadow-slate-400 transition duration-200 hover:scale-95 active:scale-90 hover:opacity-90">
                         <img
                           src={categories?.imageUrl}
@@ -159,7 +157,7 @@ const Homepage = () => {
           <div className="md:px-12 pb-3 pt-4 flex text-sm md:text-lg">
             <h2 className="font-bold text-black">Kelas Populer</h2>
             <Link
-              to="/class/"
+              to="/class/?filter=populer"
               className="lg:text-sm text-xs font ms-auto text-pinkTone font-bold hover:text-pink flex items-center transition duration-200 active:text-darkMagenta"
             >
               Lihat semua

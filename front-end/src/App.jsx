@@ -71,16 +71,6 @@ function App() {
             }
           />
           <Route
-            path="/class/:category"
-            element={
-              <NavFoot>
-                <NoAccessToken>
-                  <CourseClass />
-                </NoAccessToken>
-              </NavFoot>
-            }
-          />
-          <Route
             path="/details/:courseId"
             element={
               <NavFoot>

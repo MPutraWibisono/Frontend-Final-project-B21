@@ -53,7 +53,7 @@ const ProgressCard = ({
               </span>
               <span className="text-center sm:flex sm:text-start items-center gap-1">
                 <RiTimeFill className="text-darkGrayish w-full sm:w-fit text-center" />
-                <p>{duration}</p>
+                <p>{duration} Menit</p>
               </span>
             </div>
             <div className="mt-auto">

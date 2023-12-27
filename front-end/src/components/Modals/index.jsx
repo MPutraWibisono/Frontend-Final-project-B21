@@ -1,11 +1,13 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState, useRef } from "react";
 import ReactDOM from "react-dom";
-import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
-import { IoIosStar } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toastNotify } from "../../libs/utils";
+import CardNoButton from "../CourseCard/CardNoButton";
 
 const Modal = ({
+  id,
   title,
   name,
   author,
@@ -17,8 +19,20 @@ const Modal = ({
   duration,
 }) => {
   const [isShowing, setIsShowing] = useState(true);
-
+  const navigate = useNavigate();
   const wrapperRef = useRef(null);
+
+  const isLog = () => {
+    if (!localStorage.getItem("id")) {
+      toastNotify({
+        type: "success",
+        message: "Login Dahulu Ya!",
+      });
+      navigate("/auth/login");
+    } else {
+      navigate(`/payment/?courseId=${id}`);
+    }
+  };
 
   return (
     <>
@@ -76,57 +90,30 @@ const Modal = ({
                     </span>
                   </button>
                 </header>
-                <div className="flex w-full justify-center">
-                  <div className="flex flex-col justify-center rounded-2xl border-2 w-fit overflow-hidden">
-                    <img
-                      src={image}
-                      className=" aspect-video w-full object-cover h-[100px]"
-                    />
-
-                    {/* TEXT KONTEN */}
-                    <div className="px-3 py-2">
-                      <div className="flex jusify-between">
-                        <h3 className="font-semibold md:text-[14px] text-secret-pink">
-                          {title}
-                        </h3>
-                        <div className="ms-auto flex items-center text-xs">
-                          <IoIosStar className="text-yellow-400 pe-1 min-w-fit" />
-                          {rating}
-                        </div>
-                      </div>
-                      <h3 className="font-semibold md:text-[12px] text-[11px] pe-3">
-                        {name}
-                      </h3>
-                      <p className="md:text-[10px] text-[8px]">By {author}</p>
-                    </div>
-
-                    <div className="flex justify-between pb-3 text-[10px] px-3">
-                      <span className="text-center sm:flex sm:text-start items-center gap-1">
-                        <RiShieldStarLine className="text-darkGrayish w-full sm:w-fit text-center" />
-                        <p>{level}</p>
-                      </span>
-                      <span className="text-center sm:flex sm:text-start items-center gap-1">
-                        <RiBookLine className="text-darkGrayish w-full sm:w-fit text-center" />
-                        <p>{modul} Modul</p>
-                      </span>
-                      <span className="text-center sm:flex sm:text-start items-center gap-1">
-                        <RiTimeFill className="text-darkGrayish w-full sm:w-fit text-center" />
-                        <p>{duration}</p>
-                      </span>
-                    </div>
-                    <div className="pb-3 px-3 text-sm font-semibold">
-                      Rp. {price}k
-                    </div>
+                <CardNoButton
+                  title={title}
+                  name={name}
+                  author={author}
+                  rating={rating}
+                  image={image}
+                  // level={level}
+                  // modul={modul}
+                  // price={price}
+                  // duration={duration}
+                />
+                <div className="flex justify-center">
+                  <div className="py-2 text-sm font-semibold border rounded-2xl w-56 text-center bg-pink text-white">
+                    Rp. {price}k
                   </div>
                 </div>
                 {/*        <!-- Modal actions --> */}
                 <div className="flex justify-start gap-2">
-                  <Link
-                    to="/payment"
+                  <button
+                    onClick={() => isLog()}
                     className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-pinkTone px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pinkTone/60 focus:bg-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone/30 disabled:bg-pinkTone/30 disabled:shadow-none"
                   >
                     <span>Beli Sekarang</span>
-                  </Link>
+                  </button>
                   <button
                     // to="/class"
                     onClick={() => history.back()}

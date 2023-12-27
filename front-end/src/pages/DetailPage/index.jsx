@@ -4,7 +4,7 @@ import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
 import { IoIosCheckmarkCircleOutline, IoIosStar } from "react-icons/io";
 import { FaCirclePlay } from "react-icons/fa6";
 import Modal from "../../components/Modals";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCourse,
@@ -14,9 +14,11 @@ import {
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player/youtube";
 import Loading from "../../components/Loading";
+import { toastNotify } from "../../libs/utils";
 
 const Detail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { courseId } = useParams();
   const { course, material, chapter } = useSelector((state) => state.course);
   const [errors, setErrors] = useState({
@@ -26,6 +28,7 @@ const Detail = () => {
   const [courseIWant, setCourse] = useState([]);
   const [video, setVideo] = useState([]);
   const [chapterIWant, setChapter] = useState([]);
+  const [done, setDone] = useState(false);
 
   // Use Effect
   useEffect(() => {
@@ -33,23 +36,19 @@ const Detail = () => {
     dispatch(getMaterial(setErrors));
     dispatch(getChapter(setErrors));
   }, [dispatch]);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   useEffect(() => {
     if (course.length > 0) {
       setCourse(course.find((item) => item.id == courseId));
     }
   }, [course, courseId]);
-
   useEffect(() => {
     if (material.length > 0) {
       setVideo(material.find((item) => item.id == courseId));
     }
   }, [material, courseId]);
-
   useEffect(() => {
     if (chapter.length > 0) {
       setChapter(chapter.filter((item) => item.courseId == courseId));
@@ -62,11 +61,28 @@ const Detail = () => {
     setVideo(material.find((item) => item.id == e));
   };
 
+  const handleEnd = () => {
+    toastNotify({
+      type: "success",
+      message: `Materi ${video.name} selesai`,
+    });
+    setDone(true);
+  };
+
+  const handleStart = () => {
+    if (!localStorage.getItem("id")) {
+      toastNotify({
+        type: "success",
+        message: "Login Dahulu Ya!",
+      });
+      navigate("/auth/login");
+    }
+  };
+
   // Error Handling
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
-
   if (course.length === 0 || material.length === 0 || chapter.length === 0) {
     return <Loading />;
   }
@@ -78,6 +94,7 @@ const Detail = () => {
     <>
       {courseIWant?.price != 0 && (
         <Modal
+          id={courseIWant?.id}
           title={courseIWant?.category?.name}
           name={courseIWant?.name}
           author={courseIWant?.author}
@@ -155,13 +172,13 @@ const Detail = () => {
                         id="p01d-label"
                         className="absolute top-0 left-0 mb-0 block w-1/4 text-center text-xs text-white"
                       >
-                        <span className="sr-only">Complete</span> 10%
+                        <span className="sr-only">Complete</span> 0%
                       </label>
                       <progress
                         aria-labelledby="p01d-label"
                         id="p01d"
                         max="100"
-                        value="10"
+                        value="0"
                         className="block w-full overflow-hidden rounded bg-slate-100 [&::-webkit-progress-bar]:bg-slate-400/50 [&::-webkit-progress-value]:bg-pinkTone [&::-moz-progress-bar]:bg-pinkTone"
                       >
                         25%
@@ -201,7 +218,11 @@ const Detail = () => {
                                     {mat.name}
                                   </h4>
                                 </div>
-                                <FaCirclePlay className="text-xl text-darkMagenta" />
+                                <FaCirclePlay
+                                  className={`text-xl ${
+                                    done ? "text-darkMagenta" : "text-pink"
+                                  }`}
+                                />
                               </div>
                             </button>
                           </li>
@@ -221,6 +242,8 @@ const Detail = () => {
                   width="100%"
                   className="border"
                   url={video.videoUrl}
+                  onEnded={(e) => handleEnd(e)}
+                  onStart={(e) => handleStart(e)}
                 />
               </div>
               <div className="p-5 text-justify">

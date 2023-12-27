@@ -1,7 +1,7 @@
 import axios from "axios";
 import { axiosInstance } from "../../libs/axios";
 import { toastNotify } from "../../libs/utils";
-import { setToken, setId, setUser } from "../reducers/authReducers";
+import { setToken, setId, setUser, setProfile } from "../reducers/authReducers";
 
 export const loginAdmin =
   (values, setLoading, navigate) => async (dispatch) => {
@@ -74,7 +74,7 @@ export const reset =
           confirmPassword: konfirpassbaru,
         },
         {
-          headers: {
+          params: {
             token: tokenId,
           },
         }
@@ -106,9 +106,8 @@ export const getMe =
       }
 
       if (navigatePathSucces) navigate(navigatePathSucces);
-
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/v1/profile/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/profile/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -136,5 +135,64 @@ export const getMe =
       }
       // alert(error?.response?.data?.message);
       if (navigateError) navigate(navigateError);
+    }
+  };
+
+export const getProfile = () => async (dispatch) => {
+  // setLoading(true);
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axiosInstance.get("/api/v1/profile/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // toastNotify({
+    //   type: "success",
+    //   message: response.data.message,
+    // });
+
+    dispatch(setProfile(response.data.getProfile));
+  } catch (error) {
+    toastNotify({
+      type: "error",
+      message: error.response.data.message,
+    });
+  } finally {
+    // setLoading(false);
+  }
+};
+
+export const changeProfile =
+  (kota, negara, picture, setLoading) => async (dispatch) => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axiosInstance.put(
+        "/api/v1/auth/update-password",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        {
+          city: kota,
+          nationality: negara,
+          profile_picture: picture,
+        }
+      );
+      toastNotify({
+        type: "success",
+        message: "Berhasil Memperbarui",
+      });
+
+      dispatch(setProfile(response.data.getProfile));
+    } catch (error) {
+      toastNotify({
+        type: "error",
+        message: error.response.data.message,
+      });
+    } finally {
+      setLoading(false);
     }
   };

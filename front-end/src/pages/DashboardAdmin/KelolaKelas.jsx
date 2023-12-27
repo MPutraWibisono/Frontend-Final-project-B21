@@ -1,4 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
+import { useFormik } from "formik";
 import { TbFilter } from "react-icons/tb";
 import { LuUsers2 } from "react-icons/lu";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -13,6 +14,8 @@ import { getCategory } from "../../redux/actions/courseActions";
 import CourseModal from "../../components/AdminModals/CourseModal";
 import MaterialModal from "../../components/AdminModals/MaterialModal";
 import ChapterModal from "../../components/AdminModals/ChapterModal";
+import { toastNotify } from "../../libs/utils";
+import { axiosInstance } from "../../libs/axios";
 
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +28,7 @@ const KelolaKelas = () => {
     message: null,
   });
 
+<<<<<<< HEAD
   useEffect(() => {
     if (!localStorage.getItem("role")) {
       navigate("/");
@@ -34,6 +38,10 @@ const KelolaKelas = () => {
   useEffect(() => {
     dispatch(getCourse(setErrors));
   }, [dispatch]);
+=======
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
+>>>>>>> 3e37798532a5bbdfd7e744c28b3a3cdd5a3b8064
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,9 +51,71 @@ const KelolaKelas = () => {
     dispatch(getCategory(setErrors, errors));
   }, [dispatch]);
 
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      price: "",
+      modul: "",
+      duration: "",
+      description: "",
+      author: "",
+      group_url: "",
+      level: "",
+      type: "",
+      category_id: "",
+    },
+    onSubmit: async (values) => {
+      setLoading(true);
+      let formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("price", values.price);
+      formData.append("modul", values.modul);
+      formData.append("duration", values.duration);
+      formData.append("description", values.description);
+      formData.append("author", values.author);
+      formData.append("group_url", values.group_url);
+      formData.append("level", values.level);
+      formData.append("type", values.type);
+      formData.append("category_id", values.category_id);
+      formData.append("image", image);
+
+      try {
+        const res = await axiosInstance.post("/api/v1/course/create", formData);
+        toastNotify({
+          type: "success",
+          message: "Berhasil menambahkan kelas",
+        });
+        return res.data;
+      } catch (error) {
+        toastNotify({
+          type: "error",
+          message: error.response?.data?.error || "Gagal menambahkan kelas",
+        });
+      } finally {
+        setIsOpen(false);
+        setLoading(false);
+      }
+    },
+  });
+
+  useEffect(() => {
+    dispatch(getCourse(setErrors));
+  }, [dispatch]);
+
   const handleTambah = (e) => {
     setTambah(e);
     setIsOpen(true);
+  };
+
+  const handleDeleteCourse = async (id) => {
+    const res = await axiosInstance.delete(`/api/v1/course/${id}`);
+    toastNotify({
+      type: "info",
+      message: "Berhasil menghapus kelas",
+    });
+
+    dispatch(getCourse(setErrors));
+    return res.data;
   };
 
   if (errors.isError) {
@@ -55,6 +125,7 @@ const KelolaKelas = () => {
   if (course.length === 0) {
     return <Loading />;
   }
+
   return (
     <LayoutDashboard>
       <div className="grid grid-cols-3 gap-6 pt-3">
@@ -95,7 +166,7 @@ const KelolaKelas = () => {
               <div
                 tabIndex={0}
                 role="button"
-                className="flex items-center btn btn-sm btn-primary rounded-full btn m-1"
+                className="flex items-center btn btn-sm btn-primary rounded-full m-1"
               >
                 <AiOutlinePlusCircle className="h-5 w-5 " />
                 <p className="font-medium">Tambah</p>
@@ -181,7 +252,7 @@ const KelolaKelas = () => {
                     </button>
                     <button
                       onClick={() => {
-                        alert(`Hapus ${course.id}`);
+                        handleDeleteCourse(course.id);
                       }}
                       className="btn btn-sm btn-error rounded-full text-white"
                     >
@@ -235,7 +306,13 @@ const KelolaKelas = () => {
                       >
                         Tambah Course
                       </Dialog.Title>
-                      <CourseModal category={category} setIsOpen={setIsOpen} />
+
+                      <CourseModal
+                        formik={formik}
+                        loading={loading}
+                        category={category}
+                        setImage={setImage}
+                      />
                     </>
                   )}
                   {tambah == "Material" && (
