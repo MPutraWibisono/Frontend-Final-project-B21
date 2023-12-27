@@ -61,6 +61,9 @@ export const login = (values, setLoading, navigate) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch(setToken(null));
   dispatch(setId(null));
+  if (localStorage.getItem("role")) {
+    localStorage.removeItem("role");
+  }
 };
 
 export const reset =
@@ -125,7 +128,10 @@ export const getMe =
           return;
         } else if (error.response.status === 403) {
           dispatch(logout());
-          alert("Silakan Login Dahulu");
+          // console.log("Silakan Login Kembali");
+          if (localStorage.getItem("role")) {
+            localStorage.removeItem("role");
+          }
           if (navigateError) navigate(navigateError);
           return;
         }

@@ -171,7 +171,7 @@ const CourseModal = (props) => {
           </div>
           <input
             type="file"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full pt-2"
             name="image"
             onChange={(e) => setImage(e.target.files[0])}
           />

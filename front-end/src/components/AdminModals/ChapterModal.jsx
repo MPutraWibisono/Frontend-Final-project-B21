@@ -1,98 +1,100 @@
 /* eslint-disable react/prop-types */
-const ChapterModals = ({ category, setIsOpen }) => {
+import { useFormik } from "formik";
+import { useState } from "react";
+import { toastNotify } from "../../libs/utils";
+import { axiosInstance } from "../../libs/axios";
+
+const ChapterModals = ({ setIsOpen2, id, setIsOpen }) => {
+  const [loading, setLoading] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      duration: "",
+    },
+    onSubmit: async (values) => {
+      setLoading(true);
+
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axiosInstance.post(
+          "/api/v1/chapter",
+          {
+            name: values.name,
+            duration: values.duration,
+            courseId: id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        toastNotify({
+          type: "success",
+          message: "Berhasil menambahkan chapter",
+        });
+        return res.data;
+      } catch (error) {
+        toastNotify({
+          type: "error",
+          message: error.response?.data?.error || "Gagal menambahkan chapter",
+        });
+      } finally {
+        setIsOpen(false);
+        setLoading(false);
+        setIsOpen2("1");
+      }
+    },
+  });
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   ;
+  // };
+
   return (
     <>
-      <form className="w-full flex flex-col gap-2 my-6">
+      <form
+        className="w-full flex flex-col gap-2 my-6"
+        onSubmit={formik.handleSubmit}
+      >
         <label className="form-control w-full relative">
           <div className="label">
-            <span className="font-medium">Nama Kelas</span>
+            <span className="font-medium">Nama Chapter</span>
           </div>
           <input
             type="text"
-            placeholder="Nama Kelas"
+            placeholder="Nama Chapter"
             className="input input-bordered w-full"
-            name="namaKelas"
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
           />
         </label>
-
         <label className="form-control w-full relative">
           <div className="label">
-            <span className="font-medium">Kategori</span>
-          </div>
-          <select className="input input-bordered w-full" name="kategori">
-            {category.map((cat, index) => (
-              <option value={cat.name} key={index}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Tipe Kelas</span>
-          </div>
-          <select className="input input-bordered w-full" name="tipeKelas">
-            <option value="Gratis">Gratis</option>
-            <option value="Premium">Premium</option>
-          </select>
-        </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Level</span>
-          </div>
-          <select className="input input-bordered w-full" name="level">
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advance">Advance</option>
-          </select>
-        </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Harga</span>
+            <span className="font-medium">Durasi</span>
           </div>
           <input
             type="number"
-            placeholder="Harga"
+            placeholder="Durasi"
             className="input input-bordered w-full"
-            name="harga"
+            name="duration"
+            value={formik.values.duration}
+            onChange={formik.handleChange}
           />
         </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Materi</span>
-          </div>
-          <textarea
-            type="number"
-            placeholder="Materi"
-            className="textarea textarea-bordered"
-            name="materi"
-          ></textarea>
-        </label>
-
-        <label className="form-control w-full relative">
-          <div className="label">
-            <span className="font-medium">Link Video</span>
-          </div>
-          <input type="text" className="input input-bordered w-full" />
-        </label>
+        <div className="mt-4">
+          <button
+            type="submit"
+            className="btn btn-primary w-full"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Simpan"}
+          </button>
+        </div>
       </form>
-
-      <div className="mt-4">
-        <button
-          type="button"
-          className="btn btn-primary w-full"
-          onClick={() => {
-            alert("hello");
-            setIsOpen(false);
-          }}
-        >
-          Simpan
-        </button>
-      </div>
     </>
   );
 };

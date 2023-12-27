@@ -4,39 +4,36 @@ import { setCategory } from "../reducers/courseReducers";
 import { setMaterial } from "../reducers/courseReducers";
 import { setChapter } from "../reducers/courseReducers";
 
-export const getCourse =
-  (setErrors, errors, level = "", type = "") =>
-  async (dispatch) => {
-    try {
-      // const { token } = getState().auth;
-      // if (!token) return;
+export const getCourse = (setErrors, errors) => async (dispatch) => {
+  try {
+    // const { token } = getState().auth;
+    // if (!token) return;
 
-      const response = await axios.get(
-        `${
-          import.meta.env.VITE_API_URL
-        }/api/v1/course?page=1&level=${level}&type=${type}`
-      );
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/v1/course`
+    );
 
-      const { data } = response.data;
-      dispatch(setCourse(data));
-      setErrors({ ...errors, isError: false });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setErrors({
-          ...errors,
-          isError: true,
-          message: error?.response?.data?.message || error?.message,
-        });
-        return;
-      }
-      alert(error?.message);
+    const data = response.data.courses;
+
+    dispatch(setCourse(data));
+    setErrors({ ...errors, isError: false });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
       setErrors({
         ...errors,
         isError: true,
-        message: error?.message,
+        message: error?.response?.data?.message || error?.message,
       });
+      return;
     }
-  };
+    alert(error?.message);
+    setErrors({
+      ...errors,
+      isError: true,
+      message: error?.message,
+    });
+  }
+};
 
 export const getCategory = (setErrors, errors) => async (dispatch) => {
   try {

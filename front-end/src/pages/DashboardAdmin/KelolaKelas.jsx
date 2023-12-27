@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { TbFilter } from "react-icons/tb";
@@ -16,10 +17,13 @@ import MaterialModal from "../../components/AdminModals/MaterialModal";
 import ChapterModal from "../../components/AdminModals/ChapterModal";
 import { toastNotify } from "../../libs/utils";
 import { axiosInstance } from "../../libs/axios";
+import ChapterChoose from "../../components/AdminModals/ChapterChoose";
 
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen2, setIsOpen2] = useState("1");
   const [tambah, setTambah] = useState("");
+  const [id, setId] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { course, category } = useSelector((state) => state.course);
@@ -28,7 +32,6 @@ const KelolaKelas = () => {
     message: null,
   });
 
-<<<<<<< HEAD
   useEffect(() => {
     if (!localStorage.getItem("role")) {
       navigate("/");
@@ -38,10 +41,9 @@ const KelolaKelas = () => {
   useEffect(() => {
     dispatch(getCourse(setErrors));
   }, [dispatch]);
-=======
+
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
->>>>>>> 3e37798532a5bbdfd7e744c28b3a3cdd5a3b8064
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -107,6 +109,10 @@ const KelolaKelas = () => {
     setIsOpen(true);
   };
 
+  const handleTambah2 = (e) => {
+    setIsOpen2(e);
+  };
+
   const handleDeleteCourse = async (id) => {
     const res = await axiosInstance.delete(`/api/v1/course/${id}`);
     toastNotify({
@@ -118,11 +124,15 @@ const KelolaKelas = () => {
     return res.data;
   };
 
+  const handleSetId = (value) => {
+    setId(value);
+  };
+
   if (errors.isError) {
     return <h1 className="h-screen w-full">{errors.message}</h1>;
   }
 
-  if (course.length === 0) {
+  if (course.length === 0 || category.length === 0) {
     return <Loading />;
   }
 
@@ -187,16 +197,6 @@ const KelolaKelas = () => {
                 </li>
                 <li>
                   <button
-                    value={"Material"}
-                    onClick={(e) => {
-                      handleTambah(e.currentTarget.value);
-                    }}
-                  >
-                    Material
-                  </button>
-                </li>
-                <li>
-                  <button
                     value={"Chapter"}
                     onClick={(e) => {
                       handleTambah(e.currentTarget.value);
@@ -205,10 +205,20 @@ const KelolaKelas = () => {
                     Chapter
                   </button>
                 </li>
+                <li>
+                  <button
+                    value={"Material"}
+                    onClick={(e) => {
+                      handleTambah(e.currentTarget.value);
+                    }}
+                  >
+                    Material
+                  </button>
+                </li>
               </ul>
             </div>
 
-            <button className="flex groupitems-center btn btn-sm btn-outline btn-primary rounded-full ">
+            <button className="flex groupitems-center btn btn-sm btn-outline btn-primary rounded-full m-1">
               <TbFilter className="h-5 w-5 " />
               <p className="font-medium">Filter</p>
             </button>
@@ -272,6 +282,7 @@ const KelolaKelas = () => {
           className="relative z-10"
           onClose={() => {
             setIsOpen(false);
+            setIsOpen2("1");
           }}
         >
           <Transition.Child
@@ -315,6 +326,30 @@ const KelolaKelas = () => {
                       />
                     </>
                   )}
+                  {tambah == "Chapter" && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
+                      >
+                        Tambah Chapter
+                      </Dialog.Title>
+                      {isOpen2 == "1" && (
+                        <ChapterChoose
+                          onSetId={handleSetId}
+                          course={course}
+                          setIsOpen2={handleTambah2}
+                        />
+                      )}
+                      {isOpen2 == "2" && (
+                        <ChapterModal
+                          setIsOpen2={handleTambah2}
+                          id={id}
+                          setIsOpen={setIsOpen}
+                        />
+                      )}
+                    </>
+                  )}
                   {tambah == "Material" && (
                     <>
                       <Dialog.Title
@@ -327,17 +362,6 @@ const KelolaKelas = () => {
                         category={category}
                         setIsOpen={setIsOpen}
                       />
-                    </>
-                  )}
-                  {tambah == "Chapter" && (
-                    <>
-                      <Dialog.Title
-                        as="h3"
-                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
-                      >
-                        Tambah Chapter
-                      </Dialog.Title>
-                      <ChapterModal category={category} setIsOpen={setIsOpen} />
                     </>
                   )}
                 </Dialog.Panel>
