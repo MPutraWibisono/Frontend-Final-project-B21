@@ -98,12 +98,12 @@ export const reset =
   };
 
 export const getMe =
-  (navigate, navigatePathSucces, navigateError) =>
-  async (dispatch, getState) => {
+  (navigate, navigatePathSucces, navigateError) => async (dispatch) => {
     try {
-      const { token, id } = getState().auth;
+      const token = localStorage.getItem("token");
+      const id = localStorage.getItem("id");
 
-      if (token == null || id == null) {
+      if (token == null && id == null) {
         dispatch(setUser(null));
         throw new Error(); // Custom error
       }

@@ -202,7 +202,6 @@ const MyProfile = () => {
                         className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10 p-2"
                       >
                         {loading ? "Loading..." : "Simpan"}
-                        Simpan
                       </button>
                     </div>
                   </form>

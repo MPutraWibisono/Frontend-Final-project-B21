@@ -3,6 +3,7 @@ import { setCourse } from "../reducers/courseReducers";
 import { setCategory } from "../reducers/courseReducers";
 import { setMaterial } from "../reducers/courseReducers";
 import { setChapter } from "../reducers/courseReducers";
+import { setSearch } from "../reducers/courseReducers";
 
 export const getCourse = (setErrors, errors) => async (dispatch) => {
   try {
@@ -106,6 +107,34 @@ export const getMaterial = (setErrors, errors) => async (dispatch) => {
 
     const data = response?.data?.videos;
     dispatch(setMaterial(data));
+    setErrors({ ...errors, isError: false });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      setErrors({
+        ...errors,
+        isError: true,
+        message: error?.response?.data?.message || error?.message,
+      });
+      return;
+    }
+    alert(error?.message);
+    setErrors({
+      ...errors,
+      isError: true,
+      message: error?.message,
+    });
+  }
+};
+
+export const getSearch = (result, setErrors, errors) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/v1/course?search=${result}`
+    );
+
+    const data = response.data.courses;
+
+    dispatch(setSearch(data));
     setErrors({ ...errors, isError: false });
   } catch (error) {
     if (axios.isAxiosError(error)) {
