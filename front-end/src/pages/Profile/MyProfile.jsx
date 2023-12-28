@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { logout } from "../../redux/actions/authActions";
 import { useSelector } from "react-redux";
-import { getProfile, changeProfile } from "../../redux/actions/authActions";
+import { changeProfile } from "../../redux/actions/authActions";
 import Loading from "../../components/Loading";
 
 function InputForm({ label, id, type, placeholder, disable, value, onchange }) {
@@ -44,7 +44,7 @@ const MyProfile = () => {
   const [kota, setKota] = useState("");
   const [negara, setNegara] = useState("");
   const [picture, setPicture] = useState("testing");
-  const { profile } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -58,10 +58,6 @@ const MyProfile = () => {
     navigate("/");
   };
 
-  useEffect(() => {
-    dispatch(getProfile());
-  }, [dispatch]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -69,7 +65,7 @@ const MyProfile = () => {
     // dispatch(changeProfile(kota, negara, picture, setLoading));
   };
 
-  if (profile.length === 0) {
+  if (user.length === 0) {
     return <Loading />;
   }
   return (
@@ -161,7 +157,7 @@ const MyProfile = () => {
                       type="text"
                       placeholder="Nama"
                       disable={true}
-                      value={profile.name}
+                      value={user.name}
                     />
                     <InputForm
                       label="Email"
@@ -169,7 +165,7 @@ const MyProfile = () => {
                       type="email"
                       placeholder="Email"
                       disable={true}
-                      value={profile.user.email}
+                      value={user.user.email}
                     />
                     <InputForm
                       label="Telepon"
@@ -177,13 +173,13 @@ const MyProfile = () => {
                       type="text"
                       placeholder="Nomor Telepon"
                       disable={true}
-                      value={profile.phone}
+                      value={user.phone}
                     />
                     <InputForm
                       label="Negara"
                       id="negara"
                       type="text"
-                      placeholder={profile.nationality}
+                      placeholder={user.nationality}
                       disable={false}
                       onchange={(e) => setNegara(e.currentTarget.value)}
                     />
@@ -191,7 +187,7 @@ const MyProfile = () => {
                       label="Kota"
                       id="kota"
                       type="text"
-                      placeholder={profile.city}
+                      placeholder={user.city}
                       disable={false}
                       onchange={(e) => setKota(e.currentTarget.value)}
                     />

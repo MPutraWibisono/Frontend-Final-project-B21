@@ -9,23 +9,18 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    if (!localStorage.getItem("role")) {
+    if (user?.user?.role != "admin") {
       navigate("/");
     }
-  }, []);
+  }, [user]);
 
-  // useEffect(() => {
-  //   if (token) {
-  //     navigate("/admin/login");
-  //   }
-  // }, [token, navigate]);
   return (
     <LayoutDashboard>
       <div className="grid grid-cols-3 gap-6 pt-3">

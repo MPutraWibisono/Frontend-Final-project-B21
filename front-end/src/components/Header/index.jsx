@@ -1,17 +1,24 @@
 import { Link } from "react-router-dom";
 import { FaListUl, FaRegUser, FaRegBell } from "react-icons/fa6";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/images/logo.png";
 import SearchBar from "../SearchBar";
 
 const Header = () => {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [activeButton, setActiveButton] = useState("class");
-  const id = localStorage.getItem("id");
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token == null) {
+      setActiveButton("class");
+    }
+  }, [token]);
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
+    return;
   };
 
   return (
@@ -77,7 +84,7 @@ const Header = () => {
               }`}
             >
               <SearchBar />
-              {id ? (
+              {token ? (
                 <>
                   <div className="flex flex-col md:flex-row items-end md:items-center gap-5 md:gap-2 justify-end">
                     <Link

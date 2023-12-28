@@ -34,6 +34,7 @@ const KelolaKelas = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { course, category, chapter } = useSelector((state) => state.course);
+  const { user } = useSelector((state) => state.auth);
   const [errors, setErrors] = useState({
     isError: false,
     message: null,
@@ -42,10 +43,10 @@ const KelolaKelas = () => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
-    if (!localStorage.getItem("role")) {
+    if (user?.user?.role != "admin") {
       navigate("/");
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     dispatch(getCourse(setErrors));

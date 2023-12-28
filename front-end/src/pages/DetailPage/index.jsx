@@ -29,6 +29,7 @@ const Detail = () => {
   const [video, setVideo] = useState([]);
   const [chapterIWant, setChapter] = useState([]);
   const [done, setDone] = useState(false);
+  const [modal, setModal] = useState(false);
 
   // Use Effect
   useEffect(() => {
@@ -69,6 +70,8 @@ const Detail = () => {
     setDone(true);
   };
 
+  console.log(courseIWant);
+
   const handleStart = () => {
     if (!localStorage.getItem("id")) {
       toastNotify({
@@ -76,6 +79,10 @@ const Detail = () => {
         message: "Login Dahulu Ya!",
       });
       navigate("/auth/login");
+    }
+
+    if (courseIWant.type == "PREMIUM") {
+      setModal(true);
     }
   };
 
@@ -92,7 +99,7 @@ const Detail = () => {
 
   return (
     <>
-      {courseIWant?.price != 0 && (
+      {modal && (
         <Modal
           id={courseIWant?.id}
           title={courseIWant?.category?.name}

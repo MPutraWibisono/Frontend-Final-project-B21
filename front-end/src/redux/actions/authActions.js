@@ -1,7 +1,7 @@
 import axios from "axios";
 import { axiosInstance } from "../../libs/axios";
 import { toastNotify } from "../../libs/utils";
-import { setToken, setId, setUser, setProfile } from "../reducers/authReducers";
+import { setToken, setUser } from "../reducers/authReducers";
 
 export const loginAdmin =
   (values, setLoading, navigate) => async (dispatch) => {
@@ -9,14 +9,12 @@ export const loginAdmin =
     try {
       const response = await axiosInstance.post("/api/v1/auth/login", values);
 
-      if (response.data.user.role === "admin") {
+      if (response.data?.user?.role === "admin") {
         toastNotify({
           type: "success",
           message: response.data.message,
         });
         dispatch(setToken(response.data.token));
-        dispatch(setId(response.data.user.id));
-        localStorage.setItem("role", "admin");
         navigate("/admin/dashboard");
       } else {
         toastNotify({
@@ -45,7 +43,6 @@ export const login = (values, setLoading, navigate) => async (dispatch) => {
     });
 
     dispatch(setToken(response.data.token));
-    dispatch(setId(response.data.user.id));
 
     navigate("/");
   } catch (error) {
@@ -60,10 +57,6 @@ export const login = (values, setLoading, navigate) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   dispatch(setToken(null));
-  dispatch(setId(null));
-  if (localStorage.getItem("role")) {
-    localStorage.removeItem("role");
-  }
 };
 
 export const reset =
@@ -101,9 +94,8 @@ export const getMe =
   (navigate, navigatePathSucces, navigateError) => async (dispatch) => {
     try {
       const token = localStorage.getItem("token");
-      const id = localStorage.getItem("id");
 
-      if (token == null && id == null) {
+      if (token == null) {
         dispatch(setUser(null));
         throw new Error(); // Custom error
       }
@@ -129,9 +121,6 @@ export const getMe =
         } else if (error.response.status === 403) {
           dispatch(logout());
           // console.log("Silakan Login Kembali");
-          if (localStorage.getItem("role")) {
-            localStorage.removeItem("role");
-          }
           if (navigateError) navigate(navigateError);
           return;
         }
@@ -143,31 +132,6 @@ export const getMe =
       if (navigateError) navigate(navigateError);
     }
   };
-
-export const getProfile = () => async (dispatch) => {
-  // setLoading(true);
-  try {
-    const token = localStorage.getItem("token");
-    const response = await axiosInstance.get("/api/v1/profile/", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    // toastNotify({
-    //   type: "success",
-    //   message: response.data.message,
-    // });
-
-    dispatch(setProfile(response.data.getProfile));
-  } catch (error) {
-    toastNotify({
-      type: "error",
-      message: error.response.data.message,
-    });
-  } finally {
-    // setLoading(false);
-  }
-};
 
 export const changeProfile =
   (kota, negara, picture, setLoading) => async (dispatch) => {
@@ -191,8 +155,8 @@ export const changeProfile =
         type: "success",
         message: "Berhasil Memperbarui",
       });
-
-      dispatch(setProfile(response.data.getProfile));
+      const data = response.data.getProfile;
+      dispatch(setUser(data));
     } catch (error) {
       toastNotify({
         type: "error",
