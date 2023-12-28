@@ -103,7 +103,7 @@ const Modal = ({
                 />
                 <div className="flex justify-center">
                   <div className="py-2 text-sm font-semibold border rounded-2xl w-56 text-center bg-pink text-white">
-                    Rp. {price}k
+                    Rp. {price}
                   </div>
                 </div>
                 {/*        <!-- Modal actions --> */}

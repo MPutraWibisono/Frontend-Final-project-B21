@@ -192,14 +192,14 @@ const PaymentDetail = () => {
             <div className="flex flex-col gap-2">
               <h4 className="font-bold md:text-[16px]">Harga</h4>
               <p className="md:text-[14px] text-[12px]">
-                Rp. {courseIWant?.price} k
+                Rp. {courseIWant?.price}
               </p>
             </div>
             {/* PPN */}
             <div className="flex flex-col gap-2">
               <h4 className="font-bold">PPN 11%</h4>
               <p className="md:text-[14px] text-[12px]">
-                Rp. {(courseIWant?.price * 11) / 100} k
+                Rp. {(courseIWant?.price * 11) / 100}
               </p>
             </div>
             {/* TOTAL BAYAR */}
@@ -207,8 +207,7 @@ const PaymentDetail = () => {
               <h4 className="font-bold">Total Bayar</h4>
               <p className="font-bold text-darkGrayish md:text-[14px] text-[12px]">
                 Rp.{" "}
-                {(courseIWant?.price * 11) / 100 + parseInt(courseIWant?.price)}{" "}
-                k
+                {(courseIWant?.price * 11) / 100 + parseInt(courseIWant?.price)}
               </p>
             </div>
           </div>

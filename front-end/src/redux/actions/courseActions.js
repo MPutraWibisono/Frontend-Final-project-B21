@@ -10,7 +10,7 @@ export const getCourse = (setErrors, errors) => async (dispatch) => {
     // if (!token) return;
 
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/v1/course`
+      `${import.meta.env.VITE_API_URL}/api/v1/course?pageSize=20`
     );
 
     const data = response.data.courses;

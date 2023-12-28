@@ -22,11 +22,13 @@ import { toastNotify } from "../../libs/utils";
 import { axiosInstance } from "../../libs/axios";
 import CourseChoose from "../../components/AdminModals/CourseChoose";
 import ChapterChoose from "../../components/AdminModals/ChapterChoose";
+import CourseEdit from "../../components/AdminModals/CourseEdit";
 
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState("1");
   const [tambah, setTambah] = useState("");
+  const [edit, setEdit] = useState("");
   const [id, setId] = useState("");
   const [idChapter, setIdChapter] = useState("");
   const navigate = useNavigate();
@@ -49,7 +51,7 @@ const KelolaKelas = () => {
     dispatch(getCourse(setErrors));
     dispatch(getCategory(setErrors, errors));
     dispatch(getChapter(setErrors, errors));
-  }, [dispatch]);
+  }, [dispatch, course]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -60,7 +62,8 @@ const KelolaKelas = () => {
       name: "",
       price: "",
       modul: "",
-      duration: "",
+      rating: "",
+      target: "",
       description: "",
       author: "",
       group_url: "",
@@ -74,7 +77,8 @@ const KelolaKelas = () => {
       formData.append("name", values.name);
       formData.append("price", values.price);
       formData.append("modul", values.modul);
-      formData.append("duration", values.duration);
+      formData.append("rating", values.rating);
+      formData.append("target[0]", values.target);
       formData.append("description", values.description);
       formData.append("author", values.author);
       formData.append("group_url", values.group_url);
@@ -84,20 +88,48 @@ const KelolaKelas = () => {
       formData.append("image", image);
 
       try {
-        const res = await axiosInstance.post("/api/v1/course/create", formData);
-        toastNotify({
-          type: "success",
-          message: "Berhasil menambahkan kelas",
-        });
-        return res.data;
+        const token = localStorage.getItem("token");
+        if (tambah != "") {
+          const res = await axiosInstance.post(
+            "/api/v1/course/create",
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          toastNotify({
+            type: "success",
+            message: "Berhasil menambahkan kelas",
+          });
+          return res.data;
+        } else if (edit != "") {
+          const res = await axiosInstance.put(
+            `/api/v1/course/${id}`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          toastNotify({
+            type: "success",
+            message: "Berhasil mengedit kelas",
+          });
+          return res.data;
+        }
       } catch (error) {
         toastNotify({
           type: "error",
           message: error.response?.data?.error || "Gagal menambahkan kelas",
         });
       } finally {
-        setIsOpen(false);
         setLoading(false);
+        setIsOpen(false);
+        setTambah("");
+        setEdit("");
       }
     },
   });
@@ -107,12 +139,23 @@ const KelolaKelas = () => {
     setIsOpen(true);
   };
 
+  const handleEdit = (id, e) => {
+    setEdit(e);
+    setId(id);
+    setIsOpen(true);
+  };
+
   const handleTambah2 = (e) => {
     setIsOpen2(e);
   };
 
   const handleDeleteCourse = async (id) => {
-    const res = await axiosInstance.delete(`/api/v1/course/${id}`);
+    const token = localStorage.getItem("token");
+    const res = await axiosInstance.delete(`/api/v1/course/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     toastNotify({
       type: "info",
       message: "Berhasil menghapus kelas",
@@ -254,14 +297,50 @@ const KelolaKelas = () => {
                   <td>{course.level}</td>
                   <td>{course.price}</td>
                   <td className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        alert(`Ubah ${course.id}`);
-                      }}
-                      className="btn btn-sm btn-primary rounded-full text-white"
-                    >
-                      Ubah
-                    </button>
+                    <div className="dropdown">
+                      <div
+                        tabIndex={1}
+                        role="button"
+                        className="btn btn-sm btn-primary rounded-full text-white"
+                      >
+                        Ubah
+                      </div>
+                      <ul
+                        tabIndex={1}
+                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                      >
+                        <li>
+                          <button
+                            value={"Course"}
+                            onClick={(e) =>
+                              handleEdit(course.id, e.currentTarget.value)
+                            }
+                          >
+                            Course
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            value={"Chapter"}
+                            onClick={(e) =>
+                              handleEdit(course.id, e.currentTarget.value)
+                            }
+                          >
+                            Chapter
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            value={"Material"}
+                            onClick={(e) =>
+                              handleEdit(course.id, e.currentTarget.value)
+                            }
+                          >
+                            Material
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
                     <button
                       onClick={() => {
                         handleDeleteCourse(course.id);
@@ -285,6 +364,8 @@ const KelolaKelas = () => {
           onClose={() => {
             setIsOpen(false);
             setIsOpen2("1");
+            setTambah("");
+            setEdit("");
           }}
         >
           <Transition.Child
@@ -382,6 +463,24 @@ const KelolaKelas = () => {
                           setIsOpen={setIsOpen}
                         />
                       )}
+                    </>
+                  )}
+                  {edit == "Course" && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
+                      >
+                        Edit Course
+                      </Dialog.Title>
+                      <CourseEdit
+                        id={id}
+                        formik={formik}
+                        loading={loading}
+                        category={category}
+                        course={course}
+                        setImage={setImage}
+                      />
                     </>
                   )}
                 </Dialog.Panel>

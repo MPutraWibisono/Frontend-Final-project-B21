@@ -63,7 +63,7 @@ const CourseCard = ({
               {type == "PREMIUM" || price != 0 ? (
                 <div className="">
                   <span className="text-xs">Premium</span>
-                  <span className=" ms-auto ps-3 text-xs">Rp. {price}k</span>
+                  <span className=" ms-auto ps-3 text-xs">Rp. {price}</span>
                 </div>
               ) : (
                 <>

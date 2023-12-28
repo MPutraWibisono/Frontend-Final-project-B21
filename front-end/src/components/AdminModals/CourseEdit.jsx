@@ -1,7 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 
-const CourseModal = (props) => {
-  const { formik, loading, category, setImage } = props;
+const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
+  const [courseBefore, setCourseBefore] = useState([]);
+
+  useEffect(() => {
+    const courses = course.filter((item) => item.id == id);
+    setCourseBefore(courses[0]);
+  }, []);
 
   return (
     <>
@@ -15,7 +22,7 @@ const CourseModal = (props) => {
           </div>
           <input
             type="text"
-            placeholder="Nama Kelas"
+            placeholder={courseBefore.name}
             className="input input-bordered w-full"
             name="name"
             value={formik.values.name}
@@ -29,7 +36,7 @@ const CourseModal = (props) => {
           </div>
           <input
             type="number"
-            placeholder="Harga"
+            placeholder={courseBefore.price}
             className="input input-bordered w-full"
             name="price"
             value={formik.values.price}
@@ -43,7 +50,7 @@ const CourseModal = (props) => {
           </div>
           <input
             type="number"
-            placeholder="Modul"
+            placeholder={courseBefore.modul}
             className="input input-bordered w-full"
             name="modul"
             value={formik.values.modul}
@@ -57,7 +64,7 @@ const CourseModal = (props) => {
           </div>
           <input
             type="text"
-            placeholder="Rating"
+            placeholder={courseBefore.rating}
             className="input input-bordered w-full"
             name="rating"
             value={formik.values.rating}
@@ -71,7 +78,7 @@ const CourseModal = (props) => {
           </div>
           <input
             type="text"
-            placeholder="Target"
+            placeholder={courseBefore.target}
             className="input input-bordered w-full"
             name="target"
             value={formik.values.target}
@@ -85,7 +92,7 @@ const CourseModal = (props) => {
           </div>
           <textarea
             type="text"
-            placeholder="Deskripsi"
+            placeholder={courseBefore.description}
             className="textarea textarea-bordered"
             name="description"
             value={formik.values.description}
@@ -99,7 +106,7 @@ const CourseModal = (props) => {
           </div>
           <input
             type="text"
-            placeholder="Nama Author"
+            placeholder={courseBefore.author}
             className="input input-bordered w-full"
             name="author"
             value={formik.values.author}
@@ -113,7 +120,7 @@ const CourseModal = (props) => {
           </div>
           <input
             type="text"
-            placeholder="Group URL"
+            placeholder={courseBefore.groupUrl}
             className="input input-bordered w-full"
             name="group_url"
             value={formik.values.group_url}
@@ -132,7 +139,7 @@ const CourseModal = (props) => {
             onChange={formik.handleChange}
           >
             <option value="" disabled>
-              Pilih Level
+              {courseBefore.level}
             </option>
             <option value="BEGINNER">Beginner</option>
             <option value="INTERMEDIATE">Intermediate</option>
@@ -151,7 +158,7 @@ const CourseModal = (props) => {
             onChange={formik.handleChange}
           >
             <option value="" disabled>
-              Pilih Type
+              {courseBefore.type}
             </option>
             <option value="FREE">Gratis</option>
             <option value="PREMIUM">Premium</option>
@@ -169,7 +176,7 @@ const CourseModal = (props) => {
             onChange={formik.handleChange}
           >
             <option value="" disabled>
-              Pilih Kategori
+              {courseBefore?.category?.name}
             </option>
             {category.map((cat, index) => (
               <option value={cat.id} key={index}>
@@ -204,4 +211,4 @@ const CourseModal = (props) => {
   );
 };
 
-export default CourseModal;
+export default CourseEdit;
