@@ -1,15 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
+import { BiTrash } from "react-icons/bi";
 
-const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
-  const [courseBefore, setCourseBefore] = useState([]);
-
-  useEffect(() => {
-    const courses = course.filter((item) => item.id == id);
-    setCourseBefore(courses[0]);
-  }, []);
-
+const CourseEdit = ({ formik, loading, category, image, setImage }) => {
   return (
     <>
       <form
@@ -22,7 +15,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
           </div>
           <input
             type="text"
-            placeholder={courseBefore.name}
             className="input input-bordered w-full"
             name="name"
             value={formik.values.name}
@@ -36,7 +28,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
           </div>
           <input
             type="number"
-            placeholder={courseBefore.price}
             className="input input-bordered w-full"
             name="price"
             value={formik.values.price}
@@ -50,7 +41,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
           </div>
           <input
             type="number"
-            placeholder={courseBefore.modul}
             className="input input-bordered w-full"
             name="modul"
             value={formik.values.modul}
@@ -64,7 +54,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
           </div>
           <input
             type="text"
-            placeholder={courseBefore.rating}
             className="input input-bordered w-full"
             name="rating"
             value={formik.values.rating}
@@ -78,7 +67,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
           </div>
           <input
             type="text"
-            placeholder={courseBefore.target}
             className="input input-bordered w-full"
             name="target"
             value={formik.values.target}
@@ -92,7 +80,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
           </div>
           <textarea
             type="text"
-            placeholder={courseBefore.description}
             className="textarea textarea-bordered"
             name="description"
             value={formik.values.description}
@@ -106,7 +93,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
           </div>
           <input
             type="text"
-            placeholder={courseBefore.author}
             className="input input-bordered w-full"
             name="author"
             value={formik.values.author}
@@ -120,7 +106,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
           </div>
           <input
             type="text"
-            placeholder={courseBefore.groupUrl}
             className="input input-bordered w-full"
             name="group_url"
             value={formik.values.group_url}
@@ -138,9 +123,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
             value={formik.values.level}
             onChange={formik.handleChange}
           >
-            <option value="" disabled>
-              {courseBefore.level}
-            </option>
             <option value="BEGINNER">Beginner</option>
             <option value="INTERMEDIATE">Intermediate</option>
             <option value="ADVANCE">Advance</option>
@@ -157,9 +139,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
             value={formik.values.type}
             onChange={formik.handleChange}
           >
-            <option value="" disabled>
-              {courseBefore.type}
-            </option>
             <option value="FREE">Gratis</option>
             <option value="PREMIUM">Premium</option>
           </select>
@@ -175,9 +154,6 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
             value={formik.values.category_id}
             onChange={formik.handleChange}
           >
-            <option value="" disabled>
-              {courseBefore?.category?.name}
-            </option>
             {category.map((cat, index) => (
               <option value={cat.id} key={index}>
                 {cat.name}
@@ -188,14 +164,30 @@ const CourseEdit = ({ id, formik, loading, category, course, setImage }) => {
 
         <label className="form-control w-full relative">
           <div className="label">
-            <span className="font-medium">Link Gambar</span>
+            <span className="font-medium">Gambar </span>
           </div>
-          <input
-            type="file"
-            className="input input-bordered w-full pt-2"
-            name="image"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
+          {image ? (
+            <div className="h-full w-full relative group">
+              <img
+                src={image}
+                alt="course"
+                className="w-full h-full object-cover"
+              />
+              <button
+                onClick={() => setImage(null)}
+                className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full group-hover:block hidden"
+              >
+                <BiTrash className="h-7 w-7" />
+              </button>
+            </div>
+          ) : (
+            <input
+              type="file"
+              className="input input-bordered w-full"
+              name="image"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          )}
         </label>
         <div className="mt-4">
           <button

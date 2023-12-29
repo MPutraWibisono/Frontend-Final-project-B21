@@ -4,15 +4,15 @@ import { useFormik } from "formik";
 import { TbFilter } from "react-icons/tb";
 import { LuUsers2 } from "react-icons/lu";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import LayoutDashboard from "../../components/LayoutDashboard";
+import { BiSearchAlt } from "react-icons/bi";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import {
   getCourse,
   getCategory,
   getChapter,
 } from "../../redux/actions/courseActions";
+import LayoutDashboard from "../../components/LayoutDashboard";
 import Loading from "../../components/Loading";
 import tableHead from "../../data/tableHeadKelola.json";
 import CourseModal from "../../components/AdminModals/CourseModal";
@@ -31,10 +31,8 @@ const KelolaKelas = () => {
   const [edit, setEdit] = useState("");
   const [id, setId] = useState("");
   const [idChapter, setIdChapter] = useState("");
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { course, category, chapter } = useSelector((state) => state.course);
-  const { user } = useSelector((state) => state.auth);
   const [errors, setErrors] = useState({
     isError: false,
     message: null,
@@ -42,21 +40,41 @@ const KelolaKelas = () => {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
 
-  useEffect(() => {
-    if (user?.user?.role != "admin") {
-      navigate("/");
-    }
-  }, [user]);
+  const [search, setSearch] = useState("");
+  const [searchTemp, setSearchTemp] = useState("");
 
   useEffect(() => {
-    dispatch(getCourse(setErrors));
     dispatch(getCategory(setErrors, errors));
     dispatch(getChapter(setErrors, errors));
   }, [dispatch, course]);
 
   useEffect(() => {
+    dispatch(getCourse(setErrors, errors, search));
+  }, [dispatch, search]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (edit != "") {
+      const courses = course.filter((item) => item.id == id);
+      const courseBefore = courses[0];
+      formik.setFieldValue("name", courseBefore.name);
+      formik.setFieldValue("price", courseBefore.price);
+      formik.setFieldValue("modul", courseBefore.modul);
+      formik.setFieldValue("rating", courseBefore.rating);
+      formik.setFieldValue("target", courseBefore.target);
+      formik.setFieldValue("description", courseBefore.description);
+      formik.setFieldValue("author", courseBefore.author);
+      formik.setFieldValue("group_url", courseBefore.groupUrl);
+      formik.setFieldValue("level", courseBefore.level);
+      formik.setFieldValue("type", courseBefore.type);
+      formik.setFieldValue("category_id", courseBefore.categoryId);
+      formik.setFieldValue("image", courseBefore.imageUrl);
+      setImage(courseBefore.imageUrl);
+    }
+  }, [edit]);
 
   const formik = useFormik({
     initialValues: {
@@ -86,7 +104,6 @@ const KelolaKelas = () => {
       formData.append("level", values.level);
       formData.append("type", values.type);
       formData.append("category_id", values.category_id);
-      formData.append("image", image);
 
       try {
         const token = localStorage.getItem("token");
@@ -104,6 +121,11 @@ const KelolaKelas = () => {
             type: "success",
             message: "Berhasil menambahkan kelas",
           });
+
+          formik.resetForm();
+
+          dispatch(getCourse(setErrors, errors, search));
+
           return res.data;
         } else if (edit != "") {
           const res = await axiosInstance.put(
@@ -115,6 +137,7 @@ const KelolaKelas = () => {
               },
             }
           );
+
           toastNotify({
             type: "success",
             message: "Berhasil mengedit kelas",
@@ -162,7 +185,8 @@ const KelolaKelas = () => {
       message: "Berhasil menghapus kelas",
     });
 
-    dispatch(getCourse(setErrors));
+    dispatch(getCourse(setErrors, errors, search));
+
     return res.data;
   };
 
@@ -178,12 +202,12 @@ const KelolaKelas = () => {
     return <h1 className="h-screen w-full">{errors.message}</h1>;
   }
 
-  if (course.length === 0 || category.length === 0) {
+  if (category.length === 0) {
     return <Loading />;
   }
 
   return (
-    <LayoutDashboard>
+    <LayoutDashboard noSearch>
       <div className="grid grid-cols-3 gap-6 pt-3">
         <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
           <div className="bg-white p-3 rounded-3xl">
@@ -215,6 +239,30 @@ const KelolaKelas = () => {
       </div>
 
       <div className="overflow-x-auto mt-10 flex flex-col space-y-4">
+        <form
+          className="relative w-1/3"
+          onSubmit={(e) => {
+            e.preventDefault();
+            setSearch(searchTemp);
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Cari Kelas"
+            className="input w-full input-bordered"
+            value={searchTemp}
+            onChange={(e) => setSearchTemp(e.target.value)}
+          />
+          <div className="absolute right-2 top-1/2 -translate-y-1/2">
+            <button
+              type="submit"
+              className="btn btn-square btn-sm group text-white bg-darkBlue05 hover:bg-darkBlue05/80 "
+            >
+              <BiSearchAlt className="h-4 w-4" />
+            </button>
+          </div>
+        </form>
+
         <div className="flex items-center justify-between">
           <p className="text-xl font-semibold">Kelola Kelas</p>
           <div className="flex gap-3">
@@ -236,6 +284,8 @@ const KelolaKelas = () => {
                     value={"Course"}
                     onClick={(e) => {
                       handleTambah(e.currentTarget.value);
+                      setEdit("");
+                      formik.resetForm();
                     }}
                   >
                     Course
@@ -280,6 +330,13 @@ const KelolaKelas = () => {
             </tr>
           </thead>
           <tbody>
+            {course.length === 0 && search !== "" && (
+              <tr>
+                <td colSpan={7} className="text-center">
+                  <p className="text-sm font-medium">Kelas tidak ditemukan</p>
+                </td>
+              </tr>
+            )}
             {course.map((course, index) => {
               return (
                 <tr key={index} className="font-medium">
@@ -475,11 +532,10 @@ const KelolaKelas = () => {
                         Edit Course
                       </Dialog.Title>
                       <CourseEdit
-                        id={id}
                         formik={formik}
                         loading={loading}
                         category={category}
-                        course={course}
+                        image={image}
                         setImage={setImage}
                       />
                     </>

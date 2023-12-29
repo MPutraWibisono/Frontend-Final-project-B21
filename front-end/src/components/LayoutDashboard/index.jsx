@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/actions/authActions";
 
-const LayoutDashboard = ({ children }) => {
+const LayoutDashboard = ({ children, noSearch }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,14 +60,16 @@ const LayoutDashboard = ({ children }) => {
       <section className="ml-[300px]">
         <div className="w-full bg-darkGrayish/20 flex items-center justify-between px-12 py-5">
           <h1 className="text-darkGrayish text-2xl">Hi, Admin!</h1>
-          <div className="relative">
-            <input type="text" placeholder="Cari" className="input w-72 " />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2">
-              <button className="btn btn-square btn-sm group text-white bg-darkBlue05 hover:bg-darkBlue05/80 ">
-                <BiSearchAlt className="h-4 w-4" />
-              </button>
+          {!noSearch && (
+            <div className="relative">
+              <input type="text" placeholder="Cari" className="input w-72 " />
+              <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                <button className="btn btn-square btn-sm group text-white bg-darkBlue05 hover:bg-darkBlue05/80 ">
+                  <BiSearchAlt className="h-4 w-4" />
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="mt-5 mx-12">{children}</div>
       </section>
