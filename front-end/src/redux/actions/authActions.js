@@ -1,7 +1,7 @@
-
+import axios from "axios";
 import { axiosInstance } from "../../libs/axios";
 import { toastNotify } from "../../libs/utils";
-import { setToken, setId, } from "../reducers/authReducers";
+import { setToken, setId } from "../reducers/authReducers";
 
 export const loginAdmin =
   (values, setLoading, navigate) => async (dispatch) => {
@@ -97,4 +97,39 @@ export const reset =
     }
   };
 
+export const changePassword =
+  (oldPassword, newPassword, confirmPassword) => async (dispatch) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/v1/auth/update-password`,
+        {
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+          confirmPassword: confirmPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toastNotify({
+        type: "success",
+        message: response.data.message,
+      });
 
+      if (response.status !== 200) {
+        throw new Error("Gagal mengubah password. Silakan coba lagi.");
+      }
+
+      dispatch({ type: "CHANGE_PASSWORD_SUCCESS" });
+    } catch (error) {
+      console.error("Error:", error.message);
+      toastNotify({
+        type: "error",
+        message: error.response.data.message,
+      });
+      dispatch({ type: "CHANGE_PASSWORD_FAILURE" });
+    }
+  };

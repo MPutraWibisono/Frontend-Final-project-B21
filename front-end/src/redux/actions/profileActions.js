@@ -3,6 +3,7 @@ import { logout } from "./authActions";
 import { setUser, setProfile } from "../reducers/authReducers";
 import { axiosInstance } from "../../libs/axios";
 import { toastNotify } from "../../libs/utils";
+import { saveProfile } from "../../libs/localStorageUtils";
 
 export const getMe =
   (navigate, navigatePathSucces, navigateError) =>
@@ -82,18 +83,20 @@ export const changeProfile =
     try {
       const token = localStorage.getItem("token");
       const response = await axiosInstance.put(
-        "/api/v1/auth/update-password",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+        "/api/v1/profile/",
         {
           city: kota,
           nationality: negara,
           profile_picture: picture,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
+
+      saveProfile(response.data.getProfile);
       toastNotify({
         type: "success",
         message: "Berhasil Memperbarui",
