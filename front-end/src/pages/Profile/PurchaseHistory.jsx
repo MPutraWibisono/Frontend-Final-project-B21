@@ -13,9 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getHistory } from "../../redux/actions/courseActions";
+import { getCourse, getHistory } from "../../redux/actions/courseActions";
 import { IoIosStar } from "react-icons/io";
 import { RiBookLine, RiTimeFill } from "react-icons/ri";
+import { setCourse } from "../../redux/reducers/courseReducers";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -82,8 +83,9 @@ const Sidebar = () => {
 
 const PurchaseHistory = () => {
   const dispatch = useDispatch();
-  // const { userId } = useParams();
-  const { history } = useSelector((state) => state.course);
+  const { history, course } = useSelector((state) => state.course);
+
+  // console.log(history);
 
   const [errors, setErrors] = useState({
     isError: false,
@@ -93,12 +95,19 @@ const PurchaseHistory = () => {
 
   useEffect(() => {
     dispatch(getHistory(setErrors, errors));
+    dispatch(getCourse(setErrors, errors));
   }, [dispatch]);
-  // useEffect(() => {
-  //   if (course.length > 0) {
-  //     setCourse(course.find((item) => item.id == courseId));
-  //   }
-  // }, [course, courseId]);
+
+  const paidId = history
+    .filter((item) => item?.status == "PAID")
+    .map((course) => course?.courseId);
+
+  useEffect(() => {
+    if (course.length > 0) {
+      setOrder(course.filter((item) => paidId.includes(item?.id)));
+    }
+  }, [course]);
+
   useEffect(() => {
     if (history.length > 0) {
       setOrder(history.filter((item) => item.isPaid === true));
@@ -115,6 +124,8 @@ const PurchaseHistory = () => {
     );
   }
 
+  // console.log(order);
+  console.log(paidId);
   return (
     <>
       <div className="pt-20">
@@ -128,7 +139,6 @@ const PurchaseHistory = () => {
           </div>
         </Disclosure>
 
-        {/* Main Container */}
         <div className="sm:flex pb-5 items-start justify-center">
           <div className="relative bg-white rounded-lg overflow-hidden shadow-md flex flex-col w-full sm:w-3/4 border border-pinkTone">
             <div className="bg-pinkTone text-white p-4 flex items-center justify-center rounded-t-lg">
@@ -146,25 +156,23 @@ const PurchaseHistory = () => {
                   </div>
                 </div>
 
-                {order?.map((order) => (
+                {order.map((order) => (
                   <CardPurchase
-                    order={order}
                     key={order.id}
-                    image={order?.image}
-                    title={order?.category?.name}
-                    rating={order?.rating}
-                    description={order?.name}
-                    instructor={order?.author}
-                    level={order?.level}
-                    modules={order?.modul}
-                    duration={order?.durasi}
-                    orderStatus={order?.status}
+                    image={order.image}
+                    title={order.category.name}
+                    rating={order.rating}
+                    description={order.name}
+                    instructor={order.author}
+                    modules={order.modul}
+                    duration={order.durasi}
+                    order={order}
                   />
                 ))}
                 <div className=" overflow-hidden rounded-2xl bg-white text-slate-500 shadow-md shadow-slate-200 py-4">
                   <figure>
                     <img
-                      src={order?.image}
+                      src={order.image}
                       alt="card image"
                       className="aspect-video w-full object-cover h-[100px]"
                     />

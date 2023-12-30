@@ -9,10 +9,10 @@ import {
   IoLogOutOutline,
 } from "react-icons/io5";
 import { PiEye, PiEyeSlash } from "react-icons/pi";
-import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
+import { changePassword } from "../../redux/actions/authActions";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ const Sidebar = () => {
       </li>
       <li
         style={{ marginTop: "2rem" }}
-        className="text-1xl flex items-center justify-between border-b"
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
       >
         <div className="flex items-center cursor-pointer" onClick={onLogout}>
           <IoLogOutOutline className="text-pinkTone mr-2" />
@@ -78,6 +78,10 @@ const Sidebar = () => {
 };
 
 const ChangePass = () => {
+  const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars  
+  const auth = useSelector((state) => state.auth);
+
   const [passLamaValue, setPassLamaValue] = useState({
     password: "",
     showPass: true,
@@ -131,61 +135,25 @@ const ChangePass = () => {
     }
   };
 
-  const showAlert = (message, type = "info", duration = 5000) => {
-    console.log(" ini showAlert ");
-    const alertElement = document.createElement("div");
-    alertElement.classList.add("custom-alert");
-    alertElement.classList.add("text-white");
-    alertElement.classList.add("rounded-lg");
-    alertElement.classList.add("w-[250px]");
-    alertElement.classList.add("items-center");
-    alertElement.classList.add("text-center");
-    alertElement.classList.add("py-2");
-    alertElement.classList.add("px-5");
-    alertElement.classList.add("text-xs");
-    alertElement.classList.add("bottom-6");
-    alertElement.classList.add("mx-auto");
-
-    if (type === "success") {
-      alertElement.classList.add("bg-alertGreen");
-    } else if (type === "error") {
-      alertElement.classList.add("bg-alertRed");
-    }
-
-    alertElement.textContent = message;
-    document.body.appendChild(alertElement);
-
-    setTimeout(() => {
-      alertElement.style.display = "none";
-      document.body.removeChild(alertElement);
-    }, duration);
-  };
-
   const validasi = async (event) => {
     event.preventDefault();
-    console.log("ini validasi");
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/v1/auth/profile`,
-        {
-          password_lama: passLamaValue.password,
-          password_baru: passBaruValue.password,
-          ulangi_password: passValue.password,
-        }
-      );
-      if (response.status !== 200) {
-        // Jika respons tidak berhasil, tampilkan pesan kesalahan
-        throw new Error("Gagal mengubah password. Silakan coba lagi.");
-      }
-      showAlert("Berhasil Mengubah Password", "success");
 
-      // reset
+    try {
+      // dispatch action changePassword
+      dispatch(
+        changePassword(
+          passLamaValue.password,
+          passBaruValue.password,
+          passValue.password
+        )
+      );
+
+      // reset state
       setPassLamaValue({ password: "", showPass: true });
       setPassBaruValue({ password: "", showPass: true });
       setPassValue({ password: "", showPass: true });
     } catch (error) {
       console.error("Error:", error.message);
-      showAlert("Gagal Mengubah Password. Silakan coba lagi.", "error");
     }
   };
 
@@ -278,13 +246,13 @@ const ChangePass = () => {
                     </div>
                     <div className="mt-2 relative block mb-4 lg:mb-8">
                       <br />
-                      <p className="float-left">Ulangi Password</p>
+                      <p className="float-left">Konfirmasi Password</p>
                       <br />
                       <input
                         type={passValue.showPass ? "text" : "password"}
-                        name="ulangiPassword"
+                        name="konfirmasiPassword"
                         id="passInput"
-                        placeholder="Ulangi Password"
+                        placeholder="Konfirmasi Password"
                         className="float-left border-2 w-full p-2 text-black"
                         value={passValue.password}
                         onChange={handlePass}

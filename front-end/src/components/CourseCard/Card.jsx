@@ -48,11 +48,11 @@ const CourseCard = ({
             </span>
             <span className="text-center sm:flex sm:text-start items-center gap-1">
               <RiBookLine className="text-darkGrayish w-full sm:w-fit text-center" />
-              <p>{modules} Modul</p>
+              <p>{modules} </p>
             </span>
             <span className="text-center sm:flex sm:text-start items-center gap-1">
               <RiTimeFill className="text-darkGrayish w-full sm:w-fit text-center" />
-              <p>{duration} Menit</p>
+              <p>{duration} </p>
             </span>
           </div>
           <div className="mt-auto">
@@ -67,7 +67,7 @@ const CourseCard = ({
                 </div>
               ) : (
                 <>
-                  <div to={`/details/${id}`} className="text-xs">
+                  <div to={`/details/${id}`} className="text-xs ">
                     Mulai Kelas
                   </div>
                 </>

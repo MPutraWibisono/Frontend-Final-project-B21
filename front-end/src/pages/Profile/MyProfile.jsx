@@ -16,6 +16,7 @@ import { getProfile, changeProfile } from "../../redux/actions/profileActions";
 import Loading from "../../components/Loading";
 import { logout } from "../../redux/actions/authActions";
 
+
 function InputForm({ label, id, type, placeholder, disable, value, onChange }) {
   return (
     <div className="mb-4">
@@ -87,7 +88,7 @@ const Sidebar = () => {
       </li>
       <li
         style={{ marginTop: "2rem" }}
-        className="text-1xl flex items-center justify-between border-b"
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
       >
         <div className="flex items-center cursor-pointer" onClick={onLogout}>
           <IoLogOutOutline className="text-pinkTone mr-2" />
@@ -109,26 +110,37 @@ const MyProfile = () => {
   const { profile } = useSelector((state) => state.auth);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
-  const [currentProfileImage, setCurrentProfileImage] =
-    useState(defaultProfileImg);
+  const [currentProfileImage, setCurrentProfileImage] = useState(
+    profile.profileImageUrl || defaultProfileImg
+  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getProfile());
-  }, [dispatch]);
 
+    // Set currentProfileImage atau state lainnya dengan nilai dari profil
+    // Misalnya, setCurrentProfileImage(getProfile().profile_picture);
+  }, [dispatch]);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     console.log(kota, negara, picture);
-    await dispatch(changeProfile(kota, negara, picture, setLoading));
+    await dispatch(
+      changeProfile(kota, negara, picture, setLoading, setPicture)
+    );
+
+    // set currentProfileImage setelah profil diubah
+    setCurrentProfileImage(
+      profileImage ? URL.createObjectURL(profileImage) : currentProfileImage
+    );
+
     setShowSuccessAlert(true);
     setTimeout(() => {
       setShowSuccessAlert(false);
     }, 3000);
   };
-
   if (profileImage) {
     console.log("Selected profile image:", profileImage);
   }
@@ -165,10 +177,9 @@ const MyProfile = () => {
                 <div className="text-left mx-auto max-w-7xl p-4 sm:p-0">
                   <div className="text-center">
                     <label htmlFor="profileImage" className="cursor-pointer">
-                      <div className="rounded-full overflow-hidden  border-gray-300"></div>
                       <img
                         src={currentProfileImage}
-                        className="w-20 h-20 mx-auto block sm:w-10"
+                        className=" rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 mx-auto block w-20 h-auto mb-5"
                         alt="profile"
                       />
                       <input
@@ -184,6 +195,28 @@ const MyProfile = () => {
                         }}
                       />
                     </label>
+                    {/* <button
+                      className="btn"
+                      onClick={() =>
+                        document.getElementById("my_modal_5").showModal()
+                      }
+                    >
+                      open modal
+                    </button>
+                    <dialog
+                      id="my_modal_5"
+                      className="modal modal-bottom sm:modal-middle"
+                    >
+                      <div className="modal-box">
+                        <h3 className="font-bold text-lg">Hello!</h3>
+
+                        <div className="modal-action">
+                          <form method="dialog">
+                            <button className="btn">Close</button>
+                          </form>
+                        </div>
+                      </div>
+                    </dialog> */}
                   </div>
 
                   <form className="rounded-lg" onSubmit={handleSubmit}>

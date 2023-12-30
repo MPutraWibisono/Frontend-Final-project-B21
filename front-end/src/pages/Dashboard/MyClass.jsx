@@ -67,43 +67,47 @@ const MyClass = () => {
     setSelectedFilter(e);
   };
 
-  const filteredClasses = course.filter((kelas) => {
-    // filter by kelas & kategori yg dipilih
+  const filteredClasses = course.filter((course) => {
+    // filter berdasarkan kelas dan kategori yang dipilih
     const isCategorySelected = filterOptions[1].options.some(
       (category) => category.checked
     );
 
-    // filter by kategori yg dipilih
+    // filter berdasarkan kategori yang dipilih
     if (isCategorySelected) {
       const selectedCategories = filterOptions[1].options
         .filter((category) => category.checked)
         .map((category) => category.label.toLowerCase());
 
-      return selectedCategories.includes(kelas?.category?.name.toLowerCase());
+      return selectedCategories.includes(course?.category?.name.toLowerCase());
     }
 
-    // filter by kelas Premium/Gratis sesuai selectedFilter
-    if (selectedFilter === "All") {
-      return true;
+    // filter berdasarkan kelas Premium/Gratis sesuai selectedFilter
+    if (selectedFilter !== "All") {
+      if (
+        (selectedFilter === "Premium" && course.price === 0) ||
+        (selectedFilter === "Gratis" &&
+          (course.type === "PREMIUM" || course.price !== 0))
+      ) {
+        return false;
+      }
+    }
+    // filter berdasarkan level kesulitan yang dipilih
+    const isLevelSelected = filterOptions[2].options.some(
+      (level) => level.checked
+    );
+
+    if (isLevelSelected) {
+      const selectedLevel = filterOptions[2].options
+        .filter((level) => level.checked)
+        .map((level) => level.label.toLowerCase());
+
+      if (!selectedLevel.includes(course?.level.toLowerCase())) {
+        return false;
+      }
     }
 
-    if (
-      selectedFilter === "Premium" &&
-      // kelas.type === "PREMIUM" &&
-      kelas.price != 0
-    ) {
-      return true;
-    }
-
-    if (
-      selectedFilter === "Gratis" &&
-      kelas.type !== "PREMIUM" &&
-      kelas.price == 0
-    ) {
-      return true;
-    }
-
-    return false;
+    return true;
   });
 
   if (errors.isError) {
@@ -137,16 +141,6 @@ const MyClass = () => {
               Hapus Filter
             </button>
           </div>
-          {/* <div className="block md:hidden">
-          {filterOptions.map((filter) => (
-            <DropdownBasic
-              key={filter.title}
-              {...filter}
-              handleCheckboxChange={handleCheckboxChange}
-            />
-          ))}
-          
-        </div> */}
         </div>
         <div className="container flex flex-col justify-between">
           <div>
@@ -157,7 +151,7 @@ const MyClass = () => {
                   value={searchQuery}
                   onChange={handleSearchChange}
                   placeholder="Cari Kelas..."
-                  className="p-3 px-6 pr-14 rounded border border-pinkTone outline-0 text-black rounded-2xl text-sm"
+                  className="p-3 px-6 pr-14  border border-pinkTone outline-0 text-black rounded-2xl text-sm"
                 />
                 <div className="absolute right-2 ">
                   <IoSearch className="h-6 w-6 text-pinkTone me-3" />
@@ -169,7 +163,7 @@ const MyClass = () => {
                 <button
                   value={"All"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
                     selectedFilter === "All"
                       ? "w-64 bg-pink hover:bg-pink"
                       : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -180,7 +174,7 @@ const MyClass = () => {
                 <button
                   value={"Progress"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
                     selectedFilter === "Progress"
                       ? "w-64 bg-pink hover:bg-pink"
                       : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -191,7 +185,7 @@ const MyClass = () => {
                 <button
                   value={"Selesai"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
                     selectedFilter === "Selesai"
                       ? "w-64 bg-pink hover:bg-pink"
                       : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -202,7 +196,7 @@ const MyClass = () => {
                 <button
                   value={"Premium"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
                     selectedFilter === "Premium"
                       ? "w-64 bg-pink hover:bg-pink"
                       : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -213,7 +207,7 @@ const MyClass = () => {
                 <button
                   value={"Gratis"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
                     selectedFilter === "Gratis"
                       ? "w-64 bg-pink hover:bg-pink"
                       : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -224,24 +218,6 @@ const MyClass = () => {
               </div>
 
               <div className="flex flex-row flex-wrap justify-around gap-5 p-2">
-                {/* {filteredClasses.map((course) => (
-                  <div
-                    className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
-                    key={course?.id}
-                  >
-                    <ProgressCard
-                      id={course?.id}
-                      image={course?.imageUrl}
-                      title={course?.category?.name}
-                      rating={course?.rating}
-                      description={course?.name}
-                      instructor={course?.author}
-                      level={course?.level}
-                      modules={course?.modul}
-                      duration={course?.duration}
-                    />
-                  </div>
-                ))} */}
                 {filteredClasses.map((course) => (
                   <div
                     className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
@@ -265,14 +241,6 @@ const MyClass = () => {
               </div>
             </div>
           </div>
-          {/* <div className="join self-center ">
-            <button className="join-item btn text-white bg-pinkTone col-start-3">
-              Previous
-            </button>
-            <button className="join-item btn text-white bg-pinkTone">
-              Next
-            </button>
-          </div> */}
         </div>
       </div>
     </div>

@@ -135,15 +135,15 @@ export const getHistory = (setErrors, errors) => async (dispatch) => {
     const token = localStorage.getItem("token");
 
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/v1/auth/`,
+      `${import.meta.env.VITE_API_URL}/api/v1/order/`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    console.log(response);
-    const data = response?.data?.data;
+    // console.log(response);
+    const data = response?.data?.orders;
     dispatch(setHistory(data));
     setErrors({ ...errors, isError: false });
   } catch (error) {
