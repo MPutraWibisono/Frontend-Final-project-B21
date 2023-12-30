@@ -79,15 +79,16 @@ const MyClass = () => {
         .filter((category) => category.checked)
         .map((category) => category.label.toLowerCase());
 
-      return selectedCategories.includes(course?.category?.name.toLowerCase());
+      if (!selectedCategories.includes(course?.category?.name.toLowerCase())) {
+        return false;
+      }
     }
 
-    // filter berdasarkan kelas Premium/Gratis sesuai selectedFilter
+    // filter berdasarkan jenis kelas Premium/Gratis
     if (selectedFilter !== "All") {
       if (
-        (selectedFilter === "Premium" && course.price === 0) ||
-        (selectedFilter === "Gratis" &&
-          (course.type === "PREMIUM" || course.price !== 0))
+        (selectedFilter === "Premium" && course.type === "FREE") ||
+        (selectedFilter === "Gratis" && course.type === "PREMIUM")
       ) {
         return false;
       }
