@@ -209,7 +209,7 @@ const Homepage = () => {
                     instructor={kelas.author}
                     level={kelas.level}
                     modules={kelas.modul}
-                    duration={kelas.duration}
+                    duration={kelas.totalDuration}
                     type={kelas.type}
                     price={kelas.price}
                   />

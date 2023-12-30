@@ -3,18 +3,21 @@ import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourse } from "../../redux/actions/courseActions";
 import CardNoButton from "../../components/CourseCard/CardNoButton";
+import { getPayment } from "../../redux/actions/paymentActions";
 
 const PaymentDetail = () => {
   const [searchParams] = useSearchParams();
   const courseId = searchParams.get("courseId");
-  const dispatch = useDispatch();
   const { course } = useSelector((state) => state.course);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [courseIWant, setCourse] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
     isError: false,
     message: null,
@@ -31,6 +34,10 @@ const PaymentDetail = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handlePay = () => {
+    dispatch(getPayment(setLoading, navigate));
+  };
 
   return (
     <div className="pt-20">
@@ -197,9 +204,9 @@ const PaymentDetail = () => {
             </div>
             {/* PPN */}
             <div className="flex flex-col gap-2">
-              <h4 className="font-bold">PPN 11%</h4>
+              <h4 className="font-bold">PPN 10%</h4>
               <p className="md:text-[14px] text-[12px]">
-                Rp. {(courseIWant?.price * 11) / 100}
+                Rp. {(courseIWant?.price * 10) / 100}
               </p>
             </div>
             {/* TOTAL BAYAR */}
@@ -212,9 +219,12 @@ const PaymentDetail = () => {
             </div>
           </div>
           {/* TOMBOL BAYAR */}
-          <button className=" justify-between flex w-full bg-pinkTone px-5 py-3 rounded-[15px] mt-5 ">
+          <button
+            className=" justify-between flex w-full bg-pinkTone px-5 py-3 rounded-[15px] mt-5 "
+            onClick={handlePay}
+          >
             <h2 className="font-bold text-white md:text-[14px] text-[12px] ">
-              Bayar dan Ikuti Kelas Selamanya
+              {loading ? "loading" : "Bayar dan Ikuti Kelas Selamanya"}
             </h2>
             <img
               src="/src/assets/images/icon/carbon_next-filled.svg"

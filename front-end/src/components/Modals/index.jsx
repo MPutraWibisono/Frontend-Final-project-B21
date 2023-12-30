@@ -5,6 +5,8 @@ import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { toastNotify } from "../../libs/utils";
 import CardNoButton from "../CourseCard/CardNoButton";
+import { getOrder } from "../../redux/actions/paymentActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Modal = ({
   id,
@@ -20,17 +22,19 @@ const Modal = ({
 }) => {
   const [isShowing, setIsShowing] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const wrapperRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
-  const isLog = () => {
-    if (!localStorage.getItem("id")) {
+  const handleOrder = () => {
+    if (!localStorage.getItem("token")) {
       toastNotify({
         type: "success",
         message: "Login Dahulu Ya!",
       });
       navigate("/auth/login");
     } else {
-      navigate(`/payment/?courseId=${id}`);
+      dispatch(getOrder(setLoading, id, navigate, setIsShowing));
     }
   };
 
@@ -109,7 +113,7 @@ const Modal = ({
                 {/*        <!-- Modal actions --> */}
                 <div className="flex justify-start gap-2">
                   <button
-                    onClick={() => isLog()}
+                    onClick={() => handleOrder()}
                     className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-pinkTone px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pinkTone/60 focus:bg-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone/30 disabled:bg-pinkTone/30 disabled:shadow-none"
                   >
                     <span>Beli Sekarang</span>

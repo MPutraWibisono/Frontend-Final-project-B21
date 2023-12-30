@@ -30,6 +30,7 @@ const Detail = () => {
   const [chapterIWant, setChapter] = useState([]);
   const [done, setDone] = useState(false);
   const [modal, setModal] = useState(false);
+  const [play, setPlay] = useState(false);
 
   // Use Effect
   useEffect(() => {
@@ -70,21 +71,25 @@ const Detail = () => {
     setDone(true);
   };
 
-  console.log(courseIWant);
-
   const handleStart = () => {
-    if (!localStorage.getItem("id")) {
+    setPlay(true);
+    if (!localStorage.getItem("token")) {
       toastNotify({
         type: "success",
         message: "Login Dahulu Ya!",
       });
       navigate("/auth/login");
+      return;
     }
 
     if (courseIWant.type == "PREMIUM") {
       setModal(true);
     }
   };
+
+  useEffect(() => {
+    setPlay(false);
+  }, [modal]);
 
   // Error Handling
   if (errors.isError) {
@@ -151,7 +156,9 @@ const Detail = () => {
                   </div>
                   <div className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
                     <RiTimeFill className="text-xl text-darkGrayish" />
-                    <p className="font-semibold ">{courseIWant.durasi} Menit</p>
+                    <p className="font-semibold ">
+                      {courseIWant.totalDuration} Menit
+                    </p>
                   </div>
                 </div>
                 <a href={`https://${courseIWant.groupUrl}`} target="blank">
@@ -251,6 +258,7 @@ const Detail = () => {
                   url={video.videoUrl}
                   onEnded={(e) => handleEnd(e)}
                   onStart={(e) => handleStart(e)}
+                  playing={play}
                 />
               </div>
               <div className="p-5 text-justify">

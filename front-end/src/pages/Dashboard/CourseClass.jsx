@@ -215,7 +215,7 @@ const CourseClass = () => {
                       instructor={course?.author}
                       level={course?.level}
                       modules={course?.modul}
-                      duration={course?.duration}
+                      duration={course?.totalDuration}
                       type={course?.type}
                       price={course?.price}
                     />

@@ -58,7 +58,7 @@ const SearchBar = () => {
         </svg>
         <ul>
           {value && (
-            <div className="join join-vertical flex flex-col bg-paleWhite">
+            <div className="join join-vertical flex flex-col bg-paleWhite rounded-2xl">
               <div className="font-bold join-item p-2">
                 Hasil Pencarian :
                 <span className="font-medium">

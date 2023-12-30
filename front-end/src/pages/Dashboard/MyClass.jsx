@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-// import ProgressCard from "../../components/CourseCard/ProgressCard";
+import ProgressCard from "../../components/CourseCard/ProgressCard";
 import CourseCard from "../../components/CourseCard/Card";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
-// import { Link, useParams } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourse } from "../../redux/actions/courseActions";
 import Loading from "../../components/Loading";
 import FilterSection from "../../components/FilterSection";
+import { getCheckOrder } from "../../redux/actions/paymentActions";
 // import DropdownBasic from "../../components/Dropdown";
 
 const MyClass = () => {
@@ -15,7 +17,10 @@ const MyClass = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const dispatch = useDispatch();
+  // const navigate = useNavigate();
   const { course } = useSelector((state) => state.course);
+  const { order } = useSelector((state) => state.payment);
+
   // const { category } = useParams();
   const [errors, setErrors] = useState({
     isError: false,
@@ -24,6 +29,7 @@ const MyClass = () => {
 
   useEffect(() => {
     dispatch(getCourse(setErrors));
+    dispatch(getCheckOrder());
   }, [dispatch]);
 
   useEffect(() => {
@@ -83,7 +89,11 @@ const MyClass = () => {
     }
 
     // filter by kelas Premium/Gratis sesuai selectedFilter
-    if (selectedFilter === "All") {
+    if (
+      selectedFilter === "All" ||
+      selectedFilter === "Progress" ||
+      selectedFilter === "Selesai"
+    ) {
       return true;
     }
 
@@ -106,11 +116,15 @@ const MyClass = () => {
     return false;
   });
 
+  const paidId = order
+    .filter((item) => item?.status == "PAID")
+    .map((course) => course?.courseId);
+
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
 
-  if (course.length === 0) {
+  if (course.length === 0 && order.length === 0) {
     return <Loading />;
   }
 
@@ -224,44 +238,51 @@ const MyClass = () => {
               </div>
 
               <div className="flex flex-row flex-wrap justify-around gap-5 p-2">
-                {/* {filteredClasses.map((course) => (
-                  <div
-                    className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
-                    key={course?.id}
-                  >
-                    <ProgressCard
-                      id={course?.id}
-                      image={course?.imageUrl}
-                      title={course?.category?.name}
-                      rating={course?.rating}
-                      description={course?.name}
-                      instructor={course?.author}
-                      level={course?.level}
-                      modules={course?.modul}
-                      duration={course?.duration}
-                    />
-                  </div>
-                ))} */}
-                {filteredClasses.map((course) => (
-                  <div
-                    className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
-                    key={course?.id}
-                  >
-                    <CourseCard
-                      id={course?.id}
-                      image={course?.imageUrl}
-                      title={course?.category?.name}
-                      rating={course?.rating}
-                      description={course?.name}
-                      instructor={course?.author}
-                      level={course?.level}
-                      modules={course?.modul}
-                      duration={course?.duration}
-                      type={course?.type}
-                      price={course?.price}
-                    />
-                  </div>
-                ))}
+                {selectedFilter == "Progress" &&
+                  filteredClasses
+                    .filter((item) => paidId.includes(item?.id))
+                    .map((course) => (
+                      <div
+                        className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
+                        key={course?.id}
+                      >
+                        <ProgressCard
+                          id={course?.id}
+                          image={course?.imageUrl}
+                          title={course?.category?.name}
+                          rating={course?.rating}
+                          description={course?.name}
+                          instructor={course?.author}
+                          level={course?.level}
+                          modules={course?.modul}
+                          duration={course?.totalDuration}
+                        />
+                      </div>
+                    ))}
+                {selectedFilter != "Progress" &&
+                  selectedFilter != "Selesai" &&
+                  filteredClasses
+                    .filter((item) => !paidId.includes(item?.id))
+                    .map((course) => (
+                      <div
+                        className="sm:w-[270px] lg:w-[290px] xl:w-[270px] w-full"
+                        key={course?.id}
+                      >
+                        <CourseCard
+                          id={course?.id}
+                          image={course?.imageUrl}
+                          title={course?.category?.name}
+                          rating={course?.rating}
+                          description={course?.name}
+                          instructor={course?.author}
+                          level={course?.level}
+                          modules={course?.modul}
+                          duration={course?.totalDuration}
+                          type={course?.type}
+                          price={course?.price}
+                        />
+                      </div>
+                    ))}
               </div>
             </div>
           </div>
