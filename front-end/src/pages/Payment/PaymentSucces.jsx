@@ -1,6 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const PembayaranSukses = () => {
+  const [id, setId] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("id")) {
+      const id = localStorage.getItem("id");
+      setId(id);
+    }
+  }, []);
+
+  const handleDelete = () => {
+    localStorage.removeItem("id");
+  };
+
   return (
     <div className="pt-20">
       {/* NOTIFIKASI BERHASIL PEMBAYARAN */}
@@ -36,9 +51,19 @@ const PembayaranSukses = () => {
           href=""
           className="bg-pinkTone text-white px-[100px] py-2 mb-10 rounded-[15px]"
         >
-          <h2 className="font-bold"> Mulai Belajar</h2>
+          <Link
+            to={`/details/${id}`}
+            onClick={handleDelete}
+            className="font-bold"
+          >
+            Mulai Belajar
+          </Link>
         </button>
-        <Link to="/" className="font-semibold text-creame05">
+        <Link
+          to="/myclass"
+          onClick={handleDelete}
+          className="font-semibold text-creame05"
+        >
           <h3>Kembali Ke Beranda</h3>
         </Link>
       </div>

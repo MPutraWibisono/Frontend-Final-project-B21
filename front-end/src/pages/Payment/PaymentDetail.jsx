@@ -3,7 +3,7 @@ import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourse } from "../../redux/actions/courseActions";
@@ -16,7 +16,6 @@ const PaymentDetail = () => {
   const { course } = useSelector((state) => state.course);
   const { order } = useSelector((state) => state.payment);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [courseIWant, setCourse] = useState([]);
   const [date, setDate] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -57,7 +56,7 @@ const PaymentDetail = () => {
   }, [order, courseId]);
 
   const handlePay = () => {
-    dispatch(getPayment(setLoading, navigate, courseId));
+    dispatch(getPayment(setLoading, courseId));
   };
 
   if (errors.isError) {

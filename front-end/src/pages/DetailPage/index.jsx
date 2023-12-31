@@ -86,8 +86,26 @@ const Detail = () => {
       return;
     }
 
-    if (courseIWant.type == "PREMIUM") {
-      setModal(true);
+    const isFree = course.find((item) => item.id == courseId);
+    const isOrder = order.find((item) => item.courseId == courseId);
+
+    console.log(isFree, isOrder);
+
+    if (isFree?.type == "PREMIUM") {
+      if (isOrder?.status == "UNPAID") {
+        setModal(true); // alihkan langsung tanpa order lagi
+        console.log("ini perlu di bayar dl lgsg ke payment tanpa order");
+      } else if (isOrder == undefined) {
+        setModal(true);
+        console.log("ini premium undefined jd perlu order dl");
+      }
+    } else if (isFree?.type == "FREE") {
+      if (isOrder?.status != "PAID" || isOrder == undefined) {
+        console.log(
+          "ini free tp perlu dimasukkan ke order dulu, biar ke detect progressnya"
+        );
+        // dispatch();
+      }
     }
   };
 

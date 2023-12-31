@@ -65,12 +65,12 @@ export const getOrder =
     }
   };
 
-export const getPayment = (setLoading, navigate, id) => async () => {
+export const getPayment = (setLoading, id) => async () => {
   setLoading(true);
   try {
     const token = localStorage.getItem("token");
 
-    const response = await axiosInstance.get("/api/v1/payment", {
+    const response = await axiosInstance.get(`/api/v1/payment?courseId=${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
