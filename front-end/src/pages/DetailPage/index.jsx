@@ -15,12 +15,14 @@ import { useEffect, useState } from "react";
 import ReactPlayer from "react-player/youtube";
 import Loading from "../../components/Loading";
 import { toastNotify } from "../../libs/utils";
+import { getCheckOrder } from "../../redux/actions/paymentActions";
 
 const Detail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { courseId } = useParams();
   const { course, material, chapter } = useSelector((state) => state.course);
+  const { order } = useSelector((state) => state.payment);
   const [errors, setErrors] = useState({
     isError: false,
     message: null,
@@ -31,12 +33,14 @@ const Detail = () => {
   const [done, setDone] = useState(false);
   const [modal, setModal] = useState(false);
   const [play, setPlay] = useState(false);
+  const [tele, setTele] = useState(false);
 
   // Use Effect
   useEffect(() => {
     dispatch(getCourse(setErrors));
     dispatch(getMaterial(setErrors));
     dispatch(getChapter(setErrors));
+    dispatch(getCheckOrder(setErrors));
   }, [dispatch]);
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -91,11 +95,24 @@ const Detail = () => {
     setPlay(false);
   }, [modal]);
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const isPaid = order.find((item) => item.courseId == courseId);
+      const isFree = course.find((item) => item.id == courseId);
+      if (isPaid?.status == "PAID" || isFree?.price == 0) {
+        setTele(true);
+      }
+    }
+  }, [modal, courseId, order, course]);
+
   // Error Handling
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
   if (course.length === 0 || material.length === 0 || chapter.length === 0) {
+    return <Loading />;
+  }
+  if (courseIWant?.target == undefined) {
     return <Loading />;
   }
 
@@ -121,15 +138,15 @@ const Detail = () => {
       <div className="bg-paleOrange pt-24">
         <div className="relative mx-auto max-w-full lg:max-w-8xl 2xl:max-w-[96rem]">
           <div className="grid grid-cols-10 grid-rows-10">
-            <Link
-              to="/class"
-              className="col-span-3 flex justify-start p-4 space-x-3 items-center"
+            <button
+              onClick={() => history.back()}
+              className="col-span-2 flex justify-start my-4 space-x-3 items-center m-auto font-bold"
             >
               <div className="w-5">
                 <ArrowLeftIcon />
               </div>
-              <div className="hidden md:block">Kelas lainnya</div>
-            </Link>
+              <div className="hidden lg:block">Kelas lainnya</div>
+            </button>
             <div className="col-start-2 col-end-10 lg:col-end-7 ">
               <div className="flex col-start-2 col-end-7 items-center justify-center">
                 <h1 className="text-md md:text-xl font-bold text-darkGrayish">
@@ -161,17 +178,21 @@ const Detail = () => {
                     </p>
                   </div>
                 </div>
-                <a href={`https://${courseIWant.groupUrl}`} target="blank">
-                  <button className="btn inline-flex h-8 md:h-10 items-center justify-center gap-2 whitespace-nowrap rounded rounded-full bg-sky-500 px-4 md:px-6 text-xs md:text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-sky-600 focus:bg-sky-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300 disabled:shadow-none my-4">
-                    <span>Join Grup Telegram</span>
-                    <span className="relative only:-mx-5">
-                      <FaTelegramPlane />
-                    </span>
-                  </button>
-                </a>
+                <Link
+                  to={`https://${courseIWant.groupUrl}`}
+                  target="blank"
+                  className={`btn ${
+                    tele ? "" : "btn-disabled"
+                  } inline-flex h-8 md:h-10 items-center justify-center gap-2 whitespace-nowrap rounded rounded-full bg-sky-500 px-4 md:px-6 text-xs md:text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-sky-600 focus:bg-sky-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300 disabled:shadow-none my-4`}
+                >
+                  <span>Join Grup Telegram</span>
+                  <span className="relative only:-mx-5">
+                    <FaTelegramPlane />
+                  </span>
+                </Link>
               </div>
             </div>
-            <div className="row-start-3 col-start-2 col-end-10 w-full lg:w-1/3 lg:justify-end lg:p-6 lg:absolute right-20">
+            <div className="row-start-3 col-start-2 col-end-10 w-full lg:w-1/3 lg:justify-end lg:p-6 lg:absolute right-20 overflow-y-auto h-screen">
               <div
                 className="rounded-md shadow-xl bg-paleWhite p-5 mb-4"
                 key={courseId}
@@ -269,15 +290,11 @@ const Detail = () => {
               </div>
               <div className="ps-5">
                 <h1>Kelas Ini Ditujukan Untuk</h1>
-                <ul className="list-decimal ps-6 text-sm leading-loose">
-                  <li>Anda yang ingin memahami poin penting design system</li>
-                  <li>
-                    Anda yang ingin membantu perusahaan lebih optimal dalam
-                    membuat design produk
-                  </li>
-                  <li>Anda yang ingin latihan membangun design system</li>
-                  <li>Anda yang ingin latihan membangun design system</li>
-                </ul>
+                <div className="list-decimal ps-6 text-sm leading-loose">
+                  {courseIWant?.target.map((course, index) => (
+                    <p key={index}>{course}</p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

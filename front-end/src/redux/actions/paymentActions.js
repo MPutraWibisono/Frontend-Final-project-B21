@@ -1,6 +1,6 @@
 import { axiosInstance } from "../../libs/axios";
 import { toastNotify } from "../../libs/utils";
-import { setOrder, setPay } from "../reducers/paymentReducers";
+import { setOrder } from "../reducers/paymentReducers";
 
 export const getCheckOrder = () => async (dispatch) => {
   try {
@@ -65,7 +65,7 @@ export const getOrder =
     }
   };
 
-export const getPayment = (setLoading, navigate) => async () => {
+export const getPayment = (setLoading, navigate, id) => async () => {
   setLoading(true);
   try {
     const token = localStorage.getItem("token");
@@ -109,8 +109,6 @@ export const getPayment = (setLoading, navigate) => async () => {
     });
   } finally {
     setLoading(false);
-    // localStorage.setItem('ID', id)
-    // Set loading to false regardless of success or failure
-    // Consider moving navigate outside of the finally block
+    localStorage.setItem("id", id);
   }
 };

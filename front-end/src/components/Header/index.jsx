@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaListUl, FaRegUser, FaRegBell } from "react-icons/fa6";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
@@ -7,7 +7,8 @@ import SearchBar from "../SearchBar";
 
 const Header = () => {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
-  const [activeButton, setActiveButton] = useState("class");
+  const [activeButton, setActiveButton] = useState("");
+  const location = useLocation();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -15,6 +16,12 @@ const Header = () => {
       setActiveButton("class");
     }
   }, [token]);
+
+  useEffect(() => {
+    if (location.pathname == "/myclass") {
+      setActiveButton("class");
+    }
+  }, [location]);
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
@@ -77,22 +84,25 @@ const Header = () => {
             <ul
               role="menubar"
               aria-label="Select page"
-              className={`absolute top-0 left-0 z-[-1] h-[22rem] w-full justify-end overflow-hidden overflow-y-auto overscroll-contain bg-darkGrayish/90 px-8 pb-12 pt-24 font-medium transition-[opacity,visibility] duration-300 lg:visible lg:relative lg:top-0 lg:z-0 lg:flex lg:h-full  lg:items-stretch lg:overflow-visible lg:bg-white/0 lg:px-0 lg:py-0 lg:pt-0 lg:opacity-100 ${
+              className={`absolute top-0 left-0 z-[-1] h-[24rem] w-full justify-end overflow-hidden overflow-y-auto overscroll-contain bg-darkGrayish/90 px-8 pb-12 pt-24 font-medium transition-[opacity,visibility] duration-300 lg:visible lg:relative lg:top-0 lg:z-0 lg:flex lg:h-full  lg:items-stretch lg:overflow-visible lg:bg-white/0 lg:px-0 lg:py-0 lg:pt-0 lg:opacity-100 ${
                 isToggleOpen
                   ? "visible opacity-100 backdrop-blur-sm"
                   : "invisible opacity-0"
               }`}
             >
-              <SearchBar />
+              <SearchBar setIsToggleOpen={setIsToggleOpen} />
               {token ? (
                 <>
-                  <div className="flex flex-col md:flex-row items-end md:items-center gap-5 md:gap-2 justify-end">
+                  <div className="flex flex-col lg:flex-row items-end lg:items-center gap-5 md:gap-2 justify-end">
                     <Link
                       to="/myclass"
-                      onClick={() => handleButtonClick("class")}
+                      onClick={() => {
+                        handleButtonClick("class");
+                        setIsToggleOpen(false);
+                      }}
                       className={`relative inline-flex justify-center items-center gap-x-1.5 rounded-md py-2 text-base font-semibold text-white shadow-sm hover:ring-pinkTone transition-[padding] duration-300 ${
                         activeButton === "class"
-                          ? "bg-pinkTone hover:bg-pinkTone md:w-full px-3 pe-16"
+                          ? "bg-pinkTone hover:bg-pinkTone lg:w-full px-3 pe-16"
                           : "hover:bg-pinkTone/60 px-3"
                       }`}
                     >
@@ -109,10 +119,13 @@ const Header = () => {
                     </Link>
                     <Link
                       to="/notifications"
-                      onClick={() => handleButtonClick("notifications")}
+                      onClick={() => {
+                        handleButtonClick("notifications");
+                        setIsToggleOpen(false);
+                      }}
                       className={`relative inline-flex justify-center items-center gap-x-1.5 rounded-md py-2 text-base font-semibold text-white shadow-sm hover:ring-pinkTone transition-[padding] duration-300 ${
                         activeButton === "notifications"
-                          ? "bg-pinkTone hover:bg-pinkTone md:w-full px-3 pe-24"
+                          ? "bg-pinkTone hover:bg-pinkTone lg:w-full px-3 pe-24"
                           : "hover:bg-pinkTone/60 px-3"
                       }`}
                     >
@@ -129,10 +142,13 @@ const Header = () => {
                     </Link>
                     <Link
                       to="/profile"
-                      onClick={() => handleButtonClick("profile")}
+                      onClick={() => {
+                        handleButtonClick("profile");
+                        setIsToggleOpen(false);
+                      }}
                       className={`relative inline-flex justify-center items-center gap-x-1.5 rounded-md py-2 text-base font-semibold text-white shadow-sm hover:ring-pinkTone transition-[padding] duration-300 ${
                         activeButton === "profile"
-                          ? "bg-pinkTone hover:bg-pinkTone md:w-full px-3 pe-16"
+                          ? "bg-pinkTone hover:bg-pinkTone lg:w-full px-3 pe-16"
                           : "hover:bg-pinkTone/60 px-3"
                       }`}
                     >

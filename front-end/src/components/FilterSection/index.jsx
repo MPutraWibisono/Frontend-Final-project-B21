@@ -6,12 +6,12 @@ const FilterSection = ({ title, options, handleCheckboxChange }) => (
       <div key={option.label} className="flex items-center mb-2 p-2 rounded">
         <input
           type="checkbox"
-          className="form-checkbox text-blue-500 mr-2"
+          className="form-checkbox text-blue-500 mr-2 checkbox [--chkbg:theme(colors.darkMagenta)] checkbox-sm"
           id={option.label}
           checked={option.checked}
           onChange={() => handleCheckboxChange(title, option.label)}
         />
-        <label htmlFor={option.label} className="text-sm">
+        <label htmlFor={option.label} className="text-sm font-medium">
           {option.label}
         </label>
       </div>

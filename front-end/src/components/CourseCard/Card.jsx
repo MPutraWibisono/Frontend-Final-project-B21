@@ -67,7 +67,7 @@ const CourseCard = ({
                 </div>
               ) : (
                 <>
-                  <div to={`/details/${id}`} className="text-xs">
+                  <div to={`/details/${id}`} className="text-xs ">
                     Mulai Kelas
                   </div>
                 </>

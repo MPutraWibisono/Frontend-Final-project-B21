@@ -4,6 +4,7 @@ import { setCategory } from "../reducers/courseReducers";
 import { setMaterial } from "../reducers/courseReducers";
 import { setChapter } from "../reducers/courseReducers";
 import { setSearch } from "../reducers/courseReducers";
+import { setHistory } from "../reducers/courseReducers";
 
 export const getCourse = (setErrors, errors) => async (dispatch) => {
   try {
@@ -19,6 +20,7 @@ export const getCourse = (setErrors, errors) => async (dispatch) => {
     dispatch(setCourse(data));
     setErrors({ ...errors, isError: false });
   } catch (error) {
+    console.error(error);
     if (axios.isAxiosError(error)) {
       setErrors({
         ...errors,
@@ -49,6 +51,7 @@ export const getCategory = (setErrors, errors) => async (dispatch) => {
     dispatch(setCategory(data));
     setErrors({ ...errors, isError: false });
   } catch (error) {
+    console.error(error);
     if (axios.isAxiosError(error)) {
       setErrors({
         ...errors,
@@ -79,6 +82,7 @@ export const getChapter = (setErrors, errors) => async (dispatch) => {
     dispatch(setChapter(data));
     setErrors({ ...errors, isError: false });
   } catch (error) {
+    console.error(error);
     if (axios.isAxiosError(error)) {
       setErrors({
         ...errors,
@@ -109,6 +113,42 @@ export const getMaterial = (setErrors, errors) => async (dispatch) => {
     dispatch(setMaterial(data));
     setErrors({ ...errors, isError: false });
   } catch (error) {
+    console.error(error);
+    if (axios.isAxiosError(error)) {
+      setErrors({
+        ...errors,
+        isError: true,
+        message: error?.response?.data?.message || error?.message,
+      });
+      return;
+    }
+    alert(error?.message);
+    setErrors({
+      ...errors,
+      isError: true,
+      message: error?.message,
+    });
+  }
+};
+
+export const getHistory = (setErrors, errors) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/v1/order/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // console.log(response);
+    const data = response?.data?.orders;
+    dispatch(setHistory(data));
+    setErrors({ ...errors, isError: false });
+  } catch (error) {
+    console.error(error);
     if (axios.isAxiosError(error)) {
       setErrors({
         ...errors,

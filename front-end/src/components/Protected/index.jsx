@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getMe } from "../../redux/actions/authActions";
+import { getMe } from "../../redux/actions/profileActions";
 
 export const Protected = ({ children }) => {
   const navigate = useNavigate();

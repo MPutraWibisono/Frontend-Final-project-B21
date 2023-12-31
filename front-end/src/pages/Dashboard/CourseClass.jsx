@@ -1,20 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import CourseCard from "../../components/CourseCard/Card";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
 // import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getCourse } from "../../redux/actions/courseActions";
+import { getCategory, getCourse } from "../../redux/actions/courseActions";
 import Loading from "../../components/Loading";
 import FilterSection from "../../components/FilterSection";
-// import DropdownBasic from "../../components/Dropdown";
+import { useSearchParams } from "react-router-dom";
 
 const CourseClass = () => {
+  const [searchParams] = useSearchParams();
+  const categoryId = searchParams.get("categoryId");
   const [filterOptions, setFilterOptions] = useState(filtered);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const dispatch = useDispatch();
-  const { course } = useSelector((state) => state.course);
+  const { course, category } = useSelector((state) => state.course);
   // const { category } = useParams();
   const [errors, setErrors] = useState({
     isError: false,
@@ -23,10 +26,20 @@ const CourseClass = () => {
 
   useEffect(() => {
     dispatch(getCourse(setErrors));
+    dispatch(getCategory(setErrors));
   }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  var i = 1;
+  useEffect(() => {
+    if (i == 1) {
+      const cat = category.find((item) => item.id == categoryId);
+      handleCheckboxChange("Kategori", cat?.name);
+      i += 1;
+    }
   }, []);
 
   const handleCheckboxChange = (sectionTitle, optionLabel) => {
@@ -48,12 +61,12 @@ const CourseClass = () => {
     );
   };
 
-  // cari by query
+  // Handle pencarian berdasarkan query
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  // mereset filter
+  // Mereset filter
   const resetFilters = () => {
     setFilterOptions(filtered);
   };
@@ -66,45 +79,49 @@ const CourseClass = () => {
     setSelectedFilter(e);
   };
 
-  const filteredClasses = course.filter((kelas) => {
-    // filter by kelas & kategori yg dipilih
+  const filteredClasses = course.filter((course) => {
+    // filter berdasarkan kelas dan kategori yang dipilih
     const isCategorySelected = filterOptions[1].options.some(
       (category) => category.checked
     );
 
-    // filter by kategori yg dipilih
+    // filter berdasarkan kategori yang dipilih
     if (isCategorySelected) {
       const selectedCategories = filterOptions[1].options
         .filter((category) => category.checked)
         .map((category) => category.label.toLowerCase());
 
-      return selectedCategories.includes(kelas?.category?.name.toLowerCase());
+      if (!selectedCategories.includes(course?.category?.name.toLowerCase())) {
+        return false;
+      }
     }
 
-    // filter by kelas Premium/Gratis sesuai selectedFilter
-    if (selectedFilter === "All") {
-      return true;
+    // filter berdasarkan jenis kelas Premium/Gratis
+    if (selectedFilter !== "All") {
+      if (
+        (selectedFilter === "Premium" && course.type === "FREE") ||
+        (selectedFilter === "Gratis" && course.type === "PREMIUM")
+      ) {
+        return false;
+      }
+    }
+    // filter berdasarkan level kesulitan yang dipilih
+    const isLevelSelected = filterOptions[2].options.some(
+      (level) => level.checked
+    );
+
+    if (isLevelSelected) {
+      const selectedLevel = filterOptions[2].options
+        .filter((level) => level.checked)
+        .map((level) => level.label.toLowerCase());
+
+      if (!selectedLevel.includes(course?.level.toLowerCase())) {
+        return false;
+      }
     }
 
-    if (
-      selectedFilter === "Premium" &&
-      // kelas.type === "PREMIUM" &&
-      kelas.price != 0
-    ) {
-      return true;
-    }
-
-    if (
-      selectedFilter === "Gratis" &&
-      kelas.type !== "PREMIUM" &&
-      kelas.price == 0
-    ) {
-      return true;
-    }
-
-    return false;
+    return true;
   });
-
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
@@ -156,7 +173,7 @@ const CourseClass = () => {
                   value={searchQuery}
                   onChange={handleSearchChange}
                   placeholder="Cari Kelas..."
-                  className="p-3 px-6 pr-14 rounded border border-pinkTone outline-0 text-black rounded-2xl text-sm"
+                  className="p-3 px-6 pr-14 border border-pinkTone outline-0 text-black rounded-2xl text-sm"
                 />
                 <div className="absolute right-2 ">
                   <IoSearch className="h-6 w-6 text-pinkTone me-3" />
@@ -168,7 +185,7 @@ const CourseClass = () => {
                 <button
                   value={"All"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
                     selectedFilter === "All"
                       ? "w-64 bg-pink hover:bg-pink"
                       : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -179,7 +196,7 @@ const CourseClass = () => {
                 <button
                   value={"Premium"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
                     selectedFilter === "Premium"
                       ? "w-64 bg-pink hover:bg-pink"
                       : "w-32 bg-pinkTone hover:bg-pink/60"
@@ -190,7 +207,7 @@ const CourseClass = () => {
                 <button
                   value={"Gratis"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
                     selectedFilter === "Gratis"
                       ? "w-64 bg-pink hover:bg-pink"
                       : "w-32 bg-pinkTone hover:bg-pink/60"

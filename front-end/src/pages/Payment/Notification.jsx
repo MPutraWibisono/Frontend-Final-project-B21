@@ -16,15 +16,34 @@ const Notifikasi = () => {
     dispatch(getNotif());
   }, [dispatch]);
 
+  const TimeChanger = (time) => {
+    const inputDate = new Date(time);
+
+    const options = {
+      year: "numeric",
+      month: "long", // menggunakan 'long' untuk mendapatkan nama bulan
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      timeZoneName: "short",
+    };
+
+    const formattedDateTime = inputDate.toLocaleDateString("id-ID", options);
+    return formattedDateTime;
+  };
+
   if (notifikasi.length === 0) {
     return <Loading />;
   }
 
   return (
     <div className="pt-20">
-      <div className="md:px-[100px] px-5 py-16 shadow-md  bg-paleOrange relative">
+      <div className="md:px-[100px] px-5 py-16 shadow-md bg-paleOrange">
         {/* LINK KEMBALI */}
-        <Link to="/" className="flex gap-5 md:ml-20 relative top-[-40px]">
+        <Link
+          to="/myclass"
+          className="flex gap-5 lg:ml-20 relative top-[-40px]"
+        >
           <ArrowLeftIcon className="w-5 font-extrabold " />
           <h1 className="font-bold">Kembali ke Beranda</h1>
         </Link>
@@ -33,9 +52,9 @@ const Notifikasi = () => {
       <div>
         <div className=" flex flex-col md:w-[70vw] w-[80vw] mx-auto rounded-[20px] shadow-2xl relative top-[-65px]">
           <div className="text-center bg-darkGrayish text-white p-5 rounded-t-[20px]">
-            <h1 className="font-bold">Notifikasi</h1>
+            <h1 className="text-xl tracking-tight">Notifikasi</h1>
           </div>
-          <div className="h-[300px]  md:p-10 p-2">
+          <div className="h-[300px] md:p-10 p-2 flex flex-col-reverse">
             {/* tulisan Notifikasi */}
             {notifikasi.slice(-5).map((item, index) => (
               <div className="flex justify-between mt-2" key={index}>
@@ -62,7 +81,7 @@ const Notifikasi = () => {
                 {/* tanggal */}
                 <div className="flex flex-shrink-0 gap-1">
                   <p className="text-[10px] opacity-70 flex-shrink-0">
-                    {item?.updatedAt}
+                    {TimeChanger(item?.createdAt)}
                   </p>
                   <div className="w-[5px] h-[5px] rounded-full bg-green-500 flex-shrink-0 mt-1"></div>
                 </div>

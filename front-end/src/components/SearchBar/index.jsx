@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSearch } from "../../redux/actions/courseActions";
 import { Link } from "react-router-dom";
 
-const SearchBar = () => {
+const SearchBar = ({ setIsToggleOpen }) => {
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
   const { search } = useSelector((state) => state.course);
@@ -20,6 +20,7 @@ const SearchBar = () => {
 
   const handleEmpty = () => {
     setValue("");
+    setIsToggleOpen(false);
   };
 
   if (errors.isError) {
@@ -58,7 +59,13 @@ const SearchBar = () => {
         </svg>
         <ul>
           {value && (
-            <div className="join join-vertical flex flex-col bg-paleWhite rounded-2xl">
+            <div
+              className={`join join-vertical flex flex-col bg-paleWhite rounded-2xl absolute w-full z-20 ${
+                search == ""
+                  ? ""
+                  : " overflow-y-auto h-44 lg:h-auto lg:max-h-60"
+              }`}
+            >
               <div className="font-bold join-item p-2">
                 Hasil Pencarian :
                 <span className="font-medium">

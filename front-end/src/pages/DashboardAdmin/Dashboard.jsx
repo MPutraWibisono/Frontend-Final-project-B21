@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { TbFilter } from "react-icons/tb";
 import { LuUsers2 } from "react-icons/lu";
@@ -16,7 +17,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (user?.user?.role != "admin") {
+    if (user?.user?.role == "user") {
       navigate("/");
     }
   }, [user]);

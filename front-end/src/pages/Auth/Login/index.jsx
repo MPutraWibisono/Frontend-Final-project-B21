@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import logo4 from "../../../assets/images/logo4.png";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/actions/authActions";
-// import { getMe } from "../../../redux/actions/authActions";
+
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -142,6 +142,7 @@ const LoginPage = () => {
               Daftar di sini
             </Link>
           </p>
+          
 
           {/* div kosong buat tempat alert */}
           <div className="tempatAlert fixed bottom-6 lg:bottom-4 lg:left-[29%] left-1/2 transform -translate-x-1/2 flex justify-center items-center w-full lg:w-auto sm:bottom-2 "></div>
@@ -149,7 +150,7 @@ const LoginPage = () => {
       </div>
 
       {/* Bagian Kanan */}
-      <div className="bg-paleOrange w-10/12  items-center justify-center hidden lg:flex">
+      <div className="bg-paleOrange w-10/12 items-center justify-center hidden lg:flex">
         <Link to="/">
           <img
             src={logo4}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { axiosInstance } from "../../libs/axios";
 import { toastNotify } from "../../libs/utils";
-import { setToken, setUser } from "../reducers/authReducers";
+import { setToken } from "../reducers/authReducers";
 
 export const loginAdmin =
   (values, setLoading, navigate) => async (dispatch) => {
@@ -44,7 +44,7 @@ export const login = (values, setLoading, navigate) => async (dispatch) => {
 
     dispatch(setToken(response.data.token));
 
-    navigate("/");
+    navigate("/myclass");
   } catch (error) {
     toastNotify({
       type: "error",
@@ -90,79 +90,39 @@ export const reset =
     }
   };
 
-export const getMe =
-  (navigate, navigatePathSucces, navigateError) => async (dispatch) => {
+export const changePassword =
+  (oldPassword, newPassword, confirmPassword) => async (dispatch) => {
     try {
       const token = localStorage.getItem("token");
-
-      if (token == null) {
-        dispatch(setUser(null));
-        throw new Error(); // Custom error
-      }
-
-      if (navigatePathSucces) navigate(navigatePathSucces);
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/v1/profile/`,
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/v1/auth/update-password`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = response.data.getProfile;
-      dispatch(setUser(data));
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response.status === 401) {
-          dispatch(logout());
-          if (navigateError) navigate(navigateError);
-          return;
-        } else if (error.response.status === 403) {
-          dispatch(logout());
-          // console.log("Silakan Login Kembali");
-          if (navigateError) navigate(navigateError);
-          return;
-        }
-
-        // alert(error?.response?.data?.message);
-        return;
-      }
-      // alert(error?.response?.data?.message);
-      if (navigateError) navigate(navigateError);
-    }
-  };
-
-export const changeProfile =
-  (kota, negara, picture, setLoading) => async (dispatch) => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axiosInstance.put(
-        "/api/v1/auth/update-password",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+          confirmPassword: confirmPassword,
         },
         {
-          city: kota,
-          nationality: negara,
-          profile_picture: picture,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       toastNotify({
         type: "success",
-        message: "Berhasil Memperbarui",
+        message: response.data.message,
       });
-      const data = response.data.getProfile;
-      dispatch(setUser(data));
+
+      if (response.status !== 200) {
+        throw new Error("Gagal mengubah password. Silakan coba lagi.");
+      }
+
+      dispatch({ type: "CHANGE_PASSWORD_SUCCESS" });
     } catch (error) {
+      console.error("Error:", error.message);
       toastNotify({
         type: "error",
         message: error.response.data.message,
       });
-    } finally {
-      setLoading(false);
+      dispatch({ type: "CHANGE_PASSWORD_FAILURE" });
     }
   };

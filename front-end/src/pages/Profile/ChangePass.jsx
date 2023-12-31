@@ -1,16 +1,86 @@
 import { useState } from "react";
-import { Disclosure } from "@headlessui/react";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import {
   IoPencilSharp,
-  IoArrowBackSharp,
   IoSettingsOutline,
   IoCartOutline,
   IoLogOutOutline,
 } from "react-icons/io5";
 import { PiEye, PiEyeSlash } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/actions/authActions";
+import { useNavigate } from "react-router-dom";
+import { changePassword } from "../../redux/actions/authActions";
+
+const Sidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onLogout = () => {
+    dispatch(logout());
+
+    // Redirect to home page
+    navigate("/");
+  };
+
+  return (
+    <ul className="col-span-1 p-4 w-full sm:w-1/2">
+      {/* Konten Sidebar */}
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <Link to="/profile">
+          <div className="flex items-center">
+            <IoPencilSharp className="text-pinkTone mr-2" />
+            <span>Profil Saya</span>
+          </div>
+        </Link>
+      </li>
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <Link to="/changepassword">
+          <div className="flex items-center">
+            <IoSettingsOutline className="text-pinkTone mr-2" />
+            <span>Ubah Password</span>
+          </div>
+        </Link>
+      </li>
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <Link to="/purchasehistory">
+          <div className="flex items-center">
+            <IoCartOutline className="text-pinkTone mr-2" />
+            <span>Riwayat Pembayaran</span>
+          </div>
+        </Link>
+      </li>
+      <li
+        style={{ marginTop: "2rem" }}
+        className="text-base sm:text-xs md:text-sm lg:text-1xl flex items-center justify-between  border-b"
+      >
+        <div className="flex items-center cursor-pointer" onClick={onLogout}>
+          <IoLogOutOutline className="text-pinkTone mr-2" />
+          <span>Keluar</span>
+        </div>
+      </li>
+      <p className="text-xs sm:text-sm text-gray-500 mt-5 p-5 text-center">
+        Versi 1.0.0
+      </p>
+    </ul>
+  );
+};
 
 const ChangePass = () => {
+  const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
+  const auth = useSelector((state) => state.auth);
+
   const [passLamaValue, setPassLamaValue] = useState({
     password: "",
     showPass: true,
@@ -64,45 +134,25 @@ const ChangePass = () => {
     }
   };
 
-  const showAlert = (message, type = "info", duration = 5000) => {
-    console.log(" ini showAlert ");
-    const alertElement = document.createElement("div");
-    alertElement.classList.add("custom-alert");
-    alertElement.classList.add("text-white");
-    alertElement.classList.add("rounded-lg");
-    alertElement.classList.add("w-[250px]");
-    alertElement.classList.add("items-center");
-    alertElement.classList.add("text-center");
-    alertElement.classList.add("py-2");
-    alertElement.classList.add("px-5");
-    alertElement.classList.add("text-xs");
-    alertElement.classList.add("bottom-6");
-    alertElement.classList.add("mx-auto");
-
-    if (type === "success") {
-      alertElement.classList.add("bg-alertGreen");
-    } else if (type === "error") {
-      alertElement.classList.add("bg-alertRed");
-    }
-
-    alertElement.textContent = message;
-    document.body.appendChild(alertElement);
-
-    setTimeout(() => {
-      alertElement.style.display = "none";
-      document.body.removeChild(alertElement);
-    }, duration);
-  };
-
-  const validasi = (event) => {
+  const validasi = async (event) => {
     event.preventDefault();
-    console.log("ini validasi");
-    if (passLamaValue.password === passBaruValue.password) {
-      showAlert("Password Lama tidak boleh sama dengan Password Baru", "error");
-    } else if (passBaruValue.password !== passValue.password) {
-      showAlert("Password Baru tidak cocok dengan konfirmasi", "error");
-    } else {
-      showAlert("Berhasil Reset Password", "success");
+
+    try {
+      // dispatch action changePassword
+      dispatch(
+        changePassword(
+          passLamaValue.password,
+          passBaruValue.password,
+          passValue.password
+        )
+      );
+
+      // reset state
+      setPassLamaValue({ password: "", showPass: true });
+      setPassBaruValue({ password: "", showPass: true });
+      setPassValue({ password: "", showPass: true });
+    } catch (error) {
+      console.error("Error:", error.message);
     }
   };
 
@@ -110,78 +160,36 @@ const ChangePass = () => {
     <>
       <div className="pt-20">
         {/* Header */}
-        <Disclosure className="bg-paleOrange h-20">
-          <div className="flex items-center w-full">
-            <IoArrowBackSharp className="h-6 w-6 text-pinkTone mt-1" />
-            <div className="text-1xl text-pinkTone mt-1 ml-2">
-              <Link to="/">Kembali ke Beranda</Link>
-            </div>
-          </div>
-        </Disclosure>
+        <div className="md:px-[100px] px-5 py-16 shadow-md bg-paleOrange">
+          {/* LINK KEMBALI */}
+          <Link
+            to="/myclass"
+            className="flex gap-5 lg:ml-20 relative top-[-40px]"
+          >
+            <ArrowLeftIcon className="w-5 font-extrabold " />
+            <h1 className="font-bold">Kembali ke Beranda</h1>
+          </Link>
+        </div>
 
         {/* Main Container */}
-        <div className="flex pb-5 h-screen items-start justify-center">
-          <div className="relative bg-white rounded-lg overflow-hidden shadow-md flex flex-col w-3/4 border border-pinkTone">
-            <div className="bg-pinkTone text-white p-4 flex items-center justify-center rounded-t-lg">
-              <h1 className="text-2xl tracking-tight">Akun</h1>
+        <div className="sm:flex pb-5 items-start justify-center relative top-[-65px]">
+          <div className="relative bg-white rounded-3xl overflow-hidden shadow-md flex flex-col w-full sm:w-3/4 border border-pinkTone">
+            <div className="bg-darkGrayish text-white p-5 flex items-center justify-center rounded-t-lg">
+              <h1 className="text-xl tracking-tight">Akun</h1>
             </div>
-            <div className="flex">
-              <ul className=" col-span-1 p-4 w-1/2 ">
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between border-b "
-                >
-                  <Link to="/profile">
-                    <div className="flex items-center  ">
-                      <IoPencilSharp className="text-pinkTone mr-2" />
-                      <span>Profil Saya</span>
-                    </div>
-                  </Link>
-                </li>
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between  border-b"
-                >
-                  <Link to="/changepassword">
-                    <div className="flex items-center">
-                      <IoSettingsOutline className="text-pinkTone mr-2" />
-                      <span>Ubah Password</span>
-                    </div>
-                  </Link>
-                </li>
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between  border-b"
-                >
-                  <Link to="/purchasehistory">
-                    <div className="flex items-center">
-                      <IoCartOutline className="text-pinkTone mr-2" />
-                      <span>Riwayat Pembayaran</span>
-                    </div>
-                  </Link>
-                </li>
-                <li
-                  style={{ marginTop: "2rem" }}
-                  className="text-1xl flex items-center justify-between border-b"
-                >
-                  <Link to="/">
-                    <div className="flex items-center ">
-                      <IoLogOutOutline className="text-pinkTone mr-2" />
-                      <span>Keluar</span>
-                    </div>
-                  </Link>
-                </li>
-                <p className="text-sm text-gray-500 mt-5 p-5 text-center">
-                  Versi 1.0.0
-                </p>
-              </ul>
+            <div className="sm:flex">
+              {/* Sidebar */}
+              <Sidebar />
 
               {/* Content */}
               <div className="col-span-3 p-4 w-full mx-auto flex justify-center flex-col items-start">
-                <div className="text-left mx-auto max-w-7xl content-container">
-                  <form onSubmit={validasi}>
-                    <div className="text-center">
-                      <div className="text-2xl font-semibold sm:text-left">
+                <div className="text-left mx-auto max-w-7xl p-4 sm:p-0">
+                  <form
+                    onSubmit={validasi}
+                    className="max-w-lg mx-auto rounded-lg"
+                  >
+                    <div className="text-center mt-5">
+                      <div className="text-2xl font-semibold text-center">
                         Ubah Password
                       </div>
                     </div>
@@ -194,22 +202,22 @@ const ChangePass = () => {
                         name="passLama"
                         id="passInputlama"
                         placeholder="Password Lama"
-                        className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                        className="float-left border-2 w-full p-2 text-black"
                         value={passLamaValue.password}
                         onChange={handlePassLama}
                         required
                         autoComplete="current-password"
                       />
-                      <button
-                        className="absolute right-4 top-14"
+                      <div
+                        className="absolute right-4 -bottom-8"
                         onClick={() => toggleVisibility("passLama")}
                       >
-                        {!passLamaValue.showPass ? (
-                          <PiEye color="grey" size={30} />
+                        {passLamaValue.showPass ? (
+                          <PiEye color="grey" size={20} />
                         ) : (
-                          <PiEyeSlash color="grey" size={30} />
+                          <PiEyeSlash color="grey" size={20} />
                         )}
-                      </button>
+                      </div>
                     </div>
                     <div className="mt-2 relative block mb-4 lg:mb-8">
                       <br />
@@ -220,53 +228,53 @@ const ChangePass = () => {
                         name="passwordBaru"
                         id="passInputBaru"
                         placeholder=" Password Baru"
-                        className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                        className="float-left border-2 w-full p-2 text-black"
                         value={passBaruValue.password}
                         onChange={handlePassBaru}
                         required
                         autoComplete="new-password"
                       />
-                      <button
-                        className="absolute right-4 top-14"
+                      <div
+                        className="absolute right-4 -bottom-8"
                         onClick={() => toggleVisibility("passBaru")}
                       >
-                        {!passBaruValue.showPass ? (
-                          <PiEye color="grey" size={30} />
+                        {passBaruValue.showPass ? (
+                          <PiEye color="grey" size={20} />
                         ) : (
-                          <PiEyeSlash color="grey" size={30} />
+                          <PiEyeSlash color="grey" size={20} />
                         )}
-                      </button>
+                      </div>
                     </div>
                     <div className="mt-2 relative block mb-4 lg:mb-8">
                       <br />
-                      <p className="float-left">Ulangi Password</p>
+                      <p className="float-left">Konfirmasi Password</p>
                       <br />
                       <input
                         type={passValue.showPass ? "text" : "password"}
-                        name="ulangiPassword"
+                        name="konfirmasiPassword"
                         id="passInput"
-                        placeholder="Ulangi Password"
-                        className="float-left border-2 rounded-2xl w-full p-2 text-black"
+                        placeholder="Konfirmasi Password"
+                        className="float-left border-2 w-full p-2 text-black"
                         value={passValue.password}
                         onChange={handlePass}
                         required
                         autoComplete="new-password"
                       />
-                      <button
-                        className="absolute right-4 top-14"
+                      <div
+                        className="absolute right-4 -bottom-8 "
                         onClick={() => toggleVisibility("passValue")}
                       >
-                        {!passValue.showPass ? (
-                          <PiEye color="grey" size={30} />
+                        {passValue.showPass ? (
+                          <PiEye color="grey" size={20} />
                         ) : (
-                          <PiEyeSlash color="grey" size={30} />
+                          <PiEyeSlash color="grey" size={20} />
                         )}
-                      </button>
+                      </div>
                     </div>
                     <div className="text-center">
                       <button
                         type="submit"
-                        className="text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
+                        className="sm:btn-sm md:btn-md lg:btn-sm text-sm rounded-2xl font-semibold leading-6 bg-darkRed text-white border-4 border-darkRed m-10"
                       >
                         Ubah Password
                       </button>

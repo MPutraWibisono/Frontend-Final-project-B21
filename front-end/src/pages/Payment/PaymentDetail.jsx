@@ -8,15 +8,17 @@ import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourse } from "../../redux/actions/courseActions";
 import CardNoButton from "../../components/CourseCard/CardNoButton";
-import { getPayment } from "../../redux/actions/paymentActions";
+import { getCheckOrder, getPayment } from "../../redux/actions/paymentActions";
 
 const PaymentDetail = () => {
   const [searchParams] = useSearchParams();
   const courseId = searchParams.get("courseId");
   const { course } = useSelector((state) => state.course);
+  const { order } = useSelector((state) => state.payment);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [courseIWant, setCourse] = useState([]);
+  const [date, setDate] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
     isError: false,
@@ -25,6 +27,7 @@ const PaymentDetail = () => {
 
   useEffect(() => {
     dispatch(getCourse(setErrors));
+    dispatch(getCheckOrder(setErrors));
   }, [dispatch]);
   useEffect(() => {
     if (course.length > 0) {
@@ -35,9 +38,31 @@ const PaymentDetail = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    const orderId = order.find((item) => item.courseId == courseId);
+    const inputDate = new Date(orderId?.createdAt);
+    inputDate.setDate(inputDate.getDate() + 1);
+
+    const options = {
+      year: "numeric",
+      month: "long", // menggunakan 'long' untuk mendapatkan nama bulan
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      timeZoneName: "short",
+    };
+
+    const formattedDateTime = inputDate.toLocaleDateString("id-ID", options);
+    setDate(formattedDateTime);
+  }, [order, courseId]);
+
   const handlePay = () => {
-    dispatch(getPayment(setLoading, navigate));
+    dispatch(getPayment(setLoading, navigate, courseId));
   };
+
+  if (errors.isError) {
+    return <h1>{errors.message}</h1>;
+  }
 
   return (
     <div className="pt-20">
@@ -54,7 +79,7 @@ const PaymentDetail = () => {
 
         <div className="bg-alertRed mx-auto px-5 py-3 rounded-xl md:w-[800px] mt-2">
           <h1 className="text-center text-white font-bold md:text-[16px] text-[12px]">
-            Selesaikan Pembayaran sampai 10 Maret 2023 12:00
+            Selesaikan Pembayaran sampai {date}
           </h1>
         </div>
       </div>

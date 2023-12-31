@@ -43,7 +43,7 @@ const KelolaKelas = () => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
-    if (user?.user?.role != "admin") {
+    if (user?.user?.role == "user") {
       navigate("/");
     }
   }, [user]);
