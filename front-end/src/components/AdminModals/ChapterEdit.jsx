@@ -1,11 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toastNotify } from "../../libs/utils";
 import { axiosInstance } from "../../libs/axios";
 
-const ChapterModals = ({ setIsOpen2, id, setIsOpen }) => {
+const ChapterEdit = ({ setIsOpen2, idChapter, setIsOpen, chapter }) => {
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const chapterIWant = chapter.filter((item) => item.id == idChapter);
+    const chapterBefore = chapterIWant[0];
+    formik.setFieldValue("name", chapterBefore.name);
+    formik.setFieldValue("duration", chapterBefore.duration);
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -16,12 +25,11 @@ const ChapterModals = ({ setIsOpen2, id, setIsOpen }) => {
 
       try {
         const token = localStorage.getItem("token");
-        const res = await axiosInstance.post(
-          "/api/v1/chapter",
+        const res = await axiosInstance.patch(
+          `/api/v1/chapter/${idChapter}`,
           {
             name: values.name,
             duration: values.duration,
-            courseId: id,
           },
           {
             headers: {
@@ -32,13 +40,13 @@ const ChapterModals = ({ setIsOpen2, id, setIsOpen }) => {
 
         toastNotify({
           type: "success",
-          message: "Berhasil menambahkan chapter",
+          message: "Berhasil memperbarui chapter",
         });
         return res.data;
       } catch (error) {
         toastNotify({
           type: "error",
-          message: error.response?.data?.error || "Gagal menambahkan chapter",
+          message: error.response?.data?.error || "Gagal memperbarui chapter",
         });
       } finally {
         setIsOpen(false);
@@ -94,4 +102,4 @@ const ChapterModals = ({ setIsOpen2, id, setIsOpen }) => {
   );
 };
 
-export default ChapterModals;
+export default ChapterEdit;
