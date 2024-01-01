@@ -1,0 +1,18 @@
+[
+    {
+      "kodeKelas": "UIUX0123",
+      "category": "UI/UX Design",
+      "namaKelas": "Belajar Web Designer dengan Figma",
+      "tipeKelas": "Premium",
+      "level": "Beginner",
+      "hargaKelas": "100000"
+    },
+    {
+      "kodeKelas": "DS0223",
+      "category": "Data Science",
+      "namaKelas": "Belajar Data Science dari Nol",
+      "tipeKelas": "Gratis",
+      "level": "Beginner",
+      "hargaKelas": "500000"
+    }
+  ]
