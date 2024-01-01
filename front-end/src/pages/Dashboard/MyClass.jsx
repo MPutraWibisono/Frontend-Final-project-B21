@@ -178,10 +178,10 @@ const MyClass = () => {
                 <button
                   value={"All"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "All"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-darkGrayish"
                   }`}
                 >
                   <span>All</span>
@@ -189,10 +189,10 @@ const MyClass = () => {
                 <button
                   value={"Progress"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "Progress"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-darkGrayish"
                   }`}
                 >
                   <span>In Progress</span>
@@ -200,10 +200,10 @@ const MyClass = () => {
                 <button
                   value={"Selesai"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "Selesai"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-darkGrayish"
                   }`}
                 >
                   <span>Selesai</span>
@@ -211,10 +211,10 @@ const MyClass = () => {
                 <button
                   value={"Premium"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "Premium"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-darkGrayish"
                   }`}
                 >
                   <span>Kelas Premium</span>
@@ -222,10 +222,10 @@ const MyClass = () => {
                 <button
                   value={"Gratis"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "Gratis"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-darkGrayish"
                   }`}
                 >
                   <span>Kelas Gratis</span>

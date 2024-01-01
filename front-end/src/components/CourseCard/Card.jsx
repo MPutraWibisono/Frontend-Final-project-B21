@@ -2,6 +2,7 @@
 import { IoIosStar } from "react-icons/io";
 import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import formatUang from "../../libs/currency";
 
 const CourseCard = ({
   id,
@@ -58,12 +59,14 @@ const CourseCard = ({
           <div className="mt-auto">
             <Link
               to={`/details/${id}`}
-              className="w-auto btn btn-xs sm:btn-sm inline-flex h-8 items-center gap-2 whitespace-nowrap rounded-full bg-pinkTone px-4 font-medium tracking-wide text-white transition duration-300 hover:bg-pink focus:bg-darkMagenta focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none"
+              className="w-auto btn btn-xs sm:btn-sm inline-flex h-8 items-center gap-2 whitespace-nowrap rounded-full bg-pinkTone px-4 font-medium tracking-wide text-darkGrayish transition duration-300 hover:bg-pink hover:text-white active:text-white"
             >
               {type == "PREMIUM" || price != 0 ? (
                 <div className="">
                   <span className="text-xs">Premium</span>
-                  <span className=" ms-auto ps-3 text-xs">Rp. {price}</span>
+                  <span className=" ms-auto ps-3 text-xs">
+                    {formatUang(price)}
+                  </span>
                 </div>
               ) : (
                 <>

@@ -41,7 +41,7 @@ const KelolaKelas = () => {
   const { course, category, chapter, material } = useSelector(
     (state) => state.course
   );
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({
     isError: false,

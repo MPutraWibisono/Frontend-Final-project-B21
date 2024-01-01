@@ -59,6 +59,37 @@ export const logout = () => (dispatch) => {
   dispatch(setToken(null));
 };
 
+export const registerLoginWithGoogleAction =
+  (accessToken, navigate) => async (dispatch) => {
+    try {
+      let data = JSON.stringify({
+        access_token: accessToken,
+      });
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_API_URL}/api/v1/auth/google`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      const { token } = response.data.data;
+
+      dispatch(setToken(token));
+
+      navigate("/myclass");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error.response.data.message);
+        return;
+      }
+    }
+  };
+
 export const reset =
   (passbaru, konfirpassbaru, setLoading, navigate, tokenId) => async () => {
     setLoading(true);

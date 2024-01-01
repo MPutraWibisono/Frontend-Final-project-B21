@@ -54,7 +54,7 @@ const Notifikasi = () => {
           <div className="text-center bg-darkGrayish text-white p-5 rounded-t-[20px]">
             <h1 className="text-xl tracking-tight">Notifikasi</h1>
           </div>
-          <div className="h-[300px] md:p-10 p-2 flex flex-col-reverse">
+          <div className="h-[300px] md:p-10 p-2 flex flex-col-reverse justify-end">
             {/* tulisan Notifikasi */}
             {notifikasi.slice(-5).map((item, index) => (
               <div className="flex justify-between mt-2" key={index}>
@@ -73,14 +73,11 @@ const Notifikasi = () => {
                     <h2 className="font-bold text-[10px]">
                       {item?.description}
                     </h2>
-                    {/* <p className="opacity-70 text-[10px]">
-                      Syarat dan ketentuan berlaku!
-                    </p> */}
                   </div>
                 </div>
                 {/* tanggal */}
                 <div className="flex flex-shrink-0 gap-1">
-                  <p className="text-[10px] opacity-70 flex-shrink-0">
+                  <p className="text-[10px] opacity-70 flex-shrink-0 text-darkRed">
                     {TimeChanger(item?.createdAt)}
                   </p>
                   <div className="w-[5px] h-[5px] rounded-full bg-green-500 flex-shrink-0 mt-1"></div>

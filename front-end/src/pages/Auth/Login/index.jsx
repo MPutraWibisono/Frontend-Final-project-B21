@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import logo4 from "../../../assets/images/logo4.png";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/actions/authActions";
-
+import GoogleLogin from "../GoogleLogin";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -127,7 +127,7 @@ const LoginPage = () => {
 
             {/* Login button */}
             <button
-              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full"
+              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-darkGrayish self-center w-full"
               type="submit"
               disabled={loading}
             >
@@ -142,8 +142,7 @@ const LoginPage = () => {
               Daftar di sini
             </Link>
           </p>
-          
-
+          <GoogleLogin buttonText={"Login dengan Google"} />
           {/* div kosong buat tempat alert */}
           <div className="tempatAlert fixed bottom-6 lg:bottom-4 lg:left-[29%] left-1/2 transform -translate-x-1/2 flex justify-center items-center w-full lg:w-auto sm:bottom-2 "></div>
         </div>

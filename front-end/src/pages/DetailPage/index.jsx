@@ -242,7 +242,7 @@ const Detail = () => {
                 {chapterIWant.map((chap, index) => (
                   <div key={index}>
                     <div className="flex w-full justify-between space-x-4 text-xs md:text-sm font-bold pt-2">
-                      <span className="text-pinkTone">{chap.name}</span>
+                      <span className="text-darkRed/80">{chap.name}</span>
                       <span className="ms-auto text-blue-500 ">
                         {chap.duration}
                       </span>

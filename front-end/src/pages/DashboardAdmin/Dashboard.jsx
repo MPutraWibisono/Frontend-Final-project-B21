@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
 
   useEffect(() => {
     window.scrollTo(0, 0);
