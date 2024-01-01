@@ -11,6 +11,7 @@ import {
   getCourse,
   getCategory,
   getChapter,
+  getMaterial,
 } from "../../redux/actions/courseActions";
 import LayoutDashboard from "../../components/LayoutDashboard";
 import Loading from "../../components/Loading";
@@ -25,6 +26,8 @@ import ChapterChoose from "../../components/AdminModals/ChapterChoose";
 import CourseEdit from "../../components/AdminModals/CourseEdit";
 import { useNavigate } from "react-router-dom";
 import ChapterEdit from "../../components/AdminModals/ChapterEdit";
+import MaterialChoose from "../../components/AdminModals/MaterialChoose";
+import MaterialEdit from "../../components/AdminModals/MaterialEdit";
 
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,8 +36,11 @@ const KelolaKelas = () => {
   const [edit, setEdit] = useState("");
   const [id, setId] = useState("");
   const [idChapter, setIdChapter] = useState("");
+  const [idMaterial, setIdMaterial] = useState("");
   const dispatch = useDispatch();
-  const { course, category, chapter } = useSelector((state) => state.course);
+  const { course, category, chapter, material } = useSelector(
+    (state) => state.course
+  );
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({
@@ -56,7 +62,8 @@ const KelolaKelas = () => {
   useEffect(() => {
     dispatch(getCategory(setErrors, errors));
     dispatch(getChapter(setErrors, errors));
-  }, [dispatch, course, chapter]);
+    dispatch(getMaterial(setErrors, errors));
+  }, [dispatch, isOpen]);
 
   useEffect(() => {
     dispatch(getCourse(setErrors, errors, search));
@@ -74,7 +81,6 @@ const KelolaKelas = () => {
       formik.setFieldValue("price", courseBefore.price);
       formik.setFieldValue("modul", courseBefore.modul);
       formik.setFieldValue("rating", courseBefore.rating);
-      formik.setFieldValue("target", courseBefore.target);
       formik.setFieldValue("description", courseBefore.description);
       formik.setFieldValue("author", courseBefore.author);
       formik.setFieldValue("group_url", courseBefore.groupUrl);
@@ -83,6 +89,7 @@ const KelolaKelas = () => {
       formik.setFieldValue("category_id", courseBefore.categoryId);
       formik.setFieldValue("image", courseBefore.imageUrl);
       setImage(courseBefore.imageUrl);
+      formik.setFieldValue("target", courseBefore.target);
     }
   }, [edit]);
 
@@ -107,13 +114,13 @@ const KelolaKelas = () => {
       formData.append("price", values.price);
       formData.append("modul", values.modul);
       formData.append("rating", values.rating);
-      formData.append("target[0]", values.target);
       formData.append("description", values.description);
       formData.append("author", values.author);
       formData.append("group_url", values.group_url);
       formData.append("level", values.level);
       formData.append("type", values.type);
       formData.append("category_id", values.category_id);
+      formData.append("target[0]", values.target);
 
       try {
         const token = localStorage.getItem("token");
@@ -140,14 +147,26 @@ const KelolaKelas = () => {
         } else if (edit != "") {
           const res = await axiosInstance.patch(
             `/api/v1/course/${id}`,
-            formData,
+            {
+              name: values.name,
+              price: values.price,
+              modul: values.modul,
+              rating: values.rating,
+              description: values.description,
+              author: values.author,
+              group_url: values.group_url,
+              level: values.level,
+              type: values.type,
+              category_id: values.category_id,
+              image: image,
+              "target[0]": values.target,
+            },
             {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             }
           );
-
           toastNotify({
             type: "success",
             message: "Berhasil mengedit kelas",
@@ -157,7 +176,7 @@ const KelolaKelas = () => {
       } catch (error) {
         toastNotify({
           type: "error",
-          message: error.response?.data?.error || "Gagal menambahkan kelas",
+          message: error.response?.data?.error || "Gagal memperbarui kelas",
         });
       } finally {
         setLoading(false);
@@ -208,11 +227,20 @@ const KelolaKelas = () => {
     setIdChapter(value);
   };
 
+  const handleSetIdMat = (value) => {
+    setIdMaterial(value);
+  };
+
   if (errors.isError) {
     return <h1 className="h-screen w-full">{errors.message}</h1>;
   }
 
-  if (category.length === 0 && course.length === 0 && chapter.length === 0) {
+  if (
+    category.length === 0 &&
+    course.length === 0 &&
+    chapter.length === 0 &&
+    material.length === 0
+  ) {
     return <Loading />;
   }
 
@@ -572,8 +600,42 @@ const KelolaKelas = () => {
                           setIsOpen2={handleTambah2}
                           idChapter={idChapter}
                           setIsOpen={setIsOpen}
-                          // edit={edit}
                           chapter={chapter}
+                        />
+                      )}
+                    </>
+                  )}
+                  {edit == "Material" && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl font-bold text-center leading-6 text-darkBlue05"
+                      >
+                        Edit Material
+                      </Dialog.Title>
+                      {isOpen2 == "1" && (
+                        <ChapterChoose
+                          onSetIdChap={handleSetIdChap}
+                          id={id}
+                          chapter={chapter}
+                          setIsOpen2={handleTambah2}
+                        />
+                      )}
+                      {isOpen2 == "3" && (
+                        <MaterialChoose
+                          onSetIdMat={handleSetIdMat}
+                          idChapter={idChapter}
+                          material={material}
+                          setIsOpen2={handleTambah2}
+                        />
+                      )}
+                      {isOpen2 == "4" && (
+                        <MaterialEdit
+                          setIsOpen2={handleTambah2}
+                          idMaterial={idMaterial}
+                          idChapter={idChapter}
+                          material={material}
+                          setIsOpen={setIsOpen}
                         />
                       )}
                     </>
