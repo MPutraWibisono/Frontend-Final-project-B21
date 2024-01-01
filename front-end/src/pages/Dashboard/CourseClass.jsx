@@ -105,6 +105,15 @@ const CourseClass = () => {
       if (!selectedLevel.includes(course?.level.toLowerCase())) {
         return false;
       }
+
+      if (searchQuery) {
+      const courseName = course?.name?.toLowerCase();
+      const searchLower = searchQuery.toLowerCase();
+
+      if (!(courseName && courseName.includes(searchLower))) {
+        return false;
+      }
+    }
     }
 
     return true;
