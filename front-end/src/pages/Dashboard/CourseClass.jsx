@@ -97,7 +97,11 @@ const CourseClass = () => {
     }
 
     // filter berdasarkan jenis kelas Premium/Gratis
-    if (selectedFilter !== "All") {
+    if (
+      selectedFilter !== "All" ||
+      selectedFilter !== "Progress" ||
+      selectedFilter !== "Selesai"
+    ) {
       if (
         (selectedFilter === "Premium" && course.type === "FREE") ||
         (selectedFilter === "Gratis" && course.type === "PREMIUM")
@@ -120,6 +124,16 @@ const CourseClass = () => {
       }
 
       if (searchQuery) {
+        const courseName = course?.name?.toLowerCase();
+        const searchLower = searchQuery.toLowerCase();
+
+        if (!(courseName && courseName.includes(searchLower))) {
+          return false;
+        }
+      }
+    }
+
+    if (searchQuery) {
       const courseName = course?.name?.toLowerCase();
       const searchLower = searchQuery.toLowerCase();
 
@@ -127,10 +141,10 @@ const CourseClass = () => {
         return false;
       }
     }
-    }
 
     return true;
   });
+
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
@@ -142,11 +156,33 @@ const CourseClass = () => {
   return (
     <div className="bg-paleOrange text-white pt-20">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">
-        <div className="lg:w-1/4 overflow-hidden rounded text-black mr-4">
+        <div className="lg:w-1/4 overflow-hidden rounded text-black lg:mr-4">
           <div className="text-3xl font-bold text-black my-7 text-center lg:text-start">
             Topik Kelas
           </div>
-          <div className="container mx-auto p-4 flex flex-col space-y-4 bg-white lg:overflow-visible overflow-y-auto h-32 lg:h-fit rounded-xl                                                                                ">
+          <div className="lg:hidden collapse bg-white collapse-plus">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium">
+              Pilih Filter
+            </div>
+            <div className="collapse-content container mx-auto px-4 flex flex-col space-y-4 bg-white lg:h-fit rounded-xl">
+              {/* hidden md:block */}
+              {filterOptions.map((filter) => (
+                <FilterSection
+                  key={filter.title}
+                  {...filter}
+                  handleCheckboxChange={handleCheckboxChange}
+                />
+              ))}
+              <button
+                onClick={handleDeleteFilter}
+                className="text-sm font-semibold leading-6 text-red-500"
+              >
+                Hapus Filter
+              </button>
+            </div>
+          </div>
+          <div className="hidden lg:block container mx-auto p-4 flex flex-col space-y-4 bg-white lg:h-fit rounded-xl border border-slate-200 ">
             {/* hidden md:block */}
             {filterOptions.map((filter) => (
               <FilterSection
@@ -155,23 +191,15 @@ const CourseClass = () => {
                 handleCheckboxChange={handleCheckboxChange}
               />
             ))}
-            <button
-              onClick={handleDeleteFilter}
-              className="text-sm font-semibold leading-6 text-red-500"
-            >
-              Hapus Filter
-            </button>
+            <div className="w-full flex justify-center">
+              <button
+                onClick={handleDeleteFilter}
+                className="text-sm font-semibold leading-6 text-red-500"
+              >
+                Hapus Filter
+              </button>
+            </div>
           </div>
-          {/* <div className="block md:hidden">
-          {filterOptions.map((filter) => (
-            <DropdownBasic
-              key={filter.title}
-              {...filter}
-              handleCheckboxChange={handleCheckboxChange}
-            />
-          ))}
-          
-        </div> */}
         </div>
         <div className="container flex flex-col justify-between">
           <div>
@@ -197,7 +225,7 @@ const CourseClass = () => {
                   className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none  ${
                     selectedFilter === "All"
                       ? "w-64 bg-pink hover:bg-pink text-white"
-                      : "w-32 bg-pinkTone hover:bg-pink/60 text-darkGrayish"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-white"
                   }`}
                 >
                   <span>All</span>
@@ -208,7 +236,7 @@ const CourseClass = () => {
                   className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none  ${
                     selectedFilter === "Premium"
                       ? "w-64 bg-pink hover:bg-pink text-white"
-                      : "w-32 bg-pinkTone hover:bg-pink/60 text-darkGrayish"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-white"
                   }`}
                 >
                   <span>Kelas Premium</span>
@@ -219,7 +247,7 @@ const CourseClass = () => {
                   className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none  ${
                     selectedFilter === "Gratis"
                       ? "w-64 bg-pink hover:bg-pink text-white"
-                      : "w-32 bg-pinkTone hover:bg-pink/60 text-darkGrayish"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-white"
                   }`}
                 >
                   <span>Kelas Gratis</span>

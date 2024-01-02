@@ -54,7 +54,7 @@ const Notifikasi = () => {
           <div className="text-center bg-darkGrayish text-white p-5 rounded-t-[20px]">
             <h1 className="text-xl tracking-tight">Notifikasi</h1>
           </div>
-          <div className="h-[300px] md:p-10 p-2 flex flex-col-reverse justify-end">
+          <div className="h-[300px] md:px-10 md:py-5 gap-2 divide p-2 flex flex-col-reverse justify-end">
             {/* tulisan Notifikasi */}
             {notifikasi.slice(-5).map((item, index) => (
               <div className="flex justify-between mt-2" key={index}>
