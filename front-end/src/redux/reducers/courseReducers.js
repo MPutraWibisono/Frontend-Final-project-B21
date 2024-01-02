@@ -7,6 +7,7 @@ const initialState = {
   material: [],
   search: [],
   history: [],
+  progress: [],
 };
 
 const courseSlice = createSlice({
@@ -31,6 +32,9 @@ const courseSlice = createSlice({
     setHistory: (state, action) => {
       state.history = action.payload;
     },
+    setProgress: (state, action) => {
+      state.progress = action.payload;
+    },
   },
 });
 
@@ -41,6 +45,7 @@ export const {
   setMaterial,
   setSearch,
   setHistory,
+  setProgress,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;

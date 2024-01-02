@@ -137,7 +137,7 @@ const PurchaseHistory = () => {
         </div>
 
         <div className="sm:flex pb-5 items-start justify-center relative top-[-65px]">
-          <div className="relative bg-white rounded-3xl overflow-hidden shadow-md flex flex-col w-full sm:w-3/4 border border-pinkTone">
+          <div className="relative bg-white rounded-3xl overflow-hidden flex flex-col w-full sm:w-3/4 shadow-xl">
             <div className="bg-darkGrayish text-white p-5 flex items-center justify-center rounded-t-lg">
               <h1 className="text-xl tracking-tight">Akun</h1>
             </div>

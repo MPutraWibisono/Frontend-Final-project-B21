@@ -143,6 +143,10 @@ const KelolaKelas = () => {
 
           dispatch(getCourse(setErrors, errors, search));
 
+          setTambah("");
+          setEdit("");
+          setLoading(false);
+          setIsOpen(false);
           return res.data;
         } else if (edit != "") {
           const res = await axiosInstance.patch(
@@ -171,6 +175,11 @@ const KelolaKelas = () => {
             type: "success",
             message: "Berhasil mengedit kelas",
           });
+
+          setTambah("");
+          setEdit("");
+          setLoading(false);
+          setIsOpen(false);
           return res.data;
         }
       } catch (error) {
@@ -178,11 +187,6 @@ const KelolaKelas = () => {
           type: "error",
           message: error.response?.data?.error || "Gagal memperbarui kelas",
         });
-      } finally {
-        setLoading(false);
-        setIsOpen(false);
-        setTambah("");
-        setEdit("");
       }
     },
   });
@@ -294,7 +298,7 @@ const KelolaKelas = () => {
           <div className="absolute right-2 top-1/2 -translate-y-1/2">
             <button
               type="submit"
-              className="btn btn-square btn-sm group text-white bg-darkBlue05 hover:bg-darkBlue05/80 "
+              className="btn btn-square btn-sm group text-white bg-darkGrayish hover:bg-darkGrayish/80 "
             >
               <BiSearchAlt className="h-4 w-4" />
             </button>
@@ -526,6 +530,7 @@ const KelolaKelas = () => {
                           setIsOpen2={handleTambah2}
                           id={id}
                           setIsOpen={setIsOpen}
+                          setTambah={setTambah}
                         />
                       )}
                     </>
@@ -558,6 +563,7 @@ const KelolaKelas = () => {
                           setIsOpen2={handleTambah2}
                           idChapter={idChapter}
                           setIsOpen={setIsOpen}
+                          setTambah={setTambah}
                         />
                       )}
                     </>
@@ -601,6 +607,7 @@ const KelolaKelas = () => {
                           idChapter={idChapter}
                           setIsOpen={setIsOpen}
                           chapter={chapter}
+                          setEdit={setEdit}
                         />
                       )}
                     </>
@@ -636,6 +643,7 @@ const KelolaKelas = () => {
                           idChapter={idChapter}
                           material={material}
                           setIsOpen={setIsOpen}
+                          setEdit={setEdit}
                         />
                       )}
                     </>

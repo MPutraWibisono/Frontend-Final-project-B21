@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toastNotify } from "../../libs/utils";
 import { axiosInstance } from "../../libs/axios";
 
-const MaterialModals = ({ setIsOpen2, idChapter, setIsOpen }) => {
+const MaterialModals = ({ setIsOpen2, idChapter, setIsOpen, setTambah }) => {
   const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -40,16 +40,16 @@ const MaterialModals = ({ setIsOpen2, idChapter, setIsOpen }) => {
           message: "Berhasil menambahkan material",
         });
 
+        setTambah("");
+        setIsOpen(false);
+        setLoading(false);
+        setIsOpen2("1");
         return res.data;
       } catch (error) {
         toastNotify({
           type: "error",
           message: error.response?.data?.error || "Gagal menambahkan material",
         });
-      } finally {
-        setIsOpen(false);
-        setLoading(false);
-        setIsOpen2("1");
       }
     },
   });

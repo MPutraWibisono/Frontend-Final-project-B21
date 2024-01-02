@@ -50,7 +50,7 @@ const Notifikasi = () => {
       </div>
       {/* NOTIFIKASI  */}
       <div>
-        <div className=" flex flex-col md:w-[70vw] w-[80vw] mx-auto rounded-[20px] shadow-2xl relative top-[-65px]">
+        <div className=" flex flex-col md:w-[70vw] w-[80vw] mx-auto rounded-[20px] shadow-xl relative top-[-65px]">
           <div className="text-center bg-darkGrayish text-white p-5 rounded-t-[20px]">
             <h1 className="text-xl tracking-tight">Notifikasi</h1>
           </div>
