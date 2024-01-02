@@ -79,7 +79,7 @@ const Detail = () => {
     setPlay(true);
     if (!localStorage.getItem("token")) {
       toastNotify({
-        type: "success",
+        type: "info",
         message: "Login Dahulu Ya!",
       });
       navigate("/auth/login");

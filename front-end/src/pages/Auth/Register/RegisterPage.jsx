@@ -11,7 +11,7 @@ import { toastNotify } from "../../../libs/utils";
 import logo4 from "../../../assets/images/logo4.png";
 import phoneRegExp from "../../../libs/phoneReg";
 import { axiosInstance } from "../../../libs/axios";
-import GoogleLogin from "../GoogleLogin";
+// import GoogleLogin from "../GoogleLogin";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -308,7 +308,7 @@ const RegisterPage = () => {
               <Link to="/auth/login"> Masuk di sini</Link>
             </span>
           </p>
-          <GoogleLogin buttonText={"Login dengan Google"} />
+          {/* <GoogleLogin buttonText={"Login dengan Google"} /> */}
         </div>
       </div>
 

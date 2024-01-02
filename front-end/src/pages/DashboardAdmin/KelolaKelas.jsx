@@ -2,7 +2,6 @@
 import { Fragment, useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { TbFilter, TbFilterOff } from "react-icons/tb";
-import { LuUsers2 } from "react-icons/lu";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BiSearchAlt } from "react-icons/bi";
 import { Dialog, Transition } from "@headlessui/react";
@@ -28,6 +27,8 @@ import { useNavigate } from "react-router-dom";
 import ChapterEdit from "../../components/AdminModals/ChapterEdit";
 import MaterialChoose from "../../components/AdminModals/MaterialChoose";
 import MaterialEdit from "../../components/AdminModals/MaterialEdit";
+import { getUsers } from "../../redux/actions/authActions";
+import AdminActive from "../../components/AdminActive";
 
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +43,7 @@ const KelolaKelas = () => {
     (state) => state.course
   );
   const { user } = useSelector((state) => state.profile);
+  const { users } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({
     isError: false,
@@ -69,6 +71,7 @@ const KelolaKelas = () => {
     dispatch(getCategory(setErrors, errors));
     dispatch(getChapter(setErrors, errors));
     dispatch(getMaterial(setErrors, errors));
+    dispatch(getUsers());
   }, [dispatch, isOpen]);
 
   useEffect(() => {
@@ -265,36 +268,7 @@ const KelolaKelas = () => {
 
   return (
     <LayoutDashboard noSearch>
-      <div className="grid grid-cols-3 gap-6 pt-3">
-        <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
-          <div className="bg-white p-3 rounded-3xl">
-            <LuUsers2 className="h-10 w-10 text-darkBlue05" />
-          </div>
-          <div className="text-white">
-            <p className="text-2xl">450</p>
-            <p className="text-xl font-semibold">Active Users</p>
-          </div>
-        </div>
-        <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
-          <div className="bg-white p-3 rounded-3xl">
-            <LuUsers2 className="h-10 w-10 text-customEmerald01" />
-          </div>
-          <div className="text-white">
-            <p className="text-2xl">450</p>
-            <p className="text-xl font-semibold">Active Class</p>
-          </div>
-        </div>
-        <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
-          <div className="bg-white p-3 rounded-3xl">
-            <LuUsers2 className="h-10 w-10 text-darkBlue05" />
-          </div>
-          <div className="text-white">
-            <p className="text-2xl">450</p>
-            <p className="text-xl font-semibold">Premium Class</p>
-          </div>
-        </div>
-      </div>
-
+      <AdminActive course={course} users={users} />
       <div className="overflow-x-auto mt-10 flex flex-col space-y-4">
         <form
           className="relative w-1/3"

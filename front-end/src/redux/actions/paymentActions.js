@@ -65,6 +65,25 @@ export const getOrder =
     }
   };
 
+export const getAllOrder = () => async (dispatch) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axiosInstance.get("/api/v1/order/all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch(setOrder(response?.data?.Orders));
+  } catch (error) {
+    toastNotify({
+      type: "error",
+      message: error.response.data.message,
+    });
+  }
+};
+
 export const getPayment = (setLoading, id) => async () => {
   setLoading(true);
   try {
