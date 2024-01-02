@@ -8,7 +8,7 @@ import { setHistory } from "../reducers/courseReducers";
 import { setProgress } from "../reducers/courseReducers";
 
 export const getCourse =
-  (setErrors, errors, search = "") =>
+  (setErrors, errors, search = "", type = "", level = "", categoriId = "") =>
   async (dispatch) => {
     try {
       // const { token } = getState().auth;
@@ -17,7 +17,7 @@ export const getCourse =
       const response = await axios.get(
         `${
           import.meta.env.VITE_API_URL
-        }/api/v1/course?pageSize=20&search=${search}`
+        }/api/v1/course?pageSize=20&search=${search}&type=${type}&level=${level}&categoryId=${categoriId}`
       );
 
       const data = response.data.courses;

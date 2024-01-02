@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { TbFilter } from "react-icons/tb";
+import { TbFilter, TbFilterOff } from "react-icons/tb";
 import { LuUsers2 } from "react-icons/lu";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BiSearchAlt } from "react-icons/bi";
@@ -49,6 +49,12 @@ const KelolaKelas = () => {
   });
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
+  const [isFilter, setIsFilter] = useState(false);
+  const [filterData, setFilterData] = useState({
+    category: "",
+    level: "",
+    type: "",
+  });
 
   useEffect(() => {
     if (user?.user?.role == "user") {
@@ -66,8 +72,17 @@ const KelolaKelas = () => {
   }, [dispatch, isOpen]);
 
   useEffect(() => {
-    dispatch(getCourse(setErrors, errors, search));
-  }, [dispatch, search]);
+    dispatch(
+      getCourse(
+        setErrors,
+        errors,
+        search,
+        filterData.type,
+        filterData.level,
+        filterData.category
+      )
+    );
+  }, [dispatch, search, filterData]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -356,12 +371,74 @@ const KelolaKelas = () => {
               </ul>
             </div>
 
-            <button className="flex groupitems-center btn btn-sm btn-outline btn-primary rounded-full m-1">
-              <TbFilter className="h-5 w-5 " />
-              <p className="font-medium">Filter</p>
+            <button
+              onClick={() =>
+                isFilter
+                  ? (setIsFilter(false),
+                    setFilterData({ category: "", level: "", type: "" }))
+                  : setIsFilter(true)
+              }
+              className={`flex groupitems-center btn btn-sm btn-primary rounded-full m-1 ${
+                isFilter ? "" : "btn-outline"
+              }`}
+            >
+              {isFilter ? (
+                <TbFilterOff className="h-5 w-5 " />
+              ) : (
+                <TbFilter className="h-5 w-5 " />
+              )}
+              <p className="font-medium">
+                {isFilter ? "Tutup Filter" : "Filter"}
+              </p>
             </button>
           </div>
         </div>
+        {isFilter && (
+          <div className="grid grid-cols-3 gap-5">
+            <select
+              className="select select-bordered w-full"
+              onChange={(e) =>
+                setFilterData({ ...filterData, category: e.target.value })
+              }
+              value={filterData.category}
+            >
+              <option disabled value="" selected>
+                Pilih Kategori
+              </option>
+              {category.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+            <select
+              className="select select-bordered w-full"
+              onChange={(e) =>
+                setFilterData({ ...filterData, level: e.target.value })
+              }
+              value={filterData.level}
+            >
+              <option disabled value="" selected>
+                Pilih Level
+              </option>
+              <option value="BEGINNER">Beginner</option>
+              <option value="INTERMEDIATE">Intermediate</option>
+            </select>
+            <select
+              className="select select-bordered w-full"
+              onChange={(e) =>
+                setFilterData({ ...filterData, type: e.target.value })
+              }
+              value={filterData.type}
+            >
+              <option disabled value="" selected>
+                Pilih Tipe
+              </option>
+              <option value="FREE">Gratis</option>
+              <option value="PREMIUM">Premium</option>
+            </select>
+          </div>
+        )}
         <table className="table ">
           <thead className="bg-darkMagenta/20 text-black">
             <tr>
@@ -372,7 +449,7 @@ const KelolaKelas = () => {
             </tr>
           </thead>
           <tbody>
-            {course.length === 0 && search !== "" && (
+            {course.length === 0 && (
               <tr>
                 <td colSpan={7} className="text-center">
                   <p className="text-sm font-medium">Kelas tidak ditemukan</p>
