@@ -138,6 +138,7 @@ const KelolaKelas = () => {
       formData.append("level", values.level);
       formData.append("type", values.type);
       formData.append("category_id", values.category_id);
+      formData.append("image", image);
       formData.append("target[0]", values.target);
 
       try {
@@ -152,6 +153,7 @@ const KelolaKelas = () => {
               },
             }
           );
+
           toastNotify({
             type: "success",
             message: "Berhasil menambahkan kelas",
