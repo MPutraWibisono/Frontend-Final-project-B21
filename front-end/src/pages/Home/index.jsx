@@ -169,10 +169,10 @@ const Homepage = () => {
               <button
                 value={"All"}
                 onClick={(e) => handleClassCat(e.currentTarget.value)}
-                className={`inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition duration-200 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none  ${
+                className={`inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition duration-200 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                   selectedFilter == "All"
                     ? "bg-pink scale-x-105 text-white"
-                    : "bg-pinkTone hover:bg-pink/60 hover:scale-x-105 text-darkGrayish"
+                    : "bg-pinkTone hover:bg-pink/60 hover:scale-x-105 text-white shadow-inner"
                 }`}
               >
                 <span>All</span>
@@ -185,7 +185,7 @@ const Homepage = () => {
                   className={`inline-flex items-center justify-center h-8 gap-2 px-4 text-xs tracking-wide transition duration-200 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none font-medium ${
                     selectedFilter == button?.name
                       ? "bg-pink scale-x-105 text-white"
-                      : "bg-pinkTone hover:bg-pink/60 hover:scale-x-105 text-darkGrayish"
+                      : "bg-pinkTone hover:bg-pink/60 hover:scale-x-105 text-white shadow-inner"
                   }`}
                 >
                   <span>{button?.name}</span>

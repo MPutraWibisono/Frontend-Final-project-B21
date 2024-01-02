@@ -17,7 +17,7 @@ const CardPurchase = ({
   order,
 }) => {
   return (
-    <div className="flex w-full justify-center my-3">
+    <div className="flex w-full justify-center my-3 ">
       <div className="flex flex-col justify-center rounded-2xl border-2 w-full max-w-lg overflow-hidden">
         <img
           src={image}
@@ -27,10 +27,8 @@ const CardPurchase = ({
         {/* TEXT KONTEN */}
         <div className="px-3 py-2">
           <div className="flex jusify-between">
-            <h3 className="font-semibold md:text-[14px] text-secret-pink">
-              {title}
-            </h3>
-            <div className="ms-auto flex items-center text-xs">
+            <h3 className="text-sm font-bold text-slate-700">{title}</h3>
+            <div className="ms-auto flex items-center text-xs font-medium">
               <IoIosStar className="text-yellow-400 pe-1 min-w-fit" />
               {rating}
             </div>
@@ -38,7 +36,9 @@ const CardPurchase = ({
           <h3 className="font-semibold md:text-[12px] text-[11px] pe-3">
             {description}
           </h3>
-          <p className="md:text-[10px] text-[8px]">By {instructor}</p>
+          <p className="font-medium md:text-[10px] text-[8px] text-slate-800">
+            By {instructor}
+          </p>
         </div>
 
         <div className="flex justify-between pb-3 text-[10px] px-3">

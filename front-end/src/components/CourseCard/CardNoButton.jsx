@@ -15,7 +15,7 @@ const CardNoButton = ({
 }) => {
   return (
     <div className="flex w-full justify-center">
-      <div className="flex flex-col justify-center rounded-2xl border-2 w-72 overflow-hidden">
+      <div className="flex flex-col justify-center rounded-2xl border-2 w-72 overflow-hidden shadow-md shadow-slate-300">
         <img
           src={image}
           className=" aspect-video w-full object-cover h-[100px]"
@@ -24,35 +24,15 @@ const CardNoButton = ({
         {/* TEXT KONTEN */}
         <div className="px-3 py-2">
           <div className="flex jusify-between">
-            <h3 className="font-semibold md:text-[14px] text-secret-pink">
-              {title}
-            </h3>
-            <div className="ms-auto flex items-center text-xs">
-              <IoIosStar className="text-yellow-400 pe-1 min-w-fit" />
+            <h3 className="md:text-[14px] font-bold text-slate-700">{title}</h3>
+            <div className="ms-auto flex items-center text-xs font-medium">
+              <IoIosStar className="text-yellow-400 pe-1 min-w-fit " />
               {rating}
             </div>
           </div>
-          <h3 className="font-semibold md:text-[12px] text-[11px] pe-3">
-            {name}
-          </h3>
-          <p className="md:text-[10px] text-[8px]">By {author}</p>
+          <h3 className="text-xs font-medium text-slate-800 pe-3">{name}</h3>
+          <p className="pt-0.5 text-[11px] text-slate-500">By {author}</p>
         </div>
-
-        {/* <div className="flex justify-between pb-3 text-[10px] px-3">
-          <span className="text-center sm:flex sm:text-start items-center gap-1">
-            <RiShieldStarLine className="text-darkGrayish w-full sm:w-fit text-center" />
-            <p>{level}</p>
-          </span>
-          <span className="text-center sm:flex sm:text-start items-center gap-1">
-            <RiBookLine className="text-darkGrayish w-full sm:w-fit text-center" />
-            <p>{modul} Modul</p>
-          </span>
-          <span className="text-center sm:flex sm:text-start items-center gap-1">
-            <RiTimeFill className="text-darkGrayish w-full sm:w-fit text-center" />
-            <p>{duration} Menit</p>
-          </span>
-        </div>
-        <div className="pb-3 px-3 text-sm font-semibold">Rp. {price}k</div> */}
       </div>
     </div>
   );

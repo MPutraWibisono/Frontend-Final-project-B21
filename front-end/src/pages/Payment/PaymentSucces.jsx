@@ -21,7 +21,6 @@ const PembayaranSukses = () => {
       {/* NOTIFIKASI BERHASIL PEMBAYARAN */}
       <div className="md:px-[100px] px-5 py-6 shadow-md">
         {/* LINK KEMBALI */}
-
         <div className="bg-alertGreen mx-auto px-5 py-3 rounded-xl md:w-[800px] mt-2">
           <h1 className="text-center text-white font-bold md:text-[16px] text-[12px]">
             Terimakasih atas pembayaran transaksi
