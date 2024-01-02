@@ -191,7 +191,7 @@ const RegisterOTP = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn bg-pinkTone text-slate-100 hover:bg-pinkTone/80 self-center w-1/2"
+              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-white self-center w-1/2"
             >
               {loading ? "Loading..." : "Submit"}
             </button>

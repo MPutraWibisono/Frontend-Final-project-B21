@@ -297,7 +297,7 @@ const RegisterPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-darkGrayish self-center w-full"
+              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-white self-center w-full"
             >
               {loading ? "Loading..." : "Daftar"}
             </button>

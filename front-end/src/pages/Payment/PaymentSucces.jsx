@@ -52,7 +52,7 @@ const PembayaranSukses = () => {
         >
           <Link
             to={`/details/${id}`}
-            onClick={handleDelete}
+            onClick={() => handleDelete()}
             className="font-bold"
           >
             Mulai Belajar
@@ -60,7 +60,7 @@ const PembayaranSukses = () => {
         </button>
         <Link
           to="/myclass"
-          onClick={handleDelete}
+          onClick={() => handleDelete()}
           className="font-semibold text-creame05"
         >
           <h3>Kembali Ke Beranda</h3>
