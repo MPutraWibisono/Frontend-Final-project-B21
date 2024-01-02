@@ -35,15 +35,11 @@ export const getMe =
           return;
         } else if (error.response.status === 403) {
           dispatch(logout());
-          // console.log("Silakan Login Kembali");
           if (navigateError) navigate(navigateError);
           return;
         }
-
-        // alert(error?.response?.data?.message);
         return;
       }
-      // alert(error?.response?.data?.message);
       if (navigateError) navigate(navigateError);
     }
   };

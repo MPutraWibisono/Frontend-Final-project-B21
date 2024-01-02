@@ -7,6 +7,7 @@ import { toastNotify } from "../../libs/utils";
 import CardNoButton from "../CourseCard/CardNoButton";
 import { getOrder } from "../../redux/actions/paymentActions";
 import { useDispatch, useSelector } from "react-redux";
+import formatUang from "../../libs/currency";
 
 const Modal = ({
   id,
@@ -100,28 +101,24 @@ const Modal = ({
                   author={author}
                   rating={rating}
                   image={image}
-                  // level={level}
-                  // modul={modul}
-                  // price={price}
-                  // duration={duration}
                 />
                 <div className="flex justify-center">
-                  <div className="py-2 text-sm font-semibold border rounded-2xl w-56 text-center bg-pink text-white">
-                    Rp. {price}
+                  <div className="py-2 text-sm font-semibold border rounded-xl w-56 text-center border-pink text-darkGrayish shadow-md">
+                    {formatUang(price)}
                   </div>
                 </div>
                 {/*        <!-- Modal actions --> */}
                 <div className="flex justify-start gap-2">
                   <button
                     onClick={() => handleOrder()}
-                    className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-pinkTone px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-pinkTone/60 focus:bg-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone/30 disabled:bg-pinkTone/30 disabled:shadow-none"
+                    className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded bg-pinkTone px-5 text-sm font-medium tracking-wide text-darkGrayish transition duration-300 hover:bg-pinkTone/60 focus:bg-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-pinkTone/30 disabled:bg-pinkTone/30 disabled:shadow-none"
                   >
                     <span>Beli Sekarang</span>
                   </button>
                   <button
                     // to="/class"
                     onClick={() => history.back()}
-                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded px-5 text-sm font-medium tracking-wide text-pinkTone transition duration-300 hover:bg-pinkTone/20 hover:text-pinkTone/60 focus:bg-pinkTone/20 focus:text-pinkTone/70 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-pinkTone/30 disabled:shadow-none disabled:hover:bg-transparent"
+                    className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded px-5 text-sm font-medium tracking-wide text-darkGrayish transition duration-300 hover:bg-pinkTone/20 focus:bg-pinkTone/20  focus-visible:outline-none disabled:cursor-not-allowed disabled:text-pinkTone/30 disabled:shadow-none disabled:hover:bg-transparent"
                   >
                     <span>Nanti</span>
                   </button>

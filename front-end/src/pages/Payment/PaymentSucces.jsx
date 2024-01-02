@@ -21,7 +21,6 @@ const PembayaranSukses = () => {
       {/* NOTIFIKASI BERHASIL PEMBAYARAN */}
       <div className="md:px-[100px] px-5 py-6 shadow-md">
         {/* LINK KEMBALI */}
-
         <div className="bg-alertGreen mx-auto px-5 py-3 rounded-xl md:w-[800px] mt-2">
           <h1 className="text-center text-white font-bold md:text-[16px] text-[12px]">
             Terimakasih atas pembayaran transaksi
@@ -53,7 +52,7 @@ const PembayaranSukses = () => {
         >
           <Link
             to={`/details/${id}`}
-            onClick={handleDelete}
+            onClick={() => handleDelete()}
             className="font-bold"
           >
             Mulai Belajar
@@ -61,7 +60,7 @@ const PembayaranSukses = () => {
         </button>
         <Link
           to="/myclass"
-          onClick={handleDelete}
+          onClick={() => handleDelete()}
           className="font-semibold text-creame05"
         >
           <h3>Kembali Ke Beranda</h3>

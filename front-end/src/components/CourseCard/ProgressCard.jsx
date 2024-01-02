@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { IoIosStar } from "react-icons/io";
 import { RiShieldStarLine, RiBookLine, RiTimeFill } from "react-icons/ri";
+// import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const ProgressCard = ({
@@ -14,11 +15,17 @@ const ProgressCard = ({
   modules,
   duration,
 }) => {
+  // const { material } = useSelector((state) => state.course);
+  // const { progress } = useSelector((state) => state.course);
+  // const progressed = progress.filter((item) => item?.courseId == id);
+  // const materialed = material.filter((item) => item?.courseId == id);
+  // console.log(progressed);
+  // console.log(materialed);
   return (
     <>
       {/*<!-- Component: Basic blog card --> */}
       <Link to={`/details/${id}`}>
-        <div className=" overflow-hidden rounded-2xl bg-white text-slate-500 shadow-md shadow-slate-200 transition duration-100 hover:scale-105">
+        <div className=" overflow-hidden rounded-2xl bg-white text-slate-500 shadow-lg shadow-slate-300 transition duration-100 hover:scale-105">
           {/*  <!-- Image --> */}
           <figure>
             <img
@@ -33,16 +40,16 @@ const ProgressCard = ({
               <h3 className="text-sm font-bold text-slate-700 w-4/5">
                 {title}
               </h3>
-              <div className="ms-auto flex items-center text-xs">
+              <div className="ms-auto flex items-center text-xs font-medium">
                 <IoIosStar className="text-yellow-400 pe-1 min-w-fit" />
                 {rating}
               </div>
             </div>
-            <p className="text-xs font-normal text-slate-700 w-4/5 ">
+            <p className="text-xs font-medium text-slate-800 w-4/5 ">
               {description}
             </p>
-            <p className="text-xs text-slate-400">By {instructor}</p>
-            <div className="flex justify-between py-1 text-[10px] ">
+            <p className="pt-0.5 text-[11px] text-slate-500">By {instructor}</p>
+            <div className="flex justify-between py-1 text-[10px] font-medium">
               <span className="text-center sm:flex sm:text-start items-center gap-1">
                 <RiShieldStarLine className="text-darkGrayish w-full sm:w-fit text-center" />
                 <p>{level}</p>

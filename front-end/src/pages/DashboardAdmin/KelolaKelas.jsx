@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { TbFilter } from "react-icons/tb";
-import { LuUsers2 } from "react-icons/lu";
+import { TbFilter, TbFilterOff } from "react-icons/tb";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BiSearchAlt } from "react-icons/bi";
 import { Dialog, Transition } from "@headlessui/react";
@@ -28,6 +27,8 @@ import { useNavigate } from "react-router-dom";
 import ChapterEdit from "../../components/AdminModals/ChapterEdit";
 import MaterialChoose from "../../components/AdminModals/MaterialChoose";
 import MaterialEdit from "../../components/AdminModals/MaterialEdit";
+import { getUsers } from "../../redux/actions/authActions";
+import AdminActive from "../../components/AdminActive";
 
 const KelolaKelas = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +42,8 @@ const KelolaKelas = () => {
   const { course, category, chapter, material } = useSelector(
     (state) => state.course
   );
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
+  const { users } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({
     isError: false,
@@ -49,6 +51,12 @@ const KelolaKelas = () => {
   });
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
+  const [isFilter, setIsFilter] = useState(false);
+  const [filterData, setFilterData] = useState({
+    category: "",
+    level: "",
+    type: "",
+  });
 
   useEffect(() => {
     if (user?.user?.role == "user") {
@@ -63,11 +71,21 @@ const KelolaKelas = () => {
     dispatch(getCategory(setErrors, errors));
     dispatch(getChapter(setErrors, errors));
     dispatch(getMaterial(setErrors, errors));
+    dispatch(getUsers());
   }, [dispatch, isOpen]);
 
   useEffect(() => {
-    dispatch(getCourse(setErrors, errors, search));
-  }, [dispatch, search]);
+    dispatch(
+      getCourse(
+        setErrors,
+        errors,
+        search,
+        filterData.type,
+        filterData.level,
+        filterData.category
+      )
+    );
+  }, [dispatch, search, filterData]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -143,6 +161,10 @@ const KelolaKelas = () => {
 
           dispatch(getCourse(setErrors, errors, search));
 
+          setTambah("");
+          setEdit("");
+          setLoading(false);
+          setIsOpen(false);
           return res.data;
         } else if (edit != "") {
           const res = await axiosInstance.patch(
@@ -171,6 +193,11 @@ const KelolaKelas = () => {
             type: "success",
             message: "Berhasil mengedit kelas",
           });
+
+          setTambah("");
+          setEdit("");
+          setLoading(false);
+          setIsOpen(false);
           return res.data;
         }
       } catch (error) {
@@ -178,11 +205,6 @@ const KelolaKelas = () => {
           type: "error",
           message: error.response?.data?.error || "Gagal memperbarui kelas",
         });
-      } finally {
-        setLoading(false);
-        setIsOpen(false);
-        setTambah("");
-        setEdit("");
       }
     },
   });
@@ -246,36 +268,7 @@ const KelolaKelas = () => {
 
   return (
     <LayoutDashboard noSearch>
-      <div className="grid grid-cols-3 gap-6 pt-3">
-        <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
-          <div className="bg-white p-3 rounded-3xl">
-            <LuUsers2 className="h-10 w-10 text-darkBlue05" />
-          </div>
-          <div className="text-white">
-            <p className="text-2xl">450</p>
-            <p className="text-xl font-semibold">Active Users</p>
-          </div>
-        </div>
-        <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
-          <div className="bg-white p-3 rounded-3xl">
-            <LuUsers2 className="h-10 w-10 text-customEmerald01" />
-          </div>
-          <div className="text-white">
-            <p className="text-2xl">450</p>
-            <p className="text-xl font-semibold">Active Class</p>
-          </div>
-        </div>
-        <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
-          <div className="bg-white p-3 rounded-3xl">
-            <LuUsers2 className="h-10 w-10 text-darkBlue05" />
-          </div>
-          <div className="text-white">
-            <p className="text-2xl">450</p>
-            <p className="text-xl font-semibold">Premium Class</p>
-          </div>
-        </div>
-      </div>
-
+      <AdminActive course={course} users={users} />
       <div className="overflow-x-auto mt-10 flex flex-col space-y-4">
         <form
           className="relative w-1/3"
@@ -294,7 +287,7 @@ const KelolaKelas = () => {
           <div className="absolute right-2 top-1/2 -translate-y-1/2">
             <button
               type="submit"
-              className="btn btn-square btn-sm group text-white bg-darkBlue05 hover:bg-darkBlue05/80 "
+              className="btn btn-square btn-sm group text-white bg-darkGrayish hover:bg-darkGrayish/80 "
             >
               <BiSearchAlt className="h-4 w-4" />
             </button>
@@ -352,12 +345,74 @@ const KelolaKelas = () => {
               </ul>
             </div>
 
-            <button className="flex groupitems-center btn btn-sm btn-outline btn-primary rounded-full m-1">
-              <TbFilter className="h-5 w-5 " />
-              <p className="font-medium">Filter</p>
+            <button
+              onClick={() =>
+                isFilter
+                  ? (setIsFilter(false),
+                    setFilterData({ category: "", level: "", type: "" }))
+                  : setIsFilter(true)
+              }
+              className={`flex groupitems-center btn btn-sm btn-primary rounded-full m-1 ${
+                isFilter ? "" : "btn-outline"
+              }`}
+            >
+              {isFilter ? (
+                <TbFilterOff className="h-5 w-5 " />
+              ) : (
+                <TbFilter className="h-5 w-5 " />
+              )}
+              <p className="font-medium">
+                {isFilter ? "Tutup Filter" : "Filter"}
+              </p>
             </button>
           </div>
         </div>
+        {isFilter && (
+          <div className="grid grid-cols-3 gap-5">
+            <select
+              className="select select-bordered w-full"
+              onChange={(e) =>
+                setFilterData({ ...filterData, category: e.target.value })
+              }
+              value={filterData.category}
+            >
+              <option disabled value="" selected>
+                Pilih Kategori
+              </option>
+              {category.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+            <select
+              className="select select-bordered w-full"
+              onChange={(e) =>
+                setFilterData({ ...filterData, level: e.target.value })
+              }
+              value={filterData.level}
+            >
+              <option disabled value="" selected>
+                Pilih Level
+              </option>
+              <option value="BEGINNER">Beginner</option>
+              <option value="INTERMEDIATE">Intermediate</option>
+            </select>
+            <select
+              className="select select-bordered w-full"
+              onChange={(e) =>
+                setFilterData({ ...filterData, type: e.target.value })
+              }
+              value={filterData.type}
+            >
+              <option disabled value="" selected>
+                Pilih Tipe
+              </option>
+              <option value="FREE">Gratis</option>
+              <option value="PREMIUM">Premium</option>
+            </select>
+          </div>
+        )}
         <table className="table ">
           <thead className="bg-darkMagenta/20 text-black">
             <tr>
@@ -368,7 +423,7 @@ const KelolaKelas = () => {
             </tr>
           </thead>
           <tbody>
-            {course.length === 0 && search !== "" && (
+            {course.length === 0 && (
               <tr>
                 <td colSpan={7} className="text-center">
                   <p className="text-sm font-medium">Kelas tidak ditemukan</p>
@@ -526,6 +581,7 @@ const KelolaKelas = () => {
                           setIsOpen2={handleTambah2}
                           id={id}
                           setIsOpen={setIsOpen}
+                          setTambah={setTambah}
                         />
                       )}
                     </>
@@ -558,6 +614,7 @@ const KelolaKelas = () => {
                           setIsOpen2={handleTambah2}
                           idChapter={idChapter}
                           setIsOpen={setIsOpen}
+                          setTambah={setTambah}
                         />
                       )}
                     </>
@@ -601,6 +658,7 @@ const KelolaKelas = () => {
                           idChapter={idChapter}
                           setIsOpen={setIsOpen}
                           chapter={chapter}
+                          setEdit={setEdit}
                         />
                       )}
                     </>
@@ -636,6 +694,7 @@ const KelolaKelas = () => {
                           idChapter={idChapter}
                           material={material}
                           setIsOpen={setIsOpen}
+                          setEdit={setEdit}
                         />
                       )}
                     </>

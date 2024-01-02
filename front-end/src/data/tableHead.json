@@ -1,7 +1,7 @@
 [
-  "ID",
+  "ID User",
   "Kategori",
-  "Kelas Premium",
+  "Kelas",
   "Status",
   "Metode Pembayaran",
   "Tanggal Bayar"

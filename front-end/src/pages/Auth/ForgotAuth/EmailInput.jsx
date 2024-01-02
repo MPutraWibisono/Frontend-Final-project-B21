@@ -98,7 +98,7 @@ const EmailInput = () => {
 
             {/* Login button */}
             <button
-              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full mb-3"
+              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-white self-center w-full mb-3"
               type="submit"
               disabled={loading}
             >

@@ -5,7 +5,13 @@ import { useState, useEffect } from "react";
 import { toastNotify } from "../../libs/utils";
 import { axiosInstance } from "../../libs/axios";
 
-const ChapterEdit = ({ setIsOpen2, idChapter, setIsOpen, chapter }) => {
+const ChapterEdit = ({
+  setIsOpen2,
+  idChapter,
+  setIsOpen,
+  chapter,
+  setEdit,
+}) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -42,16 +48,17 @@ const ChapterEdit = ({ setIsOpen2, idChapter, setIsOpen, chapter }) => {
           type: "success",
           message: "Berhasil memperbarui chapter",
         });
+
+        setIsOpen(false);
+        setLoading(false);
+        setIsOpen2("1");
+        setEdit("");
         return res.data;
       } catch (error) {
         toastNotify({
           type: "error",
           message: error.response?.data?.error || "Gagal memperbarui chapter",
         });
-      } finally {
-        setIsOpen(false);
-        setLoading(false);
-        setIsOpen2("1");
       }
     },
   });

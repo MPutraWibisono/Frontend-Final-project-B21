@@ -1,16 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
-import { TbFilter } from "react-icons/tb";
-import { LuUsers2 } from "react-icons/lu";
+import { useEffect, useState } from "react";
+// import { TbFilter } from "react-icons/tb";
 import LayoutDashboard from "../../components/LayoutDashboard";
 import tableHead from "../../data/tableHead.json";
-import tableBody from "../../data/tableBody.json";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCourse } from "../../redux/actions/courseActions";
+import { getUsers } from "../../redux/actions/authActions";
+import AdminActive from "../../components/AdminActive";
+import { getAllOrder } from "../../redux/actions/paymentActions";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { course } = useSelector((state) => state.course);
+  const { user } = useSelector((state) => state.profile);
+  const { users } = useSelector((state) => state.auth);
+  const { order } = useSelector((state) => state.payment);
+  const [errors, setErrors] = useState({
+    isError: false,
+    message: null,
+  });
+
+  useEffect(() => {
+    dispatch(getCourse(setErrors, errors));
+    dispatch(getUsers());
+    dispatch(getAllOrder());
+  }, [dispatch, user]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -22,45 +38,32 @@ const Dashboard = () => {
     }
   }, [user]);
 
-  return (
-    <LayoutDashboard>
-      <div className="grid grid-cols-3 gap-6 pt-3">
-        <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
-          <div className="bg-white p-3 rounded-3xl">
-            <LuUsers2 className="h-10 w-10 text-darkBlue05" />
-          </div>
-          <div className="text-white">
-            <p className="text-2xl">450</p>
-            <p className="text-xl font-semibold">Active Users</p>
-          </div>
-        </div>
-        <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
-          <div className="bg-white p-3 rounded-3xl">
-            <LuUsers2 className="h-10 w-10 text-customEmerald01" />
-          </div>
-          <div className="text-white">
-            <p className="text-2xl">450</p>
-            <p className="text-xl font-semibold">Active Class</p>
-          </div>
-        </div>
-        <div className="bg-pink flex items-center justify-start p-6 rounded-xl gap-3">
-          <div className="bg-white p-3 rounded-3xl">
-            <LuUsers2 className="h-10 w-10 text-darkBlue05" />
-          </div>
-          <div className="text-white">
-            <p className="text-2xl">450</p>
-            <p className="text-xl font-semibold">Premium Class</p>
-          </div>
-        </div>
-      </div>
+  const TimeChanger = (time) => {
+    const inputDate = new Date(time);
 
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      timeZoneName: "short",
+    };
+
+    const formattedDateTime = inputDate.toLocaleDateString("id-ID", options);
+    return formattedDateTime;
+  };
+
+  return (
+    <LayoutDashboard noSearch>
+      <AdminActive course={course} users={users} />
       <div className="overflow-x-auto mt-10 flex flex-col space-y-4">
         <div className="flex items-center justify-between">
           <p className="text-xl font-semibold">Status Pembayaran</p>
-          <button className="flex items-center btn btn-sm btn-outline btn-primary rounded-full">
+          {/* <button className="flex items-center btn btn-sm btn-outline btn-primary rounded-full">
             <TbFilter className="h-6 w-6 " />
             <p className="font-medium">Filter</p>
-          </button>
+          </button> */}
         </div>
         <table className="table ">
           <thead className="bg-darkMagenta/20 text-black">
@@ -71,26 +74,34 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {tableBody.map((body, index) => {
-              return (
-                <tr key={index} className="font-medium">
-                  <td>{body.idUser}</td>
-                  <td>{body.category}</td>
-                  <td>{body.premiumClass}</td>
-                  <td
-                    className={`${
-                      body.status === "BELUM BAYAR"
-                        ? "text-red-500"
-                        : "text-green-500"
-                    }`}
-                  >
-                    {body.status}
-                  </td>
-                  <td>{body.paymentMethod}</td>
-                  <td>{body.date}</td>
-                </tr>
-              );
-            })}
+            {order.map((body, index) => (
+              <>
+                {course
+                  .filter((item) => item.id === body.courseId)
+                  .map((body2) => (
+                    <tr key={index} className="font-medium">
+                      <td className="text-center">{body.userId}</td>
+                      <td>{body2?.category?.name}</td>
+                      <td>{body2?.name}</td>
+                      <td
+                        className={`font-semibold ${
+                          body.status === "UNPAID"
+                            ? "text-red-500 "
+                            : "text-green-500"
+                        }`}
+                      >
+                        {body.status}
+                      </td>
+                      <td className="text-center">
+                        {body2.type == "FREE" || body.status == "UNPAID"
+                          ? "-"
+                          : body.payment_method}
+                      </td>
+                      <td>{TimeChanger(body.updatedAt)}</td>
+                    </tr>
+                  ))}
+              </>
+            ))}
           </tbody>
         </table>
       </div>

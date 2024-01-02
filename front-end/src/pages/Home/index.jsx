@@ -94,7 +94,7 @@ const Homepage = () => {
               <h2 className="font-bold text-black">Kategori Belajar</h2>
               <Link
                 to="/class"
-                className="lg:text-sm text-xs font ms-auto text-pinkTone font-bold hover:text-pink flex items-center transition duration-200 active:text-darkMagenta"
+                className="lg:text-sm text-xs font ms-auto text-darkRed01 font-bold hover:text-darkRed01/70 flex items-center transition duration-200 active:text-darkRed01/50"
               >
                 Lihat semua
               </Link>
@@ -158,7 +158,7 @@ const Homepage = () => {
             <h2 className="font-bold text-black">Kelas Populer</h2>
             <Link
               to="/class/?filter=populer"
-              className="lg:text-sm text-xs font ms-auto text-pinkTone font-bold hover:text-pink flex items-center transition duration-200 active:text-darkMagenta"
+              className="lg:text-sm text-xs font ms-auto text-darkRed01 font-bold hover:text-darkRed01/70 flex items-center transition duration-200 active:text-darkRed01/50"
             >
               Lihat semua
             </Link>
@@ -169,10 +169,10 @@ const Homepage = () => {
               <button
                 value={"All"}
                 onClick={(e) => handleClassCat(e.currentTarget.value)}
-                className={`inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-200 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                className={`inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition duration-200 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                   selectedFilter == "All"
-                    ? "bg-pink scale-x-105"
-                    : "bg-pinkTone hover:bg-pink/60 hover:scale-x-105"
+                    ? "bg-pink scale-x-105 text-white"
+                    : "bg-pinkTone hover:bg-pink/60 hover:scale-x-105 text-white shadow-inner"
                 }`}
               >
                 <span>All</span>
@@ -182,10 +182,10 @@ const Homepage = () => {
                   key={button?.id}
                   value={button?.name}
                   onClick={(e) => handleClassCat(e.currentTarget.value)}
-                  className={`inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide text-white transition duration-200 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-darkGrayish ${
+                  className={`inline-flex items-center justify-center h-8 gap-2 px-4 text-xs tracking-wide transition duration-200 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none font-medium ${
                     selectedFilter == button?.name
-                      ? "bg-pink scale-x-105"
-                      : "bg-pinkTone hover:bg-pink/60 hover:scale-x-105"
+                      ? "bg-pink scale-x-105 text-white"
+                      : "bg-pinkTone hover:bg-pink/60 hover:scale-x-105 text-white shadow-inner"
                   }`}
                 >
                   <span>{button?.name}</span>

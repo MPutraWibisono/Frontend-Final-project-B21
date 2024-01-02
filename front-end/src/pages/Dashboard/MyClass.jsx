@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import ProgressCard from "../../components/CourseCard/ProgressCard";
@@ -6,11 +7,11 @@ import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
 // import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getCourse } from "../../redux/actions/courseActions";
+import { getCourse, getMaterial } from "../../redux/actions/courseActions";
 import Loading from "../../components/Loading";
 import FilterSection from "../../components/FilterSection";
 import { getCheckOrder } from "../../redux/actions/paymentActions";
-// import DropdownBasic from "../../components/Dropdown";
+import { getProgress } from "../../redux/actions/courseActions";
 
 const MyClass = () => {
   const [filterOptions, setFilterOptions] = useState(filtered);
@@ -18,8 +19,9 @@ const MyClass = () => {
   const [selectedFilter, setSelectedFilter] = useState("All");
   const dispatch = useDispatch();
   // const navigate = useNavigate();
-  const { course } = useSelector((state) => state.course);
+  const { course, progress } = useSelector((state) => state.course);
   const { order } = useSelector((state) => state.payment);
+  const { user } = useSelector((state) => state.profile);
 
   // const { category } = useParams();
   const [errors, setErrors] = useState({
@@ -29,8 +31,12 @@ const MyClass = () => {
 
   useEffect(() => {
     dispatch(getCourse(setErrors));
+    dispatch(getMaterial(setErrors));
     dispatch(getCheckOrder());
-  }, [dispatch]);
+    if (user?.id) {
+      dispatch(getProgress(user?.id, setErrors, errors));
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -118,6 +124,15 @@ const MyClass = () => {
       }
     }
 
+    if (searchQuery) {
+      const courseName = course?.name?.toLowerCase();
+      const searchLower = searchQuery.toLowerCase();
+
+      if (!(courseName && courseName.includes(searchLower))) {
+        return false;
+      }
+    }
+
     return true;
   });
 
@@ -125,22 +140,53 @@ const MyClass = () => {
     .filter((item) => item?.status == "PAID")
     .map((course) => course?.courseId);
 
+  const Progress = progress
+    .map((item) => item?.courseProgress)
+    .filter((array) => array.length > 0);
+
+  // console.log(Progress);
+  // console.log(paidId);
+  // console.log(paidOrderId);
+  // console.log(materialProgress);
+
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
 
-  if (course.length === 0 && order.length === 0) {
+  if (course.length === 0 && order.length === 0 && progress.length === 0) {
     return <Loading />;
   }
 
   return (
     <div className="bg-paleOrange text-white pt-20">
       <div className="container mx-auto p-4 flex flex-col lg:flex-row">
-        <div className="lg:w-1/4 overflow-hidden rounded text-black mr-4">
+        <div className="lg:w-1/4 overflow-hidden rounded text-black lg:mr-4">
           <div className="text-3xl font-bold text-black my-7 text-center lg:text-start">
             Kelas Saya
           </div>
-          <div className="container mx-auto p-4 flex flex-col space-y-4 bg-white lg:overflow-visible overflow-y-auto h-32 lg:h-fit rounded-xl                                                                                ">
+          <div className="lg:hidden collapse bg-white collapse-plus">
+            <input type="checkbox" />
+            <div className="collapse-title text-lg font-medium ">
+              Pilih Filter
+            </div>
+            <div className="collapse-content container mx-auto px-4 flex flex-col space-y-4 bg-white lg:h-fit rounded-xl">
+              {/* hidden md:block */}
+              {filterOptions.map((filter) => (
+                <FilterSection
+                  key={filter.title}
+                  {...filter}
+                  handleCheckboxChange={handleCheckboxChange}
+                />
+              ))}
+              <button
+                onClick={handleDeleteFilter}
+                className="text-sm font-semibold leading-6 text-red-500"
+              >
+                Hapus Filter
+              </button>
+            </div>
+          </div>
+          <div className="hidden lg:block container mx-auto p-4 flex flex-col space-y-4 bg-white lg:h-fit rounded-xl border border-slate-200 ">
             {/* hidden md:block */}
             {filterOptions.map((filter) => (
               <FilterSection
@@ -149,12 +195,14 @@ const MyClass = () => {
                 handleCheckboxChange={handleCheckboxChange}
               />
             ))}
-            <button
-              onClick={handleDeleteFilter}
-              className="text-sm font-semibold leading-6 text-red-500"
-            >
-              Hapus Filter
-            </button>
+            <div className="w-full flex justify-center">
+              <button
+                onClick={handleDeleteFilter}
+                className="text-sm font-semibold leading-6 text-red-500"
+              >
+                Hapus Filter
+              </button>
+            </div>
           </div>
         </div>
         <div className="container flex flex-col justify-between">
@@ -178,10 +226,10 @@ const MyClass = () => {
                 <button
                   value={"All"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "All"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-white"
                   }`}
                 >
                   <span>All</span>
@@ -189,10 +237,10 @@ const MyClass = () => {
                 <button
                   value={"Progress"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "Progress"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-white"
                   }`}
                 >
                   <span>In Progress</span>
@@ -200,10 +248,10 @@ const MyClass = () => {
                 <button
                   value={"Selesai"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "Selesai"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-white"
                   }`}
                 >
                   <span>Selesai</span>
@@ -211,10 +259,10 @@ const MyClass = () => {
                 <button
                   value={"Premium"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "Premium"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-white"
                   }`}
                 >
                   <span>Kelas Premium</span>
@@ -222,10 +270,10 @@ const MyClass = () => {
                 <button
                   value={"Gratis"}
                   onClick={(e) => handleClassType(e.currentTarget.value)}
-                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none text-white ${
+                  className={` inline-flex items-center justify-center h-8 gap-2 px-4 text-xs font-medium tracking-wide  transition-[width] duration-300 rounded-full focus-visible:outline-none whitespace-nowrap disabled:cursor-not-allowed disabled:border-pinkTone disabled:bg-pinkTone disabled:shadow-none ${
                     selectedFilter === "Gratis"
-                      ? "w-64 bg-pink hover:bg-pink"
-                      : "w-32 bg-pinkTone hover:bg-pink/60"
+                      ? "w-64 bg-pink hover:bg-pink text-white"
+                      : "w-32 bg-pinkTone hover:bg-pink/60 text-white"
                   }`}
                 >
                   <span>Kelas Gratis</span>

@@ -140,7 +140,7 @@ const ForgotPass = () => {
             </label>
             {/* Submit button */}
             <button
-              className="text-white bg-pinkTone hover:bg-pinkTone/80 rounded-lg w-full p-2"
+              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-white self-center w-full p-2"
               type="submit"
               disabled={loading}
             >

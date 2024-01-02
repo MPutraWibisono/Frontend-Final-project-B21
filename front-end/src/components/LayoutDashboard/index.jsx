@@ -43,8 +43,8 @@ const LayoutDashboard = ({ children, noSearch }) => {
             to={item.path}
             className={`w-full block py-3 px-10 ${
               isActive(item.path)
-                ? "bg-darkBlue03"
-                : "hover:bg-darkBlue03 transition-all"
+                ? "bg-pinkTone"
+                : "hover:bg-pinkTone/60 transition-all"
             }`}
           >
             <p className="font-semibold text-white">{item.title}</p>
@@ -52,19 +52,19 @@ const LayoutDashboard = ({ children, noSearch }) => {
         ))}
         <button
           onClick={() => onLogout()}
-          className="w-full py-3 px-10 hover:bg-darkBlue03 transition-all"
+          className="w-full py-3 px-10 hover:bg-pinkTone/60 transition-all"
         >
           <p className="font-semibold text-white text-start">Logout</p>
         </button>
       </div>
       <section className="ml-[300px]">
-        <div className="w-full bg-darkGrayish/20 flex items-center justify-between px-12 py-5">
+        <div className="w-full bg-paleOrange shadow-md flex items-center justify-between px-12 py-5">
           <h1 className="text-darkGrayish text-2xl">Hi, Admin!</h1>
           {!noSearch && (
-            <div className="relative">
+            <div className="relative shadow rounded-md">
               <input type="text" placeholder="Cari" className="input w-72 " />
               <div className="absolute right-2 top-1/2 -translate-y-1/2">
-                <button className="btn btn-square btn-sm group text-white bg-darkBlue05 hover:bg-darkBlue05/80 ">
+                <button className="btn btn-square btn-sm group text-white bg-darkGrayish hover:bg-darkGrayish/80">
                   <BiSearchAlt className="h-4 w-4" />
                 </button>
               </div>

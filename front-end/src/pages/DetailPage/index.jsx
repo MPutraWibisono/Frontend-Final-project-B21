@@ -37,6 +37,11 @@ const Detail = () => {
 
   // Use Effect
   useEffect(() => {
+    if (localStorage.getItem("id")) {
+      localStorage.removeItem("id");
+    }
+  }, []);
+  useEffect(() => {
     dispatch(getCourse(setErrors));
     dispatch(getMaterial(setErrors));
     dispatch(getChapter(setErrors));
@@ -79,7 +84,7 @@ const Detail = () => {
     setPlay(true);
     if (!localStorage.getItem("token")) {
       toastNotify({
-        type: "success",
+        type: "info",
         message: "Login Dahulu Ya!",
       });
       navigate("/auth/login");
@@ -89,22 +94,11 @@ const Detail = () => {
     const isFree = course.find((item) => item.id == courseId);
     const isOrder = order.find((item) => item.courseId == courseId);
 
-    console.log(isFree, isOrder);
-
     if (isFree?.type == "PREMIUM") {
       if (isOrder?.status == "UNPAID") {
         setModal(true); // alihkan langsung tanpa order lagi
-        console.log("ini perlu di bayar dl lgsg ke payment tanpa order");
       } else if (isOrder == undefined) {
-        setModal(true);
-        console.log("ini premium undefined jd perlu order dl");
-      }
-    } else if (isFree?.type == "FREE") {
-      if (isOrder?.status != "PAID" || isOrder == undefined) {
-        console.log(
-          "ini free tp perlu dimasukkan ke order dulu, biar ke detect progressnya"
-        );
-        // dispatch();
+        setModal(true); // ini premium undefined jd perlu order dl
       }
     }
   };
@@ -182,15 +176,15 @@ const Detail = () => {
                 <p className="text-sm md:text-md">by {courseIWant.author}</p>
                 <div className="flex space-x-5 text-sm text-center pt-2">
                   <div className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
-                    <RiShieldStarLine className="text-xl text-darkGrayish" />
+                    <RiShieldStarLine className="text-xl text-success" />
                     <p className="font-semibold ">{courseIWant.level}</p>
                   </div>
                   <div className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
-                    <RiBookLine className="text-xl text-darkGrayish" />
+                    <RiBookLine className="text-xl text-warning" />
                     <p className="font-semibold ">{courseIWant.modul} Modul</p>
                   </div>
                   <div className="flex items-center text-xs md:text-sm space-x-1 flex-col sm:flex-row">
-                    <RiTimeFill className="text-xl text-darkGrayish" />
+                    <RiTimeFill className="text-xl text-error" />
                     <p className="font-semibold ">
                       {courseIWant.totalDuration} Menit
                     </p>
@@ -215,42 +209,43 @@ const Detail = () => {
                 className="rounded-md shadow-xl bg-paleWhite p-5 mb-4"
                 key={courseId}
               >
-                <div className="flex truncate text-base md:text-lg">
-                  <h1 className="pe-4">Materi Belajar</h1>
-                  <div className="flex w-full space-x-2">
+                <div className="flex truncate text-base md:text-lg mb-3 items-center">
+                  <h1 className="pe-3">Materi Belajar</h1>
+                  <div className="flex w-full space-x-1 text-success">
                     <IoIosCheckmarkCircleOutline />
 
                     <div className="relative w-full">
                       <label
                         id="p01d-label"
-                        className="absolute top-0 left-0 mb-0 block w-1/4 text-center text-xs text-white"
+                        className="absolute left-2 block w-1/4 text-center text-xs text-white"
                       >
-                        <span className="sr-only">Complete</span> 0%
+                        30% Complete
                       </label>
                       <progress
                         aria-labelledby="p01d-label"
                         id="p01d"
                         max="100"
-                        value="0"
-                        className="block w-full overflow-hidden rounded bg-slate-100 [&::-webkit-progress-bar]:bg-slate-400/50 [&::-webkit-progress-value]:bg-pinkTone [&::-moz-progress-bar]:bg-pinkTone"
-                      >
-                        25%
-                      </progress>
+                        value="30"
+                        className="block w-full overflow-hidden rounded-full bg-slate-100 [&::-webkit-progress-bar]:bg-slate-400/50 [&::-webkit-progress-value]:bg-success [&::-moz-progress-bar]:bg-success"
+                      ></progress>
                     </div>
                   </div>
                 </div>
                 {chapterIWant.map((chap, index) => (
                   <div key={index}>
                     <div className="flex w-full justify-between space-x-4 text-xs md:text-sm font-bold pt-2">
-                      <span className="text-pinkTone">{chap.name}</span>
-                      <span className="ms-auto text-blue-500 ">
-                        {chap.duration}
+                      <span className="text-darkRed/80 ">{chap.name}</span>
+                      <span className="text-blue-500 min-w-[70px]">
+                        {chap.duration} Menit
                       </span>
                     </div>
                     <div className="flex">
                       <ul className="divide-y w-full divide-slate-200">
                         {chapterIWant[index].material.map((mat) => (
-                          <li className="flex gap-4 px-4 py-3" key={mat.id}>
+                          <li
+                            className="flex gap-4 ps-3 pe-2 py-3"
+                            key={mat.id}
+                          >
                             <button
                               value={mat.id}
                               onClick={(e) =>
@@ -267,13 +262,15 @@ const Detail = () => {
                               </div>
                               <div className="flex items-center w-full">
                                 <div className="flex min-h-[2rem] flex-1 flex-col items-start justify-center gap-0 overflow-hidden pe-1">
-                                  <h4 className="text-sm md:text-base text-slate-700 text-start">
+                                  <h4 className="text-sm  text-slate-700 text-start">
                                     {mat.name}
                                   </h4>
                                 </div>
                                 <FaCirclePlay
                                   className={`text-xl ${
-                                    done ? "text-darkMagenta" : "text-pink"
+                                    done
+                                      ? "text-neutral-content"
+                                      : "text-alertRed/60"
                                   }`}
                                 />
                               </div>

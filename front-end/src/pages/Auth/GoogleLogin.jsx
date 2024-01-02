@@ -20,15 +20,17 @@ function GoogleLogin({ buttonText }) {
   });
 
   return (
-    <button
-      className="bg-white border text-black fw-semibold w-100"
-      onClick={() => loginWithGoogle()}
-    >
-      <span>
-        <img src="/google.svg" style={{ width: "30px" }} alt="google_logo" />
-      </span>{" "}
-      {buttonText}
-    </button>
+    <div className="w-full flex justify-center my-3">
+      <button
+        className="bg-white border rounded-lg text-black fw-semibold w-100 flex justify-center items-center p-3 gap-2"
+        onClick={() => loginWithGoogle()}
+      >
+        <span>
+          <img src="/google.svg" style={{ width: "30px" }} alt="google_logo" />
+        </span>{" "}
+        {buttonText}
+      </button>
+    </div>
   );
 }
 
