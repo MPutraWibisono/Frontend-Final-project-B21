@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCourse } from "../../redux/actions/courseActions";
 import CardNoButton from "../../components/CourseCard/CardNoButton";
 import { getCheckOrder, getPayment } from "../../redux/actions/paymentActions";
+import gambarBayar from "../../assets/images/icon/carbon_next-filled.svg";
+import formatUang from "../../libs/currency";
 
 const PaymentDetail = () => {
   const [searchParams] = useSearchParams();
@@ -213,49 +215,46 @@ const PaymentDetail = () => {
             author={courseIWant?.author}
             rating={courseIWant?.rating}
             image={courseIWant?.imageUrl}
-            // level={courseIWant?.level}
-            // modul={courseIWant?.modul}
-            // price={courseIWant?.price}
-            // duration={courseIWant?.duration}
           />
           <div className="flex mt-5 justify-between">
             {/* HARGA */}
             <div className="flex flex-col gap-2">
               <h4 className="font-bold md:text-[16px]">Harga</h4>
               <p className="md:text-[14px] text-[12px]">
-                Rp. {courseIWant?.price}
+                {formatUang(courseIWant?.price)}
               </p>
             </div>
             {/* PPN */}
             <div className="flex flex-col gap-2">
               <h4 className="font-bold">PPN 10%</h4>
               <p className="md:text-[14px] text-[12px]">
-                Rp. {(courseIWant?.price * 10) / 100}
+                {formatUang((courseIWant?.price * 10) / 100)}
               </p>
             </div>
             {/* TOTAL BAYAR */}
             <div className="flex flex-col gap-2">
               <h4 className="font-bold">Total Bayar</h4>
               <p className="font-bold text-darkGrayish md:text-[14px] text-[12px]">
-                Rp.{" "}
-                {(courseIWant?.price * 11) / 100 + parseInt(courseIWant?.price)}
+                {formatUang(
+                  (courseIWant?.price * 10) / 100 + parseInt(courseIWant?.price)
+                )}
               </p>
             </div>
           </div>
           {/* TOMBOL BAYAR */}
           <button
-            className=" justify-between flex w-full bg-pinkTone px-5 py-3 rounded-[15px] mt-5 "
+            className=" justify-between flex w-full bg-pinkTone px-5 py-3 rounded-[15px] mt-5 btn"
             onClick={handlePay}
           >
-            <h2 className="font-bold text-white md:text-[14px] text-[12px] ">
+            <h2 className="font-bold text-darkGrayish md:text-[14px] text-[12px] ">
               {loading ? "loading" : "Bayar dan Ikuti Kelas Selamanya"}
             </h2>
             <img
-              src="/src/assets/images/icon/carbon_next-filled.svg"
+              src={gambarBayar}
               height={20}
               width={20}
               alt="next"
-              className="md:w-[20px] md:h-[20px] "
+              className="md:w-[20px] md:h-[20px]"
             />
           </button>
         </div>

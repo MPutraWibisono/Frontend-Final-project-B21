@@ -1,7 +1,7 @@
 import axios from "axios";
 import { axiosInstance } from "../../libs/axios";
 import { toastNotify } from "../../libs/utils";
-import { setToken } from "../reducers/authReducers";
+import { setAllUsers, setToken } from "../reducers/authReducers";
 
 export const loginAdmin =
   (values, setLoading, navigate) => async (dispatch) => {
@@ -58,6 +58,37 @@ export const login = (values, setLoading, navigate) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch(setToken(null));
 };
+
+export const registerLoginWithGoogleAction =
+  (accessToken, navigate) => async (dispatch) => {
+    try {
+      let data = JSON.stringify({
+        access_token: accessToken,
+      });
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_API_URL}/api/v1/auth/google`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      const { token } = response.data.data;
+
+      dispatch(setToken(token));
+
+      navigate("/myclass");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error.response.data.message);
+        return;
+      }
+    }
+  };
 
 export const reset =
   (passbaru, konfirpassbaru, setLoading, navigate, tokenId) => async () => {
@@ -126,3 +157,26 @@ export const changePassword =
       dispatch({ type: "CHANGE_PASSWORD_FAILURE" });
     }
   };
+
+export const getUsers = () => async (dispatch) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/v1/auth/all`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = response?.data?.user;
+    dispatch(setAllUsers(data));
+  } catch (error) {
+    console.error("Error:", error.message);
+    toastNotify({
+      type: "error",
+      message: error.response.data.message,
+    });
+    dispatch({ type: "FAILURE" });
+  }
+};

@@ -79,7 +79,7 @@ const Detail = () => {
     setPlay(true);
     if (!localStorage.getItem("token")) {
       toastNotify({
-        type: "success",
+        type: "info",
         message: "Login Dahulu Ya!",
       });
       navigate("/auth/login");
@@ -215,24 +215,24 @@ const Detail = () => {
                 className="rounded-md shadow-xl bg-paleWhite p-5 mb-4"
                 key={courseId}
               >
-                <div className="flex truncate text-base md:text-lg">
+                <div className="flex truncate text-base md:text-lg mb-3 items-center">
                   <h1 className="pe-4">Materi Belajar</h1>
-                  <div className="flex w-full space-x-2">
+                  <div className="flex w-full space-x-1 text-customEmerald01">
                     <IoIosCheckmarkCircleOutline />
 
                     <div className="relative w-full">
                       <label
                         id="p01d-label"
-                        className="absolute top-0 left-0 mb-0 block w-1/4 text-center text-xs text-white"
+                        className="absolute left-2 mb-0 block w-1/4 text-center text-xs text-white"
                       >
-                        <span className="sr-only">Complete</span> 0%
+                        0% Complete
                       </label>
                       <progress
                         aria-labelledby="p01d-label"
                         id="p01d"
                         max="100"
                         value="0"
-                        className="block w-full overflow-hidden rounded bg-slate-100 [&::-webkit-progress-bar]:bg-slate-400/50 [&::-webkit-progress-value]:bg-pinkTone [&::-moz-progress-bar]:bg-pinkTone"
+                        className="block w-full overflow-hidden rounded bg-slate-100 [&::-webkit-progress-bar]:bg-slate-400/50 [&::-webkit-progress-value]:bg-customGreen01 [&::-moz-progress-bar]:bg-customGreen01"
                       >
                         25%
                       </progress>
@@ -242,15 +242,18 @@ const Detail = () => {
                 {chapterIWant.map((chap, index) => (
                   <div key={index}>
                     <div className="flex w-full justify-between space-x-4 text-xs md:text-sm font-bold pt-2">
-                      <span className="text-pinkTone">{chap.name}</span>
-                      <span className="ms-auto text-blue-500 ">
-                        {chap.duration}
+                      <span className="text-darkRed/70 ">{chap.name}</span>
+                      <span className="text-blue-500 min-w-[70px]">
+                        {chap.duration} Menit
                       </span>
                     </div>
                     <div className="flex">
                       <ul className="divide-y w-full divide-slate-200">
                         {chapterIWant[index].material.map((mat) => (
-                          <li className="flex gap-4 px-4 py-3" key={mat.id}>
+                          <li
+                            className="flex gap-4 ps-3 pe-2 py-3"
+                            key={mat.id}
+                          >
                             <button
                               value={mat.id}
                               onClick={(e) =>

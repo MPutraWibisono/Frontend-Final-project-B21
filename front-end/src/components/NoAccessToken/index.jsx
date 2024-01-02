@@ -7,20 +7,18 @@ import { getMe } from "../../redux/actions/profileActions";
 export const NoAccessToken = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     dispatch(getMe(navigate, "/myclass", null));
-  }, [dispatch, token]);
+  }, [dispatch]);
   return children;
 };
 export const NoAccessTokenAdmin = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     dispatch(getMe(navigate, "/admin/dashboard", null));
-  }, [dispatch, token]);
+  }, [dispatch]);
   return children;
 };

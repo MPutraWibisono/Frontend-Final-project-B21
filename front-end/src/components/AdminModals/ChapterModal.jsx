@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toastNotify } from "../../libs/utils";
 import { axiosInstance } from "../../libs/axios";
 
-const ChapterModals = ({ setIsOpen2, id, setIsOpen }) => {
+const ChapterModals = ({ setIsOpen2, id, setIsOpen, setTambah }) => {
   const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -34,16 +34,16 @@ const ChapterModals = ({ setIsOpen2, id, setIsOpen }) => {
           type: "success",
           message: "Berhasil menambahkan chapter",
         });
+        setIsOpen(false);
+        setTambah("");
+        setLoading(false);
+        setIsOpen2("1");
         return res.data;
       } catch (error) {
         toastNotify({
           type: "error",
           message: error.response?.data?.error || "Gagal menambahkan chapter",
         });
-      } finally {
-        setIsOpen(false);
-        setLoading(false);
-        setIsOpen2("1");
       }
     },
   });

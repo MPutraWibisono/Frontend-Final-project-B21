@@ -11,6 +11,7 @@ const MaterialEdit = ({
   idChapter,
   material,
   setIsOpen,
+  setEdit,
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -55,16 +56,16 @@ const MaterialEdit = ({
           message: "Berhasil memperbarui material",
         });
 
+        setIsOpen(false);
+        setLoading(false);
+        setIsOpen2("1");
+        setEdit("");
         return res.data;
       } catch (error) {
         toastNotify({
           type: "error",
           message: error.response?.data?.error || "Gagal memperbarui material",
         });
-      } finally {
-        setIsOpen(false);
-        setLoading(false);
-        setIsOpen2("1");
       }
     },
   });

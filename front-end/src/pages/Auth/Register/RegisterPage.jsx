@@ -11,6 +11,7 @@ import { toastNotify } from "../../../libs/utils";
 import logo4 from "../../../assets/images/logo4.png";
 import phoneRegExp from "../../../libs/phoneReg";
 import { axiosInstance } from "../../../libs/axios";
+// import GoogleLogin from "../GoogleLogin";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -296,7 +297,7 @@ const RegisterPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-slate-100 self-center w-full"
+              className="btn border-0 bg-pinkTone hover:bg-pinkTone/80 text-darkGrayish self-center w-full"
             >
               {loading ? "Loading..." : "Daftar"}
             </button>
@@ -307,6 +308,7 @@ const RegisterPage = () => {
               <Link to="/auth/login"> Masuk di sini</Link>
             </span>
           </p>
+          {/* <GoogleLogin buttonText={"Login dengan Google"} /> */}
         </div>
       </div>
 

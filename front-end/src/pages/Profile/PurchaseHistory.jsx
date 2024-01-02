@@ -14,7 +14,6 @@ import { logout } from "../../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCourse, getHistory } from "../../redux/actions/courseActions";
-import Loading from "../../components/Loading";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -122,10 +121,6 @@ const PurchaseHistory = () => {
     }
   }, [course, history]);
 
-  if (history.length === 0) {
-    return <Loading />;
-  }
-
   return (
     <>
       <div className="pt-20">
@@ -142,7 +137,7 @@ const PurchaseHistory = () => {
         </div>
 
         <div className="sm:flex pb-5 items-start justify-center relative top-[-65px]">
-          <div className="relative bg-white rounded-3xl overflow-hidden shadow-md flex flex-col w-full sm:w-3/4 border border-pinkTone">
+          <div className="relative bg-white rounded-3xl overflow-hidden flex flex-col w-full sm:w-3/4 shadow-xl">
             <div className="bg-darkGrayish text-white p-5 flex items-center justify-center rounded-t-lg">
               <h1 className="text-xl tracking-tight">Akun</h1>
             </div>
@@ -157,22 +152,36 @@ const PurchaseHistory = () => {
                     Riwayat Pembayaran
                   </div>
                 </div>
-
-                {order.map((order, index) => (
-                  <CardPurchase
-                    key={index}
-                    id={order.id}
-                    image={order.imageUrl}
-                    title={order.category.name}
-                    rating={order.rating}
-                    description={order.name}
-                    instructor={order.author}
-                    level={order.level}
-                    modules={order.modul}
-                    duration={order.totalDuration}
-                    order={order.status}
-                  />
-                ))}
+                {history.length == 0 ? (
+                  <>
+                    <div className="text-center flex justify-center pt-10">
+                      Ikuti kursusnya dulu Yuk!
+                    </div>
+                    <div className="w-full flex justify-center pt-3">
+                      <Link to={"/myclass"} className="btn w-1/3">
+                        LIHAT KURSUS
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {order.map((order, index) => (
+                      <CardPurchase
+                        key={index}
+                        id={order.id}
+                        image={order.imageUrl}
+                        title={order.category.name}
+                        rating={order.rating}
+                        description={order.name}
+                        instructor={order.author}
+                        level={order.level}
+                        modules={order.modul}
+                        duration={order.totalDuration}
+                        order={order.status}
+                      />
+                    ))}
+                  </>
+                )}
               </div>
             </div>
           </div>
