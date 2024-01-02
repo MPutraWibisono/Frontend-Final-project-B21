@@ -153,7 +153,6 @@ const KelolaKelas = () => {
               },
             }
           );
-
           toastNotify({
             type: "success",
             message: "Berhasil menambahkan kelas",

@@ -144,7 +144,6 @@ const CourseClass = () => {
 
     return true;
   });
-
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
