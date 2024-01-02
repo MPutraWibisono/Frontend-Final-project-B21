@@ -246,7 +246,7 @@ const PaymentDetail = () => {
             className=" justify-between flex w-full bg-pinkTone px-5 py-3 rounded-[15px] mt-5 btn"
             onClick={handlePay}
           >
-            <h2 className="font-bold text-white md:text-[14px] text-[12px] ">
+            <h2 className="font-bold text-darkGrayish md:text-[14px] text-[12px] ">
               {loading ? "loading" : "Bayar dan Ikuti Kelas Selamanya"}
             </h2>
             <img

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import ProgressCard from "../../components/CourseCard/ProgressCard";
@@ -138,6 +139,15 @@ const MyClass = () => {
   const paidId = order
     .filter((item) => item?.status == "PAID")
     .map((course) => course?.courseId);
+
+  const Progress = progress
+    .map((item) => item?.courseProgress)
+    .filter((array) => array.length > 0);
+
+  // console.log(Progress);
+  // console.log(paidId);
+  // console.log(paidOrderId);
+  // console.log(materialProgress);
 
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
