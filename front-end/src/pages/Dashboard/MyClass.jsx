@@ -1,29 +1,24 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import ProgressCard from "../../components/CourseCard/ProgressCard";
 import CourseCard from "../../components/CourseCard/Card";
 import filtered from "../../data/filter.json";
 import { IoSearch } from "react-icons/io5";
-// import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourse, getMaterial } from "../../redux/actions/courseActions";
 import Loading from "../../components/Loading";
 import FilterSection from "../../components/FilterSection";
 import { getCheckOrder } from "../../redux/actions/paymentActions";
-import { getProgress } from "../../redux/actions/courseActions";
 
 const MyClass = () => {
   const [filterOptions, setFilterOptions] = useState(filtered);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  const { course, progress } = useSelector((state) => state.course);
+  const { course } = useSelector((state) => state.course);
   const { order } = useSelector((state) => state.payment);
   const { user } = useSelector((state) => state.profile);
 
-  // const { category } = useParams();
   const [errors, setErrors] = useState({
     isError: false,
     message: null,
@@ -33,9 +28,6 @@ const MyClass = () => {
     dispatch(getCourse(setErrors));
     dispatch(getMaterial(setErrors));
     dispatch(getCheckOrder());
-    if (user?.id) {
-      dispatch(getProgress(user?.id, setErrors, errors));
-    }
   }, [dispatch, user]);
 
   useEffect(() => {
@@ -140,20 +132,11 @@ const MyClass = () => {
     .filter((item) => item?.status == "PAID")
     .map((course) => course?.courseId);
 
-  const Progress = progress
-    .map((item) => item?.courseProgress)
-    .filter((array) => array.length > 0);
-
-  // console.log(Progress);
-  // console.log(paidId);
-  // console.log(paidOrderId);
-  // console.log(materialProgress);
-
   if (errors.isError) {
     return <h1>{errors.message}</h1>;
   }
 
-  if (course.length === 0 && order.length === 0 && progress.length === 0) {
+  if (course.length === 0 && order.length === 0) {
     return <Loading />;
   }
 

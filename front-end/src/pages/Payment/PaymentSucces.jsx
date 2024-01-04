@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import gambarBayar from "../../assets/images/berhasilBayar.svg";
 
 const PembayaranSukses = () => {
   const [id, setId] = useState("");
@@ -32,7 +33,7 @@ const PembayaranSukses = () => {
       <div className=" items-center w-full text-center mb-10">
         <h1 className="font-bold text-darkGrayish text-[64px]">Selamat!</h1>
         <img
-          src="/src/assets/images/berhasilBayar.svg"
+          src={gambarBayar}
           width={200}
           height={200}
           alt="gambar shopping cart"
